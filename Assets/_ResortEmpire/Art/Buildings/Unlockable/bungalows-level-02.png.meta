@@ -1,0 +1,507 @@
+fileFormatVersion: 2
+guid: 16c3e9969d21a2944af0bc71def2c604
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2691542762508016377
+    second: bungalows-level-02_0
+  - first:
+      213: -6989233850201687374
+    second: bungalows-level-02_1
+  - first:
+      213: -2597953718429593149
+    second: bungalows-level-02_2
+  - first:
+      213: -2895652587640591038
+    second: bungalows-level-02_3
+  - first:
+      213: 3462433627619205933
+    second: bungalows-level-02_4
+  - first:
+      213: -4604203192735385397
+    second: bungalows-level-02_5
+  - first:
+      213: 486344413744957257
+    second: bungalows-level-02_6
+  - first:
+      213: -4946160249165069991
+    second: bungalows-level-02_7
+  - first:
+      213: 4220940792256590043
+    second: bungalows-level-02_8
+  - first:
+      213: -6592307146716558242
+    second: bungalows-level-02_9
+  - first:
+      213: -3487653170182027303
+    second: bungalows-level-02_10
+  - first:
+      213: 6467291133254296111
+    second: bungalows-level-02_11
+  - first:
+      213: -4734201203119936958
+    second: bungalows-level-02_12
+  - first:
+      213: 3636530586583979620
+    second: bungalows-level-02_13
+  - first:
+      213: 7851915464682490086
+    second: bungalows-level-02_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bungalows-level-02_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1240
+        height: 1236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fa5011d1e74a5520800000000000000
+      internalID: 2691542762508016377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_1
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 1217
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bab79208d0410f90800000000000000
+      internalID: -6989233850201687374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_2
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 1211
+        width: 26
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c1591e8bd632fbd0800000000000000
+      internalID: -2597953718429593149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_3
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 1195
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24dedb8305390d7d0800000000000000
+      internalID: -2895652587640591038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_4
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1189
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d232c902a090d0030800000000000000
+      internalID: 3462433627619205933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_5
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 144
+        width: 22
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc8b94f17959a10c0800000000000000
+      internalID: -4604203192735385397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_6
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 122
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94783c3eaa7dfb600800000000000000
+      internalID: 486344413744957257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_7
+      rect:
+        serializedVersion: 2
+        x: 1228
+        y: 134
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 951cb529575bb5bb0800000000000000
+      internalID: -4946160249165069991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_8
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 118
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd0f86c794bc39a30800000000000000
+      internalID: 4220940792256590043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_9
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 119
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5cc0bdd39b6384a0800000000000000
+      internalID: -6592307146716558242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_10
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 85
+        width: 35
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d7098b8bed599fc0800000000000000
+      internalID: -3487653170182027303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_11
+      rect:
+        serializedVersion: 2
+        x: 1027
+        y: 71
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f22e7a0450f60c950800000000000000
+      internalID: 6467291133254296111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_12
+      rect:
+        serializedVersion: 2
+        x: 1045
+        y: 67
+        width: 18
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24a2fc0b61dbc4eb0800000000000000
+      internalID: -4734201203119936958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_13
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 79
+        width: 15
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4665e242d4d877230800000000000000
+      internalID: 3636530586583979620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-level-02_14
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 63
+        width: 18
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e8cbce838b97fc60800000000000000
+      internalID: 7851915464682490086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bungalows-level-02_0: 2691542762508016377
+      bungalows-level-02_1: -6989233850201687374
+      bungalows-level-02_10: -3487653170182027303
+      bungalows-level-02_11: 6467291133254296111
+      bungalows-level-02_12: -4734201203119936958
+      bungalows-level-02_13: 3636530586583979620
+      bungalows-level-02_14: 7851915464682490086
+      bungalows-level-02_2: -2597953718429593149
+      bungalows-level-02_3: -2895652587640591038
+      bungalows-level-02_4: 3462433627619205933
+      bungalows-level-02_5: -4604203192735385397
+      bungalows-level-02_6: 486344413744957257
+      bungalows-level-02_7: -4946160249165069991
+      bungalows-level-02_8: 4220940792256590043
+      bungalows-level-02_9: -6592307146716558242
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

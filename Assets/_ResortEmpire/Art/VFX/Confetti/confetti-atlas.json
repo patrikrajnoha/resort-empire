@@ -1,0 +1,2098 @@
+{
+  "textures": [
+    {
+      "image": "confetti-atlas.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 2473,
+        "h": 55
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "Ellipse-1.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 5,
+            "h": 8
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 5,
+            "h": 8
+          },
+          "frame": {
+            "x": 8,
+            "y": 8,
+            "w": 5,
+            "h": 8
+          }
+        },
+        {
+          "filename": "Ellipse-10.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 7,
+            "h": 7
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 7,
+            "h": 7
+          },
+          "frame": {
+            "x": 21,
+            "y": 8,
+            "w": 7,
+            "h": 7
+          }
+        },
+        {
+          "filename": "Ellipse-11.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 8,
+            "h": 8
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 8,
+            "h": 8
+          },
+          "frame": {
+            "x": 36,
+            "y": 8,
+            "w": 8,
+            "h": 8
+          }
+        },
+        {
+          "filename": "Ellipse-12.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 10
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 10
+          },
+          "frame": {
+            "x": 52,
+            "y": 8,
+            "w": 10,
+            "h": 10
+          }
+        },
+        {
+          "filename": "Ellipse-13.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 18
+          },
+          "frame": {
+            "x": 70,
+            "y": 8,
+            "w": 18,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Ellipse-14.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 8,
+            "h": 8
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 8,
+            "h": 8
+          },
+          "frame": {
+            "x": 96,
+            "y": 8,
+            "w": 8,
+            "h": 8
+          }
+        },
+        {
+          "filename": "Ellipse-15.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 18
+          },
+          "frame": {
+            "x": 112,
+            "y": 8,
+            "w": 18,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Ellipse-16.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 8,
+            "h": 8
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 8,
+            "h": 8
+          },
+          "frame": {
+            "x": 138,
+            "y": 8,
+            "w": 8,
+            "h": 8
+          }
+        },
+        {
+          "filename": "Ellipse-17.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 154,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Ellipse-18.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 13
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 13
+          },
+          "frame": {
+            "x": 179,
+            "y": 8,
+            "w": 13,
+            "h": 13
+          }
+        },
+        {
+          "filename": "Ellipse-19.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 10
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 10
+          },
+          "frame": {
+            "x": 200,
+            "y": 8,
+            "w": 10,
+            "h": 10
+          }
+        },
+        {
+          "filename": "Ellipse-2.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 218,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Ellipse-20.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 14,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 14,
+            "h": 14
+          },
+          "frame": {
+            "x": 243,
+            "y": 8,
+            "w": 14,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Ellipse-21.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 12
+          },
+          "frame": {
+            "x": 265,
+            "y": 8,
+            "w": 12,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Ellipse-22.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 9
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 9
+          },
+          "frame": {
+            "x": 285,
+            "y": 8,
+            "w": 17,
+            "h": 9
+          }
+        },
+        {
+          "filename": "Ellipse-23.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 15,
+            "h": 15
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 15,
+            "h": 15
+          },
+          "frame": {
+            "x": 310,
+            "y": 8,
+            "w": 15,
+            "h": 15
+          }
+        },
+        {
+          "filename": "Ellipse-24.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 8,
+            "h": 8
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 8,
+            "h": 8
+          },
+          "frame": {
+            "x": 333,
+            "y": 8,
+            "w": 8,
+            "h": 8
+          }
+        },
+        {
+          "filename": "Ellipse-3.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 349,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Ellipse-4.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 9,
+            "h": 9
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 9,
+            "h": 9
+          },
+          "frame": {
+            "x": 374,
+            "y": 8,
+            "w": 9,
+            "h": 9
+          }
+        },
+        {
+          "filename": "Ellipse-5.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 9,
+            "h": 9
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 9,
+            "h": 9
+          },
+          "frame": {
+            "x": 391,
+            "y": 8,
+            "w": 9,
+            "h": 9
+          }
+        },
+        {
+          "filename": "Ellipse-6.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 9,
+            "h": 9
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 9,
+            "h": 9
+          },
+          "frame": {
+            "x": 408,
+            "y": 8,
+            "w": 9,
+            "h": 9
+          }
+        },
+        {
+          "filename": "Ellipse-7.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16
+          },
+          "frame": {
+            "x": 425,
+            "y": 8,
+            "w": 16,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Ellipse-8.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 10
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 10
+          },
+          "frame": {
+            "x": 449,
+            "y": 8,
+            "w": 10,
+            "h": 10
+          }
+        },
+        {
+          "filename": "Ellipse-9.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16
+          },
+          "frame": {
+            "x": 467,
+            "y": 8,
+            "w": 16,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Ellipse.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 13
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 13
+          },
+          "frame": {
+            "x": 491,
+            "y": 8,
+            "w": 13,
+            "h": 13
+          }
+        },
+        {
+          "filename": "Polygon-1.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 11,
+            "h": 11
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 11,
+            "h": 11
+          },
+          "frame": {
+            "x": 512,
+            "y": 8,
+            "w": 11,
+            "h": 11
+          }
+        },
+        {
+          "filename": "Polygon-10.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 13
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 13
+          },
+          "frame": {
+            "x": 531,
+            "y": 8,
+            "w": 12,
+            "h": 13
+          }
+        },
+        {
+          "filename": "Polygon-11.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 21,
+            "h": 20
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 21,
+            "h": 20
+          },
+          "frame": {
+            "x": 551,
+            "y": 8,
+            "w": 21,
+            "h": 20
+          }
+        },
+        {
+          "filename": "Polygon-12.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 11,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 11,
+            "h": 12
+          },
+          "frame": {
+            "x": 580,
+            "y": 8,
+            "w": 11,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Polygon-14.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 19
+          },
+          "frame": {
+            "x": 599,
+            "y": 8,
+            "w": 20,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-15.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 627,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Polygon-16.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 19
+          },
+          "frame": {
+            "x": 652,
+            "y": 8,
+            "w": 18,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-17.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 19
+          },
+          "frame": {
+            "x": 678,
+            "y": 8,
+            "w": 20,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-18.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 706,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Polygon-19.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 21,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 21,
+            "h": 17
+          },
+          "frame": {
+            "x": 731,
+            "y": 8,
+            "w": 21,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Polygon-2.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 11,
+            "h": 11
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 11,
+            "h": 11
+          },
+          "frame": {
+            "x": 760,
+            "y": 8,
+            "w": 11,
+            "h": 11
+          }
+        },
+        {
+          "filename": "Polygon-20.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 19,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 19,
+            "h": 19
+          },
+          "frame": {
+            "x": 779,
+            "y": 8,
+            "w": 19,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-21.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 22,
+            "h": 22
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 22,
+            "h": 22
+          },
+          "frame": {
+            "x": 806,
+            "y": 8,
+            "w": 22,
+            "h": 22
+          }
+        },
+        {
+          "filename": "Polygon-22.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 10
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 10
+          },
+          "frame": {
+            "x": 836,
+            "y": 8,
+            "w": 10,
+            "h": 10
+          }
+        },
+        {
+          "filename": "Polygon-23.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16
+          },
+          "frame": {
+            "x": 854,
+            "y": 8,
+            "w": 16,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Polygon-24.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16
+          },
+          "frame": {
+            "x": 878,
+            "y": 8,
+            "w": 16,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Polygon-3.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 14,
+            "h": 13
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 14,
+            "h": 13
+          },
+          "frame": {
+            "x": 902,
+            "y": 8,
+            "w": 14,
+            "h": 13
+          }
+        },
+        {
+          "filename": "Polygon-4.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 19,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 19,
+            "h": 19
+          },
+          "frame": {
+            "x": 924,
+            "y": 8,
+            "w": 19,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-5.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 15
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 15
+          },
+          "frame": {
+            "x": 951,
+            "y": 8,
+            "w": 17,
+            "h": 15
+          }
+        },
+        {
+          "filename": "Polygon-6.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 18
+          },
+          "frame": {
+            "x": 976,
+            "y": 8,
+            "w": 17,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Polygon-7.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 19
+          },
+          "frame": {
+            "x": 1001,
+            "y": 8,
+            "w": 17,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Polygon-8.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 18
+          },
+          "frame": {
+            "x": 1026,
+            "y": 8,
+            "w": 18,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Polygon-9.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 14
+          },
+          "frame": {
+            "x": 1052,
+            "y": 8,
+            "w": 13,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Polygon.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 19
+          },
+          "frame": {
+            "x": 1073,
+            "y": 8,
+            "w": 17,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Rectangle-1.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 34,
+            "h": 20
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 34,
+            "h": 20
+          },
+          "frame": {
+            "x": 1098,
+            "y": 8,
+            "w": 34,
+            "h": 20
+          }
+        },
+        {
+          "filename": "Rectangle-10.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 24,
+            "h": 28
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 24,
+            "h": 28
+          },
+          "frame": {
+            "x": 1140,
+            "y": 8,
+            "w": 24,
+            "h": 28
+          }
+        },
+        {
+          "filename": "Rectangle-11.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 36,
+            "h": 25
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 36,
+            "h": 25
+          },
+          "frame": {
+            "x": 1172,
+            "y": 8,
+            "w": 36,
+            "h": 25
+          }
+        },
+        {
+          "filename": "Rectangle-12.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 38,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 38,
+            "h": 16
+          },
+          "frame": {
+            "x": 1216,
+            "y": 8,
+            "w": 38,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Rectangle-13.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 29,
+            "h": 24
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 29,
+            "h": 24
+          },
+          "frame": {
+            "x": 1262,
+            "y": 8,
+            "w": 29,
+            "h": 24
+          }
+        },
+        {
+          "filename": "Rectangle-14.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 28
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 28
+          },
+          "frame": {
+            "x": 1299,
+            "y": 8,
+            "w": 10,
+            "h": 28
+          }
+        },
+        {
+          "filename": "Rectangle-15.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 34,
+            "h": 39
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 34,
+            "h": 39
+          },
+          "frame": {
+            "x": 1317,
+            "y": 8,
+            "w": 34,
+            "h": 39
+          }
+        },
+        {
+          "filename": "Rectangle-16.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 22,
+            "h": 11
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 22,
+            "h": 11
+          },
+          "frame": {
+            "x": 1359,
+            "y": 8,
+            "w": 22,
+            "h": 11
+          }
+        },
+        {
+          "filename": "Rectangle-17.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 10,
+            "h": 11
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 10,
+            "h": 11
+          },
+          "frame": {
+            "x": 1389,
+            "y": 8,
+            "w": 10,
+            "h": 11
+          }
+        },
+        {
+          "filename": "Rectangle-18.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 12
+          },
+          "frame": {
+            "x": 1407,
+            "y": 8,
+            "w": 20,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Rectangle-19.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 22,
+            "h": 21
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 22,
+            "h": 21
+          },
+          "frame": {
+            "x": 1435,
+            "y": 8,
+            "w": 22,
+            "h": 21
+          }
+        },
+        {
+          "filename": "Rectangle-2.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 47
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 47
+          },
+          "frame": {
+            "x": 1465,
+            "y": 8,
+            "w": 20,
+            "h": 47
+          }
+        },
+        {
+          "filename": "Rectangle-20.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 30,
+            "h": 23
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 30,
+            "h": 23
+          },
+          "frame": {
+            "x": 1493,
+            "y": 8,
+            "w": 30,
+            "h": 23
+          }
+        },
+        {
+          "filename": "Rectangle-21.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 28,
+            "h": 29
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 28,
+            "h": 29
+          },
+          "frame": {
+            "x": 1531,
+            "y": 8,
+            "w": 28,
+            "h": 29
+          }
+        },
+        {
+          "filename": "Rectangle-22.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 9,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 9,
+            "h": 16
+          },
+          "frame": {
+            "x": 1567,
+            "y": 8,
+            "w": 9,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Rectangle-23.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 33,
+            "h": 32
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 33,
+            "h": 32
+          },
+          "frame": {
+            "x": 1584,
+            "y": 8,
+            "w": 33,
+            "h": 32
+          }
+        },
+        {
+          "filename": "Rectangle-24.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 21
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 21
+          },
+          "frame": {
+            "x": 1625,
+            "y": 8,
+            "w": 16,
+            "h": 21
+          }
+        },
+        {
+          "filename": "Rectangle-3.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 15,
+            "h": 38
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 15,
+            "h": 38
+          },
+          "frame": {
+            "x": 1649,
+            "y": 8,
+            "w": 15,
+            "h": 38
+          }
+        },
+        {
+          "filename": "Rectangle-4.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 11,
+            "h": 9
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 11,
+            "h": 9
+          },
+          "frame": {
+            "x": 1672,
+            "y": 8,
+            "w": 11,
+            "h": 9
+          }
+        },
+        {
+          "filename": "Rectangle-5.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 14
+          },
+          "frame": {
+            "x": 1691,
+            "y": 8,
+            "w": 13,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Rectangle-6.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 23,
+            "h": 24
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 23,
+            "h": 24
+          },
+          "frame": {
+            "x": 1712,
+            "y": 8,
+            "w": 23,
+            "h": 24
+          }
+        },
+        {
+          "filename": "Rectangle-7.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 30
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 30
+          },
+          "frame": {
+            "x": 1743,
+            "y": 8,
+            "w": 12,
+            "h": 30
+          }
+        },
+        {
+          "filename": "Rectangle-8.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 22,
+            "h": 15
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 22,
+            "h": 15
+          },
+          "frame": {
+            "x": 1763,
+            "y": 8,
+            "w": 22,
+            "h": 15
+          }
+        },
+        {
+          "filename": "Rectangle-9.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 27
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 27
+          },
+          "frame": {
+            "x": 1793,
+            "y": 8,
+            "w": 18,
+            "h": 27
+          }
+        },
+        {
+          "filename": "Rectangle.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 33,
+            "h": 38
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 33,
+            "h": 38
+          },
+          "frame": {
+            "x": 1819,
+            "y": 8,
+            "w": 33,
+            "h": 38
+          }
+        },
+        {
+          "filename": "Star-1.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 5
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 5
+          },
+          "frame": {
+            "x": 1860,
+            "y": 8,
+            "w": 16,
+            "h": 5
+          }
+        },
+        {
+          "filename": "Star-10.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 14,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 14,
+            "h": 14
+          },
+          "frame": {
+            "x": 1884,
+            "y": 8,
+            "w": 14,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Star-11.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 22,
+            "h": 22
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 22,
+            "h": 22
+          },
+          "frame": {
+            "x": 1906,
+            "y": 8,
+            "w": 22,
+            "h": 22
+          }
+        },
+        {
+          "filename": "Star-12.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 15,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 15,
+            "h": 14
+          },
+          "frame": {
+            "x": 1936,
+            "y": 8,
+            "w": 15,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Star-13.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 19,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 19,
+            "h": 19
+          },
+          "frame": {
+            "x": 1959,
+            "y": 8,
+            "w": 19,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Star-14.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 17,
+            "h": 17
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 17,
+            "h": 17
+          },
+          "frame": {
+            "x": 1986,
+            "y": 8,
+            "w": 17,
+            "h": 17
+          }
+        },
+        {
+          "filename": "Star-15.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 19,
+            "h": 21
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 19,
+            "h": 21
+          },
+          "frame": {
+            "x": 2011,
+            "y": 8,
+            "w": 19,
+            "h": 21
+          }
+        },
+        {
+          "filename": "Star-16.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 19
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 19
+          },
+          "frame": {
+            "x": 2038,
+            "y": 8,
+            "w": 18,
+            "h": 19
+          }
+        },
+        {
+          "filename": "Star-17.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 12
+          },
+          "frame": {
+            "x": 2064,
+            "y": 8,
+            "w": 12,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Star-18.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 21,
+            "h": 21
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 21,
+            "h": 21
+          },
+          "frame": {
+            "x": 2084,
+            "y": 8,
+            "w": 21,
+            "h": 21
+          }
+        },
+        {
+          "filename": "Star-19.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 20
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 20
+          },
+          "frame": {
+            "x": 2113,
+            "y": 8,
+            "w": 20,
+            "h": 20
+          }
+        },
+        {
+          "filename": "Star-2.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 21,
+            "h": 21
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 21,
+            "h": 21
+          },
+          "frame": {
+            "x": 2141,
+            "y": 8,
+            "w": 21,
+            "h": 21
+          }
+        },
+        {
+          "filename": "Star-20.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 18
+          },
+          "frame": {
+            "x": 2170,
+            "y": 8,
+            "w": 20,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Star-21.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 15,
+            "h": 15
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 15,
+            "h": 15
+          },
+          "frame": {
+            "x": 2198,
+            "y": 8,
+            "w": 15,
+            "h": 15
+          }
+        },
+        {
+          "filename": "Star-22.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 12
+          },
+          "frame": {
+            "x": 2221,
+            "y": 8,
+            "w": 12,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Star-23.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 20,
+            "h": 20
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 20,
+            "h": 20
+          },
+          "frame": {
+            "x": 2241,
+            "y": 8,
+            "w": 20,
+            "h": 20
+          }
+        },
+        {
+          "filename": "Star-24.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 15,
+            "h": 14
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 15,
+            "h": 14
+          },
+          "frame": {
+            "x": 2269,
+            "y": 8,
+            "w": 15,
+            "h": 14
+          }
+        },
+        {
+          "filename": "Star-3.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 12,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 12
+          },
+          "frame": {
+            "x": 2292,
+            "y": 8,
+            "w": 12,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Star-4.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 16
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16
+          },
+          "frame": {
+            "x": 2312,
+            "y": 8,
+            "w": 16,
+            "h": 16
+          }
+        },
+        {
+          "filename": "Star-5.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 12
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 12
+          },
+          "frame": {
+            "x": 2336,
+            "y": 8,
+            "w": 13,
+            "h": 12
+          }
+        },
+        {
+          "filename": "Star-6.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 6
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 6
+          },
+          "frame": {
+            "x": 2357,
+            "y": 8,
+            "w": 18,
+            "h": 6
+          }
+        },
+        {
+          "filename": "Star-7.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 13,
+            "h": 13
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 13,
+            "h": 13
+          },
+          "frame": {
+            "x": 2383,
+            "y": 8,
+            "w": 13,
+            "h": 13
+          }
+        },
+        {
+          "filename": "Star-8.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 18,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 18,
+            "h": 18
+          },
+          "frame": {
+            "x": 2404,
+            "y": 8,
+            "w": 18,
+            "h": 18
+          }
+        },
+        {
+          "filename": "Star-9.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 19,
+            "h": 20
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 19,
+            "h": 20
+          },
+          "frame": {
+            "x": 2430,
+            "y": 8,
+            "w": 19,
+            "h": 20
+          }
+        },
+        {
+          "filename": "Star.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 16,
+            "h": 18
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 18
+          },
+          "frame": {
+            "x": 2457,
+            "y": 8,
+            "w": 16,
+            "h": 18
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "app": "Stitch Surgeon",
+    "version": "1.2.0"
+  }
+}

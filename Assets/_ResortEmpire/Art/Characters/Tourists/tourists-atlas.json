@@ -1,0 +1,229 @@
+{
+  "textures": [
+    {
+      "image": "tourists-atlas.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 7524,
+        "h": 2508
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "tourist-01-red-cap-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-02-yellow-hat-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 1254,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-03-older-man-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 2508,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-04-flower-hair-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 3762,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-05-green-cap-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 5016,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-06-blue-hat-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 6270,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-07-brown-hat-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 0,
+            "y": 1254,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-08-pink-cap-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 1254,
+            "y": 1254,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-09-blue-bucket-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 2508,
+            "y": 1254,
+            "w": 1254,
+            "h": 1254
+          }
+        },
+        {
+          "filename": "tourist-10-white-hair-source.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 1254,
+            "h": 1254
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 1254,
+            "h": 1254
+          },
+          "frame": {
+            "x": 3762,
+            "y": 1254,
+            "w": 1254,
+            "h": 1254
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "app": "Stitch Surgeon",
+    "version": "1.2.0"
+  }
+}

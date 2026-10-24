@@ -1,0 +1,2691 @@
+fileFormatVersion: 2
+guid: 5b6ba0e9456e95c40b859a807421e2bf
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7117596630462723837
+    second: confetti-atlas_0
+  - first:
+      213: -4940690260611819757
+    second: confetti-atlas_1
+  - first:
+      213: -777452779824742055
+    second: confetti-atlas_2
+  - first:
+      213: -4705091441251919496
+    second: confetti-atlas_3
+  - first:
+      213: -2901977153048876881
+    second: confetti-atlas_4
+  - first:
+      213: -3189927530287259494
+    second: confetti-atlas_5
+  - first:
+      213: -1580318434471961403
+    second: confetti-atlas_6
+  - first:
+      213: 8428828959763424784
+    second: confetti-atlas_7
+  - first:
+      213: 1534153464573083815
+    second: confetti-atlas_8
+  - first:
+      213: -8544532337638335422
+    second: confetti-atlas_9
+  - first:
+      213: -842533536984403285
+    second: confetti-atlas_10
+  - first:
+      213: 7926975387697013198
+    second: confetti-atlas_11
+  - first:
+      213: 1094996118413822139
+    second: confetti-atlas_12
+  - first:
+      213: 6667729622552915703
+    second: confetti-atlas_13
+  - first:
+      213: 67522971331978027
+    second: confetti-atlas_14
+  - first:
+      213: 2891843871433601195
+    second: confetti-atlas_15
+  - first:
+      213: -1475252730077771680
+    second: confetti-atlas_16
+  - first:
+      213: 8888523214124937755
+    second: confetti-atlas_17
+  - first:
+      213: -224817353086061311
+    second: confetti-atlas_18
+  - first:
+      213: 8360888063304256662
+    second: confetti-atlas_19
+  - first:
+      213: 2510759501986011805
+    second: confetti-atlas_20
+  - first:
+      213: 2681336923190464416
+    second: confetti-atlas_21
+  - first:
+      213: 2283014137842676623
+    second: confetti-atlas_22
+  - first:
+      213: -6397163922954742313
+    second: confetti-atlas_23
+  - first:
+      213: -2198411076726192102
+    second: confetti-atlas_24
+  - first:
+      213: 8272440859572300051
+    second: confetti-atlas_25
+  - first:
+      213: -2251589132676530228
+    second: confetti-atlas_26
+  - first:
+      213: 2924180539169933689
+    second: confetti-atlas_27
+  - first:
+      213: 8515071628060504354
+    second: confetti-atlas_28
+  - first:
+      213: 4223555200039758487
+    second: confetti-atlas_29
+  - first:
+      213: -13338094830552688
+    second: confetti-atlas_30
+  - first:
+      213: 7070089357661892218
+    second: confetti-atlas_31
+  - first:
+      213: 7317458937143613978
+    second: confetti-atlas_32
+  - first:
+      213: 5904043384091029897
+    second: confetti-atlas_33
+  - first:
+      213: 4776444716063682534
+    second: confetti-atlas_34
+  - first:
+      213: 2842408656883930422
+    second: confetti-atlas_35
+  - first:
+      213: 3608172923321127553
+    second: confetti-atlas_36
+  - first:
+      213: -4727087173126797043
+    second: confetti-atlas_37
+  - first:
+      213: -1015077006309153439
+    second: confetti-atlas_38
+  - first:
+      213: -5081220189043365335
+    second: confetti-atlas_39
+  - first:
+      213: 2736857982336454884
+    second: confetti-atlas_40
+  - first:
+      213: 4165064357309130401
+    second: confetti-atlas_41
+  - first:
+      213: 6842577277561188864
+    second: confetti-atlas_42
+  - first:
+      213: 1984257637822083885
+    second: confetti-atlas_43
+  - first:
+      213: -2432989371255381831
+    second: confetti-atlas_44
+  - first:
+      213: 3572415051929599889
+    second: confetti-atlas_45
+  - first:
+      213: 8544850835588362396
+    second: confetti-atlas_46
+  - first:
+      213: 3495767259243059289
+    second: confetti-atlas_47
+  - first:
+      213: 2592348172592226724
+    second: confetti-atlas_48
+  - first:
+      213: -4491910861183598561
+    second: confetti-atlas_49
+  - first:
+      213: -6899187065311030463
+    second: confetti-atlas_50
+  - first:
+      213: 3048883611168861064
+    second: confetti-atlas_51
+  - first:
+      213: -7791242708172320363
+    second: confetti-atlas_52
+  - first:
+      213: 3778901921553031432
+    second: confetti-atlas_53
+  - first:
+      213: -4168186389262152147
+    second: confetti-atlas_54
+  - first:
+      213: -7810512568229473785
+    second: confetti-atlas_55
+  - first:
+      213: 2479222059903339145
+    second: confetti-atlas_56
+  - first:
+      213: 1561378182566537236
+    second: confetti-atlas_57
+  - first:
+      213: -8810444010572542863
+    second: confetti-atlas_58
+  - first:
+      213: -4612246049230099754
+    second: confetti-atlas_59
+  - first:
+      213: 8176192262349113364
+    second: confetti-atlas_60
+  - first:
+      213: -863537202404223550
+    second: confetti-atlas_61
+  - first:
+      213: -4839222107777329294
+    second: confetti-atlas_62
+  - first:
+      213: -4817511270363457552
+    second: confetti-atlas_63
+  - first:
+      213: 5074675101921510038
+    second: confetti-atlas_64
+  - first:
+      213: -3948258326392245886
+    second: confetti-atlas_65
+  - first:
+      213: 42231104719228994
+    second: confetti-atlas_66
+  - first:
+      213: 2185456099074235908
+    second: confetti-atlas_67
+  - first:
+      213: 9153465003560497152
+    second: confetti-atlas_68
+  - first:
+      213: -2782668055767013515
+    second: confetti-atlas_69
+  - first:
+      213: -6606422354089727057
+    second: confetti-atlas_70
+  - first:
+      213: 6903939331082919289
+    second: confetti-atlas_71
+  - first:
+      213: 3794933040312314205
+    second: confetti-atlas_72
+  - first:
+      213: -6728922707520242459
+    second: confetti-atlas_73
+  - first:
+      213: -145005820443303202
+    second: confetti-atlas_74
+  - first:
+      213: -7652556996994846908
+    second: confetti-atlas_75
+  - first:
+      213: 73014761160514482
+    second: confetti-atlas_76
+  - first:
+      213: -8262457667713205383
+    second: confetti-atlas_77
+  - first:
+      213: -5082538465409278759
+    second: confetti-atlas_78
+  - first:
+      213: 3749765621639224799
+    second: confetti-atlas_79
+  - first:
+      213: 2196220890875222198
+    second: confetti-atlas_80
+  - first:
+      213: -719836068030381239
+    second: confetti-atlas_81
+  - first:
+      213: -919847907633829721
+    second: confetti-atlas_82
+  - first:
+      213: -1786457115834788997
+    second: confetti-atlas_83
+  - first:
+      213: -4114313482294050462
+    second: confetti-atlas_84
+  - first:
+      213: -8419951420313779971
+    second: confetti-atlas_85
+  - first:
+      213: -5204670754982936803
+    second: confetti-atlas_86
+  - first:
+      213: -3709815388380437783
+    second: confetti-atlas_87
+  - first:
+      213: -8862695035048666849
+    second: confetti-atlas_88
+  - first:
+      213: 337309738754406989
+    second: confetti-atlas_89
+  - first:
+      213: 951647061028352184
+    second: confetti-atlas_90
+  - first:
+      213: -2772149503701139813
+    second: confetti-atlas_91
+  - first:
+      213: -8957863984945041815
+    second: confetti-atlas_92
+  - first:
+      213: 3472101473501648095
+    second: confetti-atlas_93
+  - first:
+      213: 5599077491086526109
+    second: confetti-atlas_94
+  - first:
+      213: 468396683852584743
+    second: confetti-atlas_95
+  - first:
+      213: 938108293818389248
+    second: confetti-atlas_96
+  - first:
+      213: 4655542805702001679
+    second: confetti-atlas_97
+  - first:
+      213: 6812020175661623899
+    second: confetti-atlas_98
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: confetti-atlas_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 38
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30980c24397393d90800000000000000
+      internalID: -7117596630462723837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_1
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 39
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 317100782642f6bb0800000000000000
+      internalID: -4940690260611819757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_2
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95108ecd0dee535f0800000000000000
+      internalID: -777452779824742055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 879d278434824beb0800000000000000
+      internalID: -4705091441251919496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_4
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 28
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa8e836972b1ab7d0800000000000000
+      internalID: -2901977153048876881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_5
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a902df9efc91bb3d0800000000000000
+      internalID: -3189927530287259494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_6
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 28
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cc1c49b1c4911ae0800000000000000
+      internalID: -1580318434471961403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_7
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0166933f74739f470800000000000000
+      internalID: 8428828959763424784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_8
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a040de92786a4510800000000000000
+      internalID: 1534153464573083815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_9
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24c9a3b1c19bb6980800000000000000
+      internalID: -8544532337638335422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_10
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba2f0b84638be44f0800000000000000
+      internalID: -842533536984403285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_11
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec1e1febd16420e60800000000000000
+      internalID: 7926975387697013198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_12
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb8cc7c0b25323f00800000000000000
+      internalID: 1094996118413822139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_13
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 34
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fead9ab3c8888c50800000000000000
+      internalID: 6667729622552915703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_14
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 37
+        width: 19
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b23eb60e8c3efe000800000000000000
+      internalID: 67522971331978027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_15
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 31
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba0b0beeda4e12820800000000000000
+      internalID: 2891843871433601195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_16
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0680acd4579d68be0800000000000000
+      internalID: -1475252730077771680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_17
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b12fab315c06a5b70800000000000000
+      internalID: 8888523214124937755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_18
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 37
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10536f9fec941ecf0800000000000000
+      internalID: -224817353086061311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_19
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 37
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69ccd0c4567d70470800000000000000
+      internalID: 8360888063304256662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_20
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 37
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9a1058e67208d220800000000000000
+      internalID: 2510759501986011805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_21
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 30
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0af08eda9b5063520800000000000000
+      internalID: 2681336923190464416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_22
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f83be4f2345eeaf10800000000000000
+      internalID: 2283014137842676623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_23
+      rect:
+        serializedVersion: 2
+        x: 466
+        y: 30
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d596524e45b837a0800000000000000
+      internalID: -6397163922954742313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_24
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a18837df5ccad71e0800000000000000
+      internalID: -2198411076726192102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_25
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 35
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 319eb3ce12d9dc270800000000000000
+      internalID: 8272440859572300051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_26
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 33
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccf7faefc9fb0c0e0800000000000000
+      internalID: -2251589132676530228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_27
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 26
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 979855815b6c49820800000000000000
+      internalID: 2924180539169933689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_28
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 34
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 221bd8be78c9b2670800000000000000
+      internalID: 8515071628060504354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_29
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 27
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79aaf9bb3151d9a30800000000000000
+      internalID: 4223555200039758487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_30
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 099f4abc21d90dff0800000000000000
+      internalID: -13338094830552688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_31
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 27
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7ee4b5dfc00e1260800000000000000
+      internalID: 7070089357661892218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_32
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 27
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1ad3fe3226dc8560800000000000000
+      internalID: 7317458937143613978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_33
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 981bd374d206fe150800000000000000
+      internalID: 5904043384091029897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_34
+      rect:
+        serializedVersion: 2
+        x: 730
+        y: 29
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ef644e9927594240800000000000000
+      internalID: 4776444716063682534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_35
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 35
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 635df0c1d93427720800000000000000
+      internalID: 2842408656883930422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_36
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 27
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1821db6282ec21230800000000000000
+      internalID: 3608172923321127553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_37
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d09c87fd243066eb0800000000000000
+      internalID: -4727087173126797043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_38
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 165a64347d8b9e1f0800000000000000
+      internalID: -1015077006309153439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_39
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 30
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92ae686d821eb79b0800000000000000
+      internalID: -5081220189043365335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_40
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 30
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e05bdd95d54bf520800000000000000
+      internalID: 2736857982336454884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_41
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 33
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a62d0c27f74dc930800000000000000
+      internalID: 4165064357309130401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_42
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 27
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 002b139c7c7b5fe50800000000000000
+      internalID: 6842577277561188864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_43
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 31
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d23bd3dfecf798b10800000000000000
+      internalID: 1984257637822083885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_44
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 28
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b0a500be094c3ed0800000000000000
+      internalID: -2432989371255381831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_45
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 27
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19fb580ff84c39130800000000000000
+      internalID: 3572415051929599889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_46
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 28
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c90b1f9ff88659670800000000000000
+      internalID: 8544850835588362396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_47
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 32
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9589f980dc5738030800000000000000
+      internalID: 3495767259243059289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_48
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 27
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a12e799deed9f320800000000000000
+      internalID: 2592348172592226724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_49
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 27
+        width: 35
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f10ce64fed689a1c0800000000000000
+      internalID: -4491910861183598561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_50
+      rect:
+        serializedVersion: 2
+        x: 1139
+        y: 18
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1439a25eae92140a0800000000000000
+      internalID: -6899187065311030463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_51
+      rect:
+        serializedVersion: 2
+        x: 1171
+        y: 22
+        width: 37
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88bea3d9d7fcf4a20800000000000000
+      internalID: 3048883611168861064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_52
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 30
+        width: 40
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59159846902ffd390800000000000000
+      internalID: -7791242708172320363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_53
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 22
+        width: 31
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 801a533b64b517430800000000000000
+      internalID: 3778901921553031432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_54
+      rect:
+        serializedVersion: 2
+        x: 1298
+        y: 18
+        width: 12
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2e496e1090a726c0800000000000000
+      internalID: -4168186389262152147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_55
+      rect:
+        serializedVersion: 2
+        x: 1316
+        y: 8
+        width: 36
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70255f8733c7b9390800000000000000
+      internalID: -7810512568229473785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_56
+      rect:
+        serializedVersion: 2
+        x: 1358
+        y: 35
+        width: 24
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98ac9d7f357f76220800000000000000
+      internalID: 2479222059903339145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_57
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 35
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4186ceb3f212ba510800000000000000
+      internalID: 1561378182566537236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_58
+      rect:
+        serializedVersion: 2
+        x: 1406
+        y: 35
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17c0b542ad30bb580800000000000000
+      internalID: -8810444010572542863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_59
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 25
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dae0faa7a20effb0800000000000000
+      internalID: -4612246049230099754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_60
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 0
+        width: 22
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 418cd941b8ba77170800000000000000
+      internalID: 8176192262349113364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_61
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 24
+        width: 32
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c59c585d791404f0800000000000000
+      internalID: -863537202404223550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_62
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 17
+        width: 30
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27717bcd121a7dcb0800000000000000
+      internalID: -4839222107777329294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_63
+      rect:
+        serializedVersion: 2
+        x: 1566
+        y: 30
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f79b8c1603c42db0800000000000000
+      internalID: -4817511270363457552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_64
+      rect:
+        serializedVersion: 2
+        x: 1583
+        y: 14
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6920d805e1edc6640800000000000000
+      internalID: 5074675101921510038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_65
+      rect:
+        serializedVersion: 2
+        x: 1624
+        y: 25
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28179ed88f7f439c0800000000000000
+      internalID: -3948258326392245886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_66
+      rect:
+        serializedVersion: 2
+        x: 1648
+        y: 8
+        width: 16
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 240134b47f8069000800000000000000
+      internalID: 42231104719228994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_67
+      rect:
+        serializedVersion: 2
+        x: 1671
+        y: 37
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40ed7893ebc445e10800000000000000
+      internalID: 2185456099074235908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_68
+      rect:
+        serializedVersion: 2
+        x: 1690
+        y: 32
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00071317ce3a70f70800000000000000
+      internalID: 9153465003560497152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_69
+      rect:
+        serializedVersion: 2
+        x: 1711
+        y: 22
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5772e20852af169d0800000000000000
+      internalID: -2782668055767013515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_70
+      rect:
+        serializedVersion: 2
+        x: 1742
+        y: 16
+        width: 13
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fab284c0fd54154a0800000000000000
+      internalID: -6606422354089727057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_71
+      rect:
+        serializedVersion: 2
+        x: 1762
+        y: 31
+        width: 24
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97d9b043e38bfcf50800000000000000
+      internalID: 6903939331082919289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_72
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 19
+        width: 20
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5965366e7f4aa430800000000000000
+      internalID: 3794933040312314205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_73
+      rect:
+        serializedVersion: 2
+        x: 1818
+        y: 8
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ec3239e2701e92a0800000000000000
+      internalID: -6728922707520242459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_74
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 41
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed2ec1e79f5dcfdf0800000000000000
+      internalID: -145005820443303202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_75
+      rect:
+        serializedVersion: 2
+        x: 1883
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f21bac4f7acc590800000000000000
+      internalID: -7652556996994846908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_76
+      rect:
+        serializedVersion: 2
+        x: 1905
+        y: 25
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bb1556d986630100800000000000000
+      internalID: 73014761160514482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_77
+      rect:
+        serializedVersion: 2
+        x: 1935
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97b7040178ad55d80800000000000000
+      internalID: -8262457667713205383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_78
+      rect:
+        serializedVersion: 2
+        x: 1958
+        y: 27
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc5504b1323779b0800000000000000
+      internalID: -5082538465409278759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_79
+      rect:
+        serializedVersion: 2
+        x: 1985
+        y: 29
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdd17cc37f7d90430800000000000000
+      internalID: 3749765621639224799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_80
+      rect:
+        serializedVersion: 2
+        x: 2010
+        y: 25
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b8d8e0a34b8a7e10800000000000000
+      internalID: 2196220890875222198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_81
+      rect:
+        serializedVersion: 2
+        x: 2037
+        y: 27
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9430984f8e0a206f0800000000000000
+      internalID: -719836068030381239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_82
+      rect:
+        serializedVersion: 2
+        x: 2063
+        y: 34
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a8691a933b0c33f0800000000000000
+      internalID: -919847907633829721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_83
+      rect:
+        serializedVersion: 2
+        x: 2083
+        y: 25
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b73d23cd7ba3537e0800000000000000
+      internalID: -1786457115834788997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_84
+      rect:
+        serializedVersion: 2
+        x: 2112
+        y: 26
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2614349bfa507e6c0800000000000000
+      internalID: -4114313482294050462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_85
+      rect:
+        serializedVersion: 2
+        x: 2140
+        y: 25
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df0c6264bc2562b80800000000000000
+      internalID: -8419951420313779971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_86
+      rect:
+        serializedVersion: 2
+        x: 2169
+        y: 28
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1fb06c168b45c7b0800000000000000
+      internalID: -5204670754982936803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_87
+      rect:
+        serializedVersion: 2
+        x: 2197
+        y: 31
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e26e494f86148cc0800000000000000
+      internalID: -3709815388380437783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_88
+      rect:
+        serializedVersion: 2
+        x: 2220
+        y: 35
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f195e4b72d1610580800000000000000
+      internalID: -8862695035048666849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_89
+      rect:
+        serializedVersion: 2
+        x: 2240
+        y: 27
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4a7cb59b6d5ea400800000000000000
+      internalID: 337309738754406989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_90
+      rect:
+        serializedVersion: 2
+        x: 2268
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b0b320c5fde43d00800000000000000
+      internalID: 951647061028352184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_91
+      rect:
+        serializedVersion: 2
+        x: 2291
+        y: 35
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9e3e9fb6b85789d0800000000000000
+      internalID: -2772149503701139813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_92
+      rect:
+        serializedVersion: 2
+        x: 2311
+        y: 30
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96ee51f9a264fa380800000000000000
+      internalID: -8957863984945041815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_93
+      rect:
+        serializedVersion: 2
+        x: 2335
+        y: 34
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd41d28e4e16f2030800000000000000
+      internalID: 3472101473501648095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_94
+      rect:
+        serializedVersion: 2
+        x: 2357
+        y: 40
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96091e105be3bd40800000000000000
+      internalID: 5599077491086526109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_95
+      rect:
+        serializedVersion: 2
+        x: 2382
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72711036d44108600800000000000000
+      internalID: 468396683852584743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_96
+      rect:
+        serializedVersion: 2
+        x: 2403
+        y: 29
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00394edd584d40d00800000000000000
+      internalID: 938108293818389248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_97
+      rect:
+        serializedVersion: 2
+        x: 2429
+        y: 26
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f044e72048fcb9040800000000000000
+      internalID: 4655542805702001679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: confetti-atlas_98
+      rect:
+        serializedVersion: 2
+        x: 2456
+        y: 28
+        width: 17
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5aea151248298e50800000000000000
+      internalID: 6812020175661623899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      confetti-atlas_0: -7117596630462723837
+      confetti-atlas_1: -4940690260611819757
+      confetti-atlas_10: -842533536984403285
+      confetti-atlas_11: 7926975387697013198
+      confetti-atlas_12: 1094996118413822139
+      confetti-atlas_13: 6667729622552915703
+      confetti-atlas_14: 67522971331978027
+      confetti-atlas_15: 2891843871433601195
+      confetti-atlas_16: -1475252730077771680
+      confetti-atlas_17: 8888523214124937755
+      confetti-atlas_18: -224817353086061311
+      confetti-atlas_19: 8360888063304256662
+      confetti-atlas_2: -777452779824742055
+      confetti-atlas_20: 2510759501986011805
+      confetti-atlas_21: 2681336923190464416
+      confetti-atlas_22: 2283014137842676623
+      confetti-atlas_23: -6397163922954742313
+      confetti-atlas_24: -2198411076726192102
+      confetti-atlas_25: 8272440859572300051
+      confetti-atlas_26: -2251589132676530228
+      confetti-atlas_27: 2924180539169933689
+      confetti-atlas_28: 8515071628060504354
+      confetti-atlas_29: 4223555200039758487
+      confetti-atlas_3: -4705091441251919496
+      confetti-atlas_30: -13338094830552688
+      confetti-atlas_31: 7070089357661892218
+      confetti-atlas_32: 7317458937143613978
+      confetti-atlas_33: 5904043384091029897
+      confetti-atlas_34: 4776444716063682534
+      confetti-atlas_35: 2842408656883930422
+      confetti-atlas_36: 3608172923321127553
+      confetti-atlas_37: -4727087173126797043
+      confetti-atlas_38: -1015077006309153439
+      confetti-atlas_39: -5081220189043365335
+      confetti-atlas_4: -2901977153048876881
+      confetti-atlas_40: 2736857982336454884
+      confetti-atlas_41: 4165064357309130401
+      confetti-atlas_42: 6842577277561188864
+      confetti-atlas_43: 1984257637822083885
+      confetti-atlas_44: -2432989371255381831
+      confetti-atlas_45: 3572415051929599889
+      confetti-atlas_46: 8544850835588362396
+      confetti-atlas_47: 3495767259243059289
+      confetti-atlas_48: 2592348172592226724
+      confetti-atlas_49: -4491910861183598561
+      confetti-atlas_5: -3189927530287259494
+      confetti-atlas_50: -6899187065311030463
+      confetti-atlas_51: 3048883611168861064
+      confetti-atlas_52: -7791242708172320363
+      confetti-atlas_53: 3778901921553031432
+      confetti-atlas_54: -4168186389262152147
+      confetti-atlas_55: -7810512568229473785
+      confetti-atlas_56: 2479222059903339145
+      confetti-atlas_57: 1561378182566537236
+      confetti-atlas_58: -8810444010572542863
+      confetti-atlas_59: -4612246049230099754
+      confetti-atlas_6: -1580318434471961403
+      confetti-atlas_60: 8176192262349113364
+      confetti-atlas_61: -863537202404223550
+      confetti-atlas_62: -4839222107777329294
+      confetti-atlas_63: -4817511270363457552
+      confetti-atlas_64: 5074675101921510038
+      confetti-atlas_65: -3948258326392245886
+      confetti-atlas_66: 42231104719228994
+      confetti-atlas_67: 2185456099074235908
+      confetti-atlas_68: 9153465003560497152
+      confetti-atlas_69: -2782668055767013515
+      confetti-atlas_7: 8428828959763424784
+      confetti-atlas_70: -6606422354089727057
+      confetti-atlas_71: 6903939331082919289
+      confetti-atlas_72: 3794933040312314205
+      confetti-atlas_73: -6728922707520242459
+      confetti-atlas_74: -145005820443303202
+      confetti-atlas_75: -7652556996994846908
+      confetti-atlas_76: 73014761160514482
+      confetti-atlas_77: -8262457667713205383
+      confetti-atlas_78: -5082538465409278759
+      confetti-atlas_79: 3749765621639224799
+      confetti-atlas_8: 1534153464573083815
+      confetti-atlas_80: 2196220890875222198
+      confetti-atlas_81: -719836068030381239
+      confetti-atlas_82: -919847907633829721
+      confetti-atlas_83: -1786457115834788997
+      confetti-atlas_84: -4114313482294050462
+      confetti-atlas_85: -8419951420313779971
+      confetti-atlas_86: -5204670754982936803
+      confetti-atlas_87: -3709815388380437783
+      confetti-atlas_88: -8862695035048666849
+      confetti-atlas_89: 337309738754406989
+      confetti-atlas_9: -8544532337638335422
+      confetti-atlas_90: 951647061028352184
+      confetti-atlas_91: -2772149503701139813
+      confetti-atlas_92: -8957863984945041815
+      confetti-atlas_93: 3472101473501648095
+      confetti-atlas_94: 5599077491086526109
+      confetti-atlas_95: 468396683852584743
+      confetti-atlas_96: 938108293818389248
+      confetti-atlas_97: 4655542805702001679
+      confetti-atlas_98: 6812020175661623899
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
