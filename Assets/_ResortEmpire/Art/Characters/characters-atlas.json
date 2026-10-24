@@ -1,0 +1,82 @@
+{
+  "textures": [
+    {
+      "image": "characters-atlas.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 144,
+        "h": 48
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "avatar 2.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 40,
+            "h": 40
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 40
+          },
+          "frame": {
+            "x": 8,
+            "y": 8,
+            "w": 40,
+            "h": 40
+          }
+        },
+        {
+          "filename": "avatar.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 40,
+            "h": 40
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 40
+          },
+          "frame": {
+            "x": 56,
+            "y": 8,
+            "w": 40,
+            "h": 40
+          }
+        },
+        {
+          "filename": "avatar3.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 40,
+            "h": 40
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 40,
+            "h": 40
+          },
+          "frame": {
+            "x": 104,
+            "y": 8,
+            "w": 40,
+            "h": 40
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "app": "Stitch Surgeon",
+    "version": "1.2.0"
+  }
+}

@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6478683732162483706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 66352667508413823}
+  - component: {fileID: 6201281036035958081}
+  - component: {fileID: 4947095911924858499}
+  - component: {fileID: 5274529515238498540}
+  m_Layer: 0
+  m_Name: OceanBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &66352667508413823
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478683732162483706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3010, y: 1388.8916}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6201281036035958081
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478683732162483706}
+  m_CullTransparentMesh: 1
+--- !u!114 &4947095911924858499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478683732162483706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: 8ff5420517294a8ca6b097a864433218, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 43329434b45d9fc4c9e6276811d649fc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5274529515238498540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478683732162483706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20ef2506daacf0147b5358456f83f75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResortEmpire.UI.BackgroundFrameAnimator
+  frames:
+  - {fileID: 21300000, guid: 43329434b45d9fc4c9e6276811d649fc, type: 3}
+  - {fileID: 21300000, guid: 9d4f2acab18a8884eb16602b6bbad5b1, type: 3}
+  - {fileID: 21300000, guid: 5f00bcd9d9f7edd4bb35e000e35a6a42, type: 3}
+  - {fileID: 21300000, guid: d109e45ac40855246b0ba045421b181f, type: 3}
+  - {fileID: 21300000, guid: 9d88380341d73904285b99aabf7eeb35, type: 3}
+  - {fileID: 21300000, guid: 04d1f759d16d15548862cf70ffb07e56, type: 3}
+  - {fileID: 21300000, guid: 3883e72ff2264734786e06791a410067, type: 3}
+  - {fileID: 21300000, guid: 9bd94b871b078b44b934ea97a55d42f2, type: 3}
+  - {fileID: 21300000, guid: b6e6ed5f567b008419f0abe99d0f23e4, type: 3}
+  - {fileID: 21300000, guid: 81db05803a68ec74c9939a99865caa99, type: 3}
+  framesPerSecond: 3
+  pingPong: 1
+  playOnEnable: 1
+  smoothTransitions: 1
+  transitionDuration: 0.18

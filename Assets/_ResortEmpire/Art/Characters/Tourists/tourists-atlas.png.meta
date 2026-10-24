@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 71f2273f7a1b44c418e9fa67f3dedda3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3819529541047142902
+    second: tourists-atlas_0
+  - first:
+      213: -3689692264521818173
+    second: tourists-atlas_1
+  - first:
+      213: 179135522525321417
+    second: tourists-atlas_2
+  - first:
+      213: -3852901754471263843
+    second: tourists-atlas_3
+  - first:
+      213: 2812685140462462939
+    second: tourists-atlas_4
+  - first:
+      213: 1050634066351195704
+    second: tourists-atlas_5
+  - first:
+      213: 2982048793778098803
+    second: tourists-atlas_6
+  - first:
+      213: -801019738120659404
+    second: tourists-atlas_7
+  - first:
+      213: 6160420716025270591
+    second: tourists-atlas_8
+  - first:
+      213: -6095123222142923078
+    second: tourists-atlas_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tourists-atlas_0
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 1393
+        width: 797
+        height: 948
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0636c08e1e4efac0800000000000000
+      internalID: -3819529541047142902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_1
+      rect:
+        serializedVersion: 2
+        x: 1488
+        y: 1395
+        width: 826
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf9baa2f649bccc0800000000000000
+      internalID: -3689692264521818173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_2
+      rect:
+        serializedVersion: 2
+        x: 2746
+        y: 1392
+        width: 814
+        height: 893
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c896c20fca6c7200800000000000000
+      internalID: 179135522525321417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_3
+      rect:
+        serializedVersion: 2
+        x: 3988
+        y: 1381
+        width: 771
+        height: 978
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d91d242944eb78ac0800000000000000
+      internalID: -3852901754471263843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_4
+      rect:
+        serializedVersion: 2
+        x: 5248
+        y: 1393
+        width: 794
+        height: 948
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd7e846ab3aa80720800000000000000
+      internalID: 2812685140462462939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_5
+      rect:
+        serializedVersion: 2
+        x: 6493
+        y: 1385
+        width: 852
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83689c9ed1a949e00800000000000000
+      internalID: 1050634066351195704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_6
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 139
+        width: 751
+        height: 913
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3729600149d526920800000000000000
+      internalID: 2982048793778098803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_7
+      rect:
+        serializedVersion: 2
+        x: 1481
+        y: 138
+        width: 815
+        height: 939
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43edd3bcac432e4f0800000000000000
+      internalID: -801019738120659404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_8
+      rect:
+        serializedVersion: 2
+        x: 2730
+        y: 134
+        width: 826
+        height: 966
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f31d4ad70063e7550800000000000000
+      internalID: 6160420716025270591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tourists-atlas_9
+      rect:
+        serializedVersion: 2
+        x: 4003
+        y: 125
+        width: 743
+        height: 959
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abecfe909b5c96ba0800000000000000
+      internalID: -6095123222142923078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tourists-atlas_0: -3819529541047142902
+      tourists-atlas_1: -3689692264521818173
+      tourists-atlas_2: 179135522525321417
+      tourists-atlas_3: -3852901754471263843
+      tourists-atlas_4: 2812685140462462939
+      tourists-atlas_5: 1050634066351195704
+      tourists-atlas_6: 2982048793778098803
+      tourists-atlas_7: -801019738120659404
+      tourists-atlas_8: 6160420716025270591
+      tourists-atlas_9: -6095123222142923078
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

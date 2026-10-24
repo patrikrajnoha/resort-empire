@@ -1,0 +1,1105 @@
+fileFormatVersion: 2
+guid: eebe088cad70ee940a04b7cd387e6a55
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1232651308783453092
+    second: bungalows-construction-site_0
+  - first:
+      213: 3551736099096555649
+    second: bungalows-construction-site_1
+  - first:
+      213: 7036942681192759411
+    second: bungalows-construction-site_2
+  - first:
+      213: 8985632235981053130
+    second: bungalows-construction-site_3
+  - first:
+      213: 9059795251110065180
+    second: bungalows-construction-site_4
+  - first:
+      213: 8563527899972078457
+    second: bungalows-construction-site_5
+  - first:
+      213: -3185998450566879014
+    second: bungalows-construction-site_6
+  - first:
+      213: 5579743451694177984
+    second: bungalows-construction-site_7
+  - first:
+      213: -2216449704797074247
+    second: bungalows-construction-site_8
+  - first:
+      213: -1454734932915677217
+    second: bungalows-construction-site_9
+  - first:
+      213: 4746712829355551526
+    second: bungalows-construction-site_10
+  - first:
+      213: -6653251267586827582
+    second: bungalows-construction-site_11
+  - first:
+      213: -4938617779428856196
+    second: bungalows-construction-site_12
+  - first:
+      213: 8725008364629834072
+    second: bungalows-construction-site_13
+  - first:
+      213: 8779980114788317023
+    second: bungalows-construction-site_14
+  - first:
+      213: -1262001836359953654
+    second: bungalows-construction-site_15
+  - first:
+      213: 7466218610127498673
+    second: bungalows-construction-site_16
+  - first:
+      213: 8957916054888094813
+    second: bungalows-construction-site_17
+  - first:
+      213: -188897146451023092
+    second: bungalows-construction-site_18
+  - first:
+      213: 787921219602081621
+    second: bungalows-construction-site_19
+  - first:
+      213: 9151988598396823425
+    second: bungalows-construction-site_20
+  - first:
+      213: -5702074558102323553
+    second: bungalows-construction-site_21
+  - first:
+      213: 1572209137413540599
+    second: bungalows-construction-site_22
+  - first:
+      213: 6334499203282268239
+    second: bungalows-construction-site_23
+  - first:
+      213: 3407331886970131367
+    second: bungalows-construction-site_24
+  - first:
+      213: -9032819207316911939
+    second: bungalows-construction-site_25
+  - first:
+      213: 5172138860422414105
+    second: bungalows-construction-site_26
+  - first:
+      213: 6827771922746838393
+    second: bungalows-construction-site_27
+  - first:
+      213: -7366861797504189592
+    second: bungalows-construction-site_28
+  - first:
+      213: -9128397578803399615
+    second: bungalows-construction-site_29
+  - first:
+      213: 3214372573311014092
+    second: bungalows-construction-site_30
+  - first:
+      213: 4412614942915167317
+    second: bungalows-construction-site_31
+  - first:
+      213: -8334464766584527914
+    second: bungalows-construction-site_32
+  - first:
+      213: 475928140182558561
+    second: bungalows-construction-site_33
+  - first:
+      213: 2273107438214439187
+    second: bungalows-construction-site_34
+  - first:
+      213: 6745190529281707684
+    second: bungalows-construction-site_35
+  - first:
+      213: 7814803456052134898
+    second: bungalows-construction-site_36
+  - first:
+      213: -613288879202100990
+    second: bungalows-construction-site_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bungalows-construction-site_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1254
+        height: 1254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5cba006a2eb4eee0800000000000000
+      internalID: -1232651308783453092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_1
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 1227
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 180f49a0a2d4a4130800000000000000
+      internalID: 3551736099096555649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 1221
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3708741d51e38a160800000000000000
+      internalID: 7036942681192759411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_3
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 1214
+        width: 54
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acc13f329e063bc70800000000000000
+      internalID: 8985632235981053130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_4
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 970
+        width: 292
+        height: 274
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c14bf20b7cbdabd70800000000000000
+      internalID: 9059795251110065180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_5
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 1213
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97b8bf5e043c7d670800000000000000
+      internalID: 8563527899972078457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_6
+      rect:
+        serializedVersion: 2
+        x: 954
+        y: 1213
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad824031a4f09c3d0800000000000000
+      internalID: -3185998450566879014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_7
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 1196
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ce1b084b1b3f6d40800000000000000
+      internalID: 5579743451694177984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_8
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 1195
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bc0d0b9cb69d31e0800000000000000
+      internalID: -2216449704797074247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_9
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 1191
+        width: 7
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd79539394ebfcbe0800000000000000
+      internalID: -1454734932915677217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_10
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 1179
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62be68c4b26bfd140800000000000000
+      internalID: 4746712829355551526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_11
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 1156
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cad11af837eaa3a0800000000000000
+      internalID: -6653251267586827582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_12
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 1158
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7ee6b7ab41867bb0800000000000000
+      internalID: -4938617779428856196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_13
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 1148
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 859b21c61e4751970800000000000000
+      internalID: 8725008364629834072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_14
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 1156
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5773f46561c8d970800000000000000
+      internalID: 8779980114788317023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_15
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 1156
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a03dfd524087c7ee0800000000000000
+      internalID: -1262001836359953654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_16
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 1158
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bd6f08a4465d9760800000000000000
+      internalID: 7466218610127498673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 963
+        width: 19
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5c9f5bd039e05c70800000000000000
+      internalID: 8957916054888094813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_18
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 964
+        width: 57
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0ba3becb07e06df0800000000000000
+      internalID: -188897146451023092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 513
+        width: 7
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 557ef55bc224fea00800000000000000
+      internalID: 787921219602081621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_20
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 79
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1872ed31425620f70800000000000000
+      internalID: 9151988598396823425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_21
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 63
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9eb48976692ed0b0800000000000000
+      internalID: -5702074558102323553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_22
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 53
+        width: 39
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fa482c61eb91d510800000000000000
+      internalID: 1572209137413540599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_23
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 58
+        width: 34
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4072a9b679a8e750800000000000000
+      internalID: 6334499203282268239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_24
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 68
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a357b26c46494f20800000000000000
+      internalID: 3407331886970131367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_25
+      rect:
+        serializedVersion: 2
+        x: 1220
+        y: 63
+        width: 19
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db8cc83f9caf4a280800000000000000
+      internalID: -9032819207316911939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_26
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 81
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91fb870f3e027c740800000000000000
+      internalID: 5172138860422414105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_27
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 55
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97d06be736e11ce50800000000000000
+      internalID: 6827771922746838393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_28
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 51
+        width: 22
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86bfd5af936a3c990800000000000000
+      internalID: -7366861797504189592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_29
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 53
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14433e234ca615180800000000000000
+      internalID: -9128397578803399615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_30
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 55
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc416ff23debb9c20800000000000000
+      internalID: 3214372573311014092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_31
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 51
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5540a0b59e1cc3d30800000000000000
+      internalID: 4412614942915167317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_32
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 7
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d368b2e378065c80800000000000000
+      internalID: -8334464766584527914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_33
+      rect:
+        serializedVersion: 2
+        x: 569
+        y: 18
+        width: 25
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16791363f16da9600800000000000000
+      internalID: 475928140182558561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_34
+      rect:
+        serializedVersion: 2
+        x: 689
+        y: 15
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 311e11feb23bb8f10800000000000000
+      internalID: 2273107438214439187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_35
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 27
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ae4a208c0bbb9d50800000000000000
+      internalID: 6745190529281707684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_36
+      rect:
+        serializedVersion: 2
+        x: 721
+        y: 22
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f38b73b652c37c60800000000000000
+      internalID: 7814803456052134898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bungalows-construction-site_37
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 17
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 209167283092d77f0800000000000000
+      internalID: -613288879202100990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      bungalows-construction-site_0: -1232651308783453092
+      bungalows-construction-site_1: 3551736099096555649
+      bungalows-construction-site_10: 4746712829355551526
+      bungalows-construction-site_11: -6653251267586827582
+      bungalows-construction-site_12: -4938617779428856196
+      bungalows-construction-site_13: 8725008364629834072
+      bungalows-construction-site_14: 8779980114788317023
+      bungalows-construction-site_15: -1262001836359953654
+      bungalows-construction-site_16: 7466218610127498673
+      bungalows-construction-site_17: 8957916054888094813
+      bungalows-construction-site_18: -188897146451023092
+      bungalows-construction-site_19: 787921219602081621
+      bungalows-construction-site_2: 7036942681192759411
+      bungalows-construction-site_20: 9151988598396823425
+      bungalows-construction-site_21: -5702074558102323553
+      bungalows-construction-site_22: 1572209137413540599
+      bungalows-construction-site_23: 6334499203282268239
+      bungalows-construction-site_24: 3407331886970131367
+      bungalows-construction-site_25: -9032819207316911939
+      bungalows-construction-site_26: 5172138860422414105
+      bungalows-construction-site_27: 6827771922746838393
+      bungalows-construction-site_28: -7366861797504189592
+      bungalows-construction-site_29: -9128397578803399615
+      bungalows-construction-site_3: 8985632235981053130
+      bungalows-construction-site_30: 3214372573311014092
+      bungalows-construction-site_31: 4412614942915167317
+      bungalows-construction-site_32: -8334464766584527914
+      bungalows-construction-site_33: 475928140182558561
+      bungalows-construction-site_34: 2273107438214439187
+      bungalows-construction-site_35: 6745190529281707684
+      bungalows-construction-site_36: 7814803456052134898
+      bungalows-construction-site_37: -613288879202100990
+      bungalows-construction-site_4: 9059795251110065180
+      bungalows-construction-site_5: 8563527899972078457
+      bungalows-construction-site_6: -3185998450566879014
+      bungalows-construction-site_7: 5579743451694177984
+      bungalows-construction-site_8: -2216449704797074247
+      bungalows-construction-site_9: -1454734932915677217
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

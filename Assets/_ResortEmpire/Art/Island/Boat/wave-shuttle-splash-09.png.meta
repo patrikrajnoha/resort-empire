@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 0c39860bd4dac0b41949980fbf1341a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1851960267507360519
+    second: wave-shuttle-splash-09_0
+  - first:
+      213: 3596841846205287198
+    second: wave-shuttle-splash-09_1
+  - first:
+      213: -3869213158610390429
+    second: wave-shuttle-splash-09_2
+  - first:
+      213: -653401431651107092
+    second: wave-shuttle-splash-09_3
+  - first:
+      213: -3841845790147251569
+    second: wave-shuttle-splash-09_4
+  - first:
+      213: 1283172089284136210
+    second: wave-shuttle-splash-09_5
+  - first:
+      213: -2592457804152709283
+    second: wave-shuttle-splash-09_6
+  - first:
+      213: -4217873543318621766
+    second: wave-shuttle-splash-09_7
+  - first:
+      213: -6203055561125494699
+    second: wave-shuttle-splash-09_8
+  - first:
+      213: 7023501657149214020
+    second: wave-shuttle-splash-09_9
+  - first:
+      213: -1611156224256242990
+    second: wave-shuttle-splash-09_10
+  - first:
+      213: -6195639127673176436
+    second: wave-shuttle-splash-09_11
+  - first:
+      213: -1763053427966317176
+    second: wave-shuttle-splash-09_12
+  - first:
+      213: -6627093036903963254
+    second: wave-shuttle-splash-09_13
+  - first:
+      213: -8537175629755174883
+    second: wave-shuttle-splash-09_14
+  - first:
+      213: -8140129368526362654
+    second: wave-shuttle-splash-09_15
+  - first:
+      213: -1967143117560181992
+    second: wave-shuttle-splash-09_16
+  - first:
+      213: 2240724355408395392
+    second: wave-shuttle-splash-09_17
+  - first:
+      213: -1746437692490686226
+    second: wave-shuttle-splash-09_18
+  - first:
+      213: -669291572723478125
+    second: wave-shuttle-splash-09_19
+  - first:
+      213: -935233745392434638
+    second: wave-shuttle-splash-09_20
+  - first:
+      213: -354371255969691822
+    second: wave-shuttle-splash-09_21
+  - first:
+      213: 3445343811149102973
+    second: wave-shuttle-splash-09_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_0
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 160
+        width: 317
+        height: 1043
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 703e9ea1d0c73b910800000000000000
+      internalID: 1851960267507360519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_1
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 0
+        width: 1011
+        height: 506
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1b835c2a9c8ae130800000000000000
+      internalID: 3596841846205287198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_2
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 497
+        width: 815
+        height: 738
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 362b2c8d12bcd4ac0800000000000000
+      internalID: -3869213158610390429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_3
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 182
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cee34ba1cd6aee6f0800000000000000
+      internalID: -653401431651107092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_4
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 562
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f82717cdb950faac0800000000000000
+      internalID: -3841845790147251569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_5
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 562
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21d0a77773ebec110800000000000000
+      internalID: 1283172089284136210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_6
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 154
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5fd940dc5db50cd0800000000000000
+      internalID: -2592457804152709283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_7
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 568
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab1b9fe0c5a1775c0800000000000000
+      internalID: -4217873543318621766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_8
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 160
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5508a1515d15ae9a0800000000000000
+      internalID: -6203055561125494699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_9
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 568
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44d0fb98b8d787160800000000000000
+      internalID: 7023501657149214020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_10
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 182
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2da0c8743f504a9e0800000000000000
+      internalID: -1611156224256242990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_11
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 584
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8e778e0a0ba40aa0800000000000000
+      internalID: -6195639127673176436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_12
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 592
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88d68029f306887e0800000000000000
+      internalID: -1763053427966317176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_13
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 648
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a85efd9aef5d704a0800000000000000
+      internalID: -6627093036903963254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_14
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 578
+        width: 41
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1032532ffbd58980800000000000000
+      internalID: -8537175629755174883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_15
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 521
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e7e243b773780f80800000000000000
+      internalID: -8140129368526362654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_16
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 546
+        width: 59
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81b8877c1cd43b4e0800000000000000
+      internalID: -1967143117560181992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_17
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 528
+        width: 31
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08cfeabede6a81f10800000000000000
+      internalID: 2240724355408395392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_18
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 487
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee06db4fb2863c7e0800000000000000
+      internalID: -1746437692490686226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_19
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 503
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39197a45cd236b6f0800000000000000
+      internalID: -669291572723478125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_20
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 95
+        width: 21
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2320de71dd16503f0800000000000000
+      internalID: -935233745392434638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_21
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 25
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25741516835051bf0800000000000000
+      internalID: -354371255969691822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave-shuttle-splash-09_22
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 13
+        width: 42
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7ff1a821f150df20800000000000000
+      internalID: 3445343811149102973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      wave-shuttle-splash-09_0: 1851960267507360519
+      wave-shuttle-splash-09_1: 3596841846205287198
+      wave-shuttle-splash-09_10: -1611156224256242990
+      wave-shuttle-splash-09_11: -6195639127673176436
+      wave-shuttle-splash-09_12: -1763053427966317176
+      wave-shuttle-splash-09_13: -6627093036903963254
+      wave-shuttle-splash-09_14: -8537175629755174883
+      wave-shuttle-splash-09_15: -8140129368526362654
+      wave-shuttle-splash-09_16: -1967143117560181992
+      wave-shuttle-splash-09_17: 2240724355408395392
+      wave-shuttle-splash-09_18: -1746437692490686226
+      wave-shuttle-splash-09_19: -669291572723478125
+      wave-shuttle-splash-09_2: -3869213158610390429
+      wave-shuttle-splash-09_20: -935233745392434638
+      wave-shuttle-splash-09_21: -354371255969691822
+      wave-shuttle-splash-09_22: 3445343811149102973
+      wave-shuttle-splash-09_3: -653401431651107092
+      wave-shuttle-splash-09_4: -3841845790147251569
+      wave-shuttle-splash-09_5: 1283172089284136210
+      wave-shuttle-splash-09_6: -2592457804152709283
+      wave-shuttle-splash-09_7: -4217873543318621766
+      wave-shuttle-splash-09_8: -6203055561125494699
+      wave-shuttle-splash-09_9: 7023501657149214020
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
