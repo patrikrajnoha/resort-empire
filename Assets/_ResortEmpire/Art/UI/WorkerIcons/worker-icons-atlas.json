@@ -1,0 +1,61 @@
+{
+  "textures": [
+    {
+      "image": "worker-icons-atlas.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 1368,
+        "h": 688
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "icon_worker_assigned.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 694,
+            "h": 680
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 694,
+            "h": 680
+          },
+          "frame": {
+            "x": 8,
+            "y": 8,
+            "w": 694,
+            "h": 680
+          }
+        },
+        {
+          "filename": "icon_worker_empty.png",
+          "rotated": false,
+          "trimmed": false,
+          "sourceSize": {
+            "w": 658,
+            "h": 654
+          },
+          "spriteSourceSize": {
+            "x": 0,
+            "y": 0,
+            "w": 658,
+            "h": 654
+          },
+          "frame": {
+            "x": 710,
+            "y": 8,
+            "w": 658,
+            "h": 654
+          }
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "app": "Stitch Surgeon",
+    "version": "1.2.0"
+  }
+}
