@@ -23,6 +23,31 @@ namespace ResortEmpire.Gameplay.Integration
 
         private IResortGameplayUiFacade gameplayFacade;
         private bool subscribed;
+        private int previewOverrideDepth;
+
+        public bool IsPreviewOverrideActive => previewOverrideDepth > 0;
+
+        /// <summary>
+        /// Temporarily suppresses normal state-driven visibility while a presentation-only
+        /// debug preview owns the visible windows.
+        /// </summary>
+        public void BeginPreviewOverride()
+        {
+            previewOverrideDepth++;
+        }
+
+        /// <summary>
+        /// Releases the debug preview ownership and reapplies the canonical gameplay state.
+        /// </summary>
+        public void EndPreviewOverride()
+        {
+            if (previewOverrideDepth == 0)
+                return;
+
+            previewOverrideDepth--;
+            if (previewOverrideDepth == 0)
+                SynchronizeImmediately();
+        }
 
         private void Awake()
         {
@@ -99,6 +124,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void ApplyPhase(GamePhase phase)
         {
+            if (IsPreviewOverrideActive)
+                return;
+
             if (homeIslandView != null)
                 homeIslandView.SetActive(true);
 

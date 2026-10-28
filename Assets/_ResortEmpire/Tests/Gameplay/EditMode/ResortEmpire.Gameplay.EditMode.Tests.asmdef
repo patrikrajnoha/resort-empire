@@ -7,7 +7,8 @@
         "ResortEmpire.Gameplay",
         "ResortEmpire.Gameplay.Waves",
         "ResortEmpire.Gameplay.Staff",
-        "ResortEmpire.Gameplay.Integration"
+        "ResortEmpire.Gameplay.Integration",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [
         "Editor"
