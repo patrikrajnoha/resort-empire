@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Staff;
 using ResortEmpire.Gameplay.Waves;
+using ResortEmpire.Gameplay.Progression;
 using UnityEngine;
 
 namespace ResortEmpire.Gameplay.Integration
@@ -29,6 +31,9 @@ namespace ResortEmpire.Gameplay.Integration
         private IWaveDefinitionProvider waveDefinitionProvider;
         private string configurationDiagnostic;
         private bool runtimeInitialized;
+        private ResortProgressionRuntime progression;
+        private bool applicationSuspended;
+        private bool pausedByApplication;
 
         public bool IsConfigured => waveManager != null && workerManager != null;
         public string ConfigurationDiagnostic => configurationDiagnostic;
@@ -38,11 +43,19 @@ namespace ResortEmpire.Gameplay.Integration
         public WaveSnapshot CurrentWaveSnapshot => waveManager == null ? null : waveManager.CaptureSnapshot();
         public IReadOnlyList<WorkerAssignmentSnapshot> CurrentWorkerAssignments =>
             workerManager == null ? EmptyWorkerAssignments : workerManager.Assignments;
+        public ResourceSnapshot Resources => progression == null ? default : progression.Resources;
+        public IReadOnlyList<BuildingStateSnapshot> Buildings => progression == null
+            ? Array.Empty<BuildingStateSnapshot>() : progression.Buildings.States;
+        public WaveResult CurrentWaveResult => progression?.CurrentWaveResult;
+        public string PersistenceDiagnostic => progression?.PersistenceDiagnostic;
 
         public event Action<GamePhase, GamePhase> StateChanged;
         public event Action<NeedCompletionRecord> NeedCompleted;
         public event Action<WaveSnapshot> WaveCompleted;
         public event Action<WorkerAssignmentChange> WorkerAssignmentChanged;
+        public event Action<ResourceSnapshot> ResourcesChanged;
+        public event Action<IReadOnlyList<BuildingStateSnapshot>> BuildingsChanged;
+        public event Action<WaveResult> WaveResultReady;
 
         private static IReadOnlyList<WorkerAssignmentSnapshot> EmptyWorkerAssignments { get; } =
             new WorkerAssignmentSnapshot[0];
@@ -59,6 +72,15 @@ namespace ResortEmpire.Gameplay.Integration
                 return;
             }
 
+            var productionSource = dependencySourceBehaviour as IResortProgressionDependencySource;
+            if (productionSource != null)
+            {
+                try { TryConfigureProgression(productionSource.ProgressionConfig, productionSource.CreatePersistence()); }
+                catch (Exception exception) when (exception is ArgumentException || exception is InvalidOperationException
+                    || exception is IOException || exception is UnauthorizedAccessException)
+                { SetUnconfigured("Gameplay configuration failed: " + exception.Message); }
+                return;
+            }
             var dependencySource = dependencySourceBehaviour as IResortGameplayDependencySource;
             if (dependencySource == null)
             {
@@ -71,7 +93,7 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void Update()
         {
-            if (!IsConfigured || !advanceSimulation)
+            if (!IsConfigured || !advanceSimulation || applicationSuspended)
                 return;
 
             if (CurrentPhase != GamePhase.WAVE_INCOMING && CurrentPhase != GamePhase.WAVE_ACTIVE)
@@ -81,7 +103,31 @@ namespace ResortEmpire.Gameplay.Integration
             if (deltaSeconds <= 0f)
                 return;
 
-            waveManager.Advance(deltaSeconds);
+            AdvanceSimulation(deltaSeconds);
+        }
+
+        /// <summary>Also supports deterministic manual stepping in integration tests.</summary>
+        public void AdvanceSimulation(double deltaSeconds)
+        {
+            if (IsConfigured && !applicationSuspended) waveManager.Advance(deltaSeconds);
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if (applicationSuspended == paused) return;
+            applicationSuspended = paused;
+            if (!IsConfigured) return;
+            if (paused)
+            {
+                pausedByApplication = waveManager.TryPauseWave();
+                if (CurrentPhase == GamePhase.AWAITING_WAVE || CurrentPhase == GamePhase.WAVE_COMPLETE || CurrentPhase == GamePhase.UPGRADE)
+                    progression?.TrySaveProgress();
+            }
+            else if (pausedByApplication)
+            {
+                waveManager.TryResumeWave();
+                pausedByApplication = false;
+            }
         }
 
         private void OnDestroy()
@@ -89,6 +135,37 @@ namespace ResortEmpire.Gameplay.Integration
             DisposeRuntimeSubscriptions();
             if (ReferenceEquals(activeInstance, this))
                 activeInstance = null;
+        }
+
+        public bool TryConfigureProgression(ProgressionConfig config, IProgressionPersistence persistence)
+        {
+            if (!ClaimRuntimeOwnership() || IsConfigured) return false;
+            try
+            {
+                var next = new ResortProgressionRuntime(config, persistence);
+                progression = next;
+                gameState = next.State;
+                simulationClock = next.Clock;
+                workerManager = next.Workers;
+                waveManager = next.Waves;
+                runtimeInitialized = true;
+                configurationDiagnostic = null;
+                gameState.StateChanged += HandleStateChanged;
+                workerManager.AssignmentChanged += HandleWorkerAssignmentChanged;
+                waveManager.NeedCompleted += HandleNeedCompleted;
+                waveManager.WaveCompleted += HandleWaveCompleted;
+                progression.ResourcesChanged += HandleResourcesChanged;
+                progression.BuildingsChanged += HandleBuildingsChanged;
+                progression.WaveResultReady += HandleWaveResultReady;
+                progression.WorkerAssignmentChanged += HandleWorkerAssignmentChanged;
+                return true;
+            }
+            catch (Exception exception) when (exception is ArgumentException || exception is InvalidOperationException
+                || exception is IOException || exception is UnauthorizedAccessException)
+            {
+                SetUnconfigured("Gameplay configuration failed: " + exception.Message);
+                return false;
+            }
         }
 
         /// <summary>
@@ -163,6 +240,7 @@ namespace ResortEmpire.Gameplay.Integration
 
         public ResortGameplayCommandResult TryStartWave()
         {
+            if (progression != null) return ProgressionCommand(progression.TryStartWave);
             if (!IsConfigured)
                 return ResortGameplayCommandResult.Unavailable(GetUnavailableMessage());
 
@@ -200,12 +278,44 @@ namespace ResortEmpire.Gameplay.Integration
             BuildingId sourceBuildingId,
             BuildingId destinationBuildingId)
         {
+            if (progression != null) return ProgressionCommand(() => progression.TryReassignWorker(sourceBuildingId, destinationBuildingId));
             if (!IsConfigured)
                 return ResortGameplayCommandResult.Unavailable(GetUnavailableMessage());
 
             return waveManager.TryReassignWorker(sourceBuildingId, destinationBuildingId)
                 ? ResortGameplayCommandResult.Success()
                 : ResortGameplayCommandResult.Rejected("The Worker reassignment was rejected by gameplay rules.");
+        }
+
+        public ResortGameplayCommandResult TryClaimWaveReward(string rewardId) =>
+            ProgressionCommand(() => progression.TryClaimWaveReward(rewardId));
+        public ResortGameplayCommandResult TryContinueAfterResults() => ProgressionCommand(() => progression.TryContinueAfterResults());
+        public ResortGameplayCommandResult TryPurchaseBuilding(BuildingId buildingId) => ProgressionCommand(() => progression.TryPurchaseBuilding(buildingId));
+        public ResortGameplayCommandResult TryUpgradeBuilding(BuildingId buildingId) => ProgressionCommand(() => progression.TryUpgradeBuilding(buildingId));
+        public ResortGameplayCommandResult TrySaveProgress() => ProgressionCommand(() => progression.TrySaveProgress());
+
+#if UNITY_EDITOR
+        // Inspector actions exercise the real runtime while the presentation team wires buttons.
+        [ContextMenu("Gameplay/Start Next Wave")]
+        private void StartWaveFromInspector() => LogInspectorCommand(TryStartWave());
+        [ContextMenu("Gameplay/Claim Wave Reward")]
+        private void ClaimRewardFromInspector() => LogInspectorCommand(TryClaimWaveReward(CurrentWaveResult?.RewardId));
+        [ContextMenu("Gameplay/Continue After Results")]
+        private void ContinueFromInspector() => LogInspectorCommand(TryContinueAfterResults());
+        private static void LogInspectorCommand(ResortGameplayCommandResult result)
+        {
+            if (result.Succeeded) Debug.Log("Gameplay command succeeded.");
+            else Debug.LogWarning(result.Message);
+        }
+#endif
+
+        private ResortGameplayCommandResult ProgressionCommand(Func<bool> command)
+        {
+            if (progression == null) return ResortGameplayCommandResult.Unavailable("The economy runtime is not configured.");
+            if (command()) return ResortGameplayCommandResult.Success();
+            return progression.LastFailureWasPersistence
+                ? ResortGameplayCommandResult.Unavailable(progression.LastCommandError)
+                : ResortGameplayCommandResult.Rejected(progression.LastCommandError);
         }
 
         private bool ClaimRuntimeOwnership()
@@ -250,6 +360,15 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void DisposeRuntimeSubscriptions()
         {
+            if (progression != null)
+            {
+                progression.ResourcesChanged -= HandleResourcesChanged;
+                progression.BuildingsChanged -= HandleBuildingsChanged;
+                progression.WaveResultReady -= HandleWaveResultReady;
+                progression.WorkerAssignmentChanged -= HandleWorkerAssignmentChanged;
+                progression.Dispose();
+                progression = null;
+            }
             if (gameState != null)
                 gameState.StateChanged -= HandleStateChanged;
             if (workerManager != null)
@@ -263,22 +382,36 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
         {
-            StateChanged?.Invoke(previousState, nextState);
+            if (StateChanged == null) return;
+            foreach (Action<GamePhase, GamePhase> handler in StateChanged.GetInvocationList())
+                try { handler(previousState, nextState); }
+                catch (Exception exception) { Debug.LogException(exception); }
         }
 
         private void HandleNeedCompleted(NeedCompletionRecord record)
         {
-            NeedCompleted?.Invoke(record);
+            Notify(NeedCompleted, record);
         }
 
         private void HandleWaveCompleted(WaveSnapshot snapshot)
         {
-            WaveCompleted?.Invoke(snapshot);
+            Notify(WaveCompleted, snapshot);
         }
 
         private void HandleWorkerAssignmentChanged(WorkerAssignmentChange change)
         {
-            WorkerAssignmentChanged?.Invoke(change);
+            Notify(WorkerAssignmentChanged, change);
+        }
+
+        private void HandleResourcesChanged(ResourceSnapshot snapshot) => Notify(ResourcesChanged, snapshot);
+        private void HandleBuildingsChanged(IReadOnlyList<BuildingStateSnapshot> snapshot) => Notify(BuildingsChanged, snapshot);
+        private void HandleWaveResultReady(WaveResult result) => Notify(WaveResultReady, result);
+        private static void Notify<T>(Action<T> handlers, T value)
+        {
+            if (handlers == null) return;
+            foreach (Action<T> handler in handlers.GetInvocationList())
+                try { handler(value); }
+                catch (Exception exception) { Debug.LogException(exception); }
         }
     }
 }
