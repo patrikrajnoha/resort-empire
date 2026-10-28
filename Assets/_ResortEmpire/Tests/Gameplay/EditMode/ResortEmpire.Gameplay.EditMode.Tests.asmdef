@@ -6,7 +6,8 @@
         "UnityEditor.TestRunner",
         "ResortEmpire.Gameplay",
         "ResortEmpire.Gameplay.Waves",
-        "ResortEmpire.Gameplay.Staff"
+        "ResortEmpire.Gameplay.Staff",
+        "ResortEmpire.Gameplay.Integration"
     ],
     "includePlatforms": [
         "Editor"

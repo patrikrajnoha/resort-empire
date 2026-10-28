@@ -127,6 +127,7 @@ namespace ResortEmpire.Gameplay.Waves
 
         public int CurrentWaveId => definition == null ? 0 : definition.WaveId;
         public GamePhase CurrentPhase => gameState.CurrentState;
+        public double ArrivalWindowElapsed => incomingElapsed;
         public double ArrivalElapsed => waveElapsed;
         public bool ArrivalsClosed => arrivalsClosed;
         public bool HasConfigurationMismatch => configurationDiagnostic != null;
