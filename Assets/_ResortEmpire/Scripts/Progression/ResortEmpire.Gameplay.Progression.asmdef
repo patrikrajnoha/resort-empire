@@ -1,0 +1,7 @@
+{
+    "name": "ResortEmpire.Gameplay.Progression",
+    "rootNamespace": "ResortEmpire.Gameplay.Progression",
+    "references": ["ResortEmpire.Gameplay", "ResortEmpire.Gameplay.Waves", "ResortEmpire.Gameplay.Staff"],
+    "autoReferenced": true,
+    "noEngineReferences": true
+}

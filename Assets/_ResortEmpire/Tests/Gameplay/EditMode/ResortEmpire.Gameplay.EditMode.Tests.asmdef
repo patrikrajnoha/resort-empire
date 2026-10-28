@@ -8,6 +8,7 @@
         "ResortEmpire.Gameplay.Waves",
         "ResortEmpire.Gameplay.Staff",
         "ResortEmpire.Gameplay.Integration",
+        "ResortEmpire.Gameplay.Progression",
         "Unity.InputSystem"
     ],
     "includePlatforms": [
