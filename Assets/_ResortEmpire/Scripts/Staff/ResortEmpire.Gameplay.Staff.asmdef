@@ -1,0 +1,16 @@
+{
+    "name": "ResortEmpire.Gameplay.Staff",
+    "rootNamespace": "ResortEmpire.Gameplay.Staff",
+    "references": [
+        "ResortEmpire.Gameplay"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

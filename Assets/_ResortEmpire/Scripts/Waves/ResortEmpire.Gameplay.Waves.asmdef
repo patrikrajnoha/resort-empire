@@ -1,0 +1,16 @@
+{
+    "name": "ResortEmpire.Gameplay.Waves",
+    "rootNamespace": "ResortEmpire.Gameplay.Waves",
+    "references": [
+        "ResortEmpire.Gameplay"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
