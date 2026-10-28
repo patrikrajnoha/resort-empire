@@ -65,6 +65,36 @@ namespace ResortEmpire.Gameplay.Staff
         public IReadOnlyList<BuildingId> EmptyOwnedBuildings => emptyOwnedBuildingSnapshot;
         public int WorkerCount => assignments.Count;
 
+        /// <summary>Restores stable Worker IDs from a validated between-wave checkpoint.</summary>
+        public void RestoreAssignments(IReadOnlyList<WorkerAssignmentSnapshot> restored)
+        {
+            if (gameState.CurrentState != GamePhase.AWAITING_WAVE && gameState.CurrentState != GamePhase.WAVE_COMPLETE
+                && gameState.CurrentState != GamePhase.UPGRADE)
+                throw new InvalidOperationException("Cannot restore Workers during a wave.");
+            if (restored == null) throw new ArgumentNullException(nameof(restored));
+            var buildings = ReadBuildingSnapshots(requirePrototypeSlots: true);
+            var ids = new HashSet<int>();
+            var occupied = new HashSet<BuildingId>();
+            var owned = new HashSet<BuildingId>();
+            foreach (var building in buildings.Values) if (building.IsOwned) owned.Add(building.BuildingId);
+            var nextId = 1;
+            foreach (var worker in restored)
+            {
+                if (!ids.Add(worker.WorkerId) || !occupied.Add(worker.BuildingId) || !owned.Contains(worker.BuildingId)
+                    || worker.WorkerId == int.MaxValue)
+                    throw new ArgumentException("Invalid saved Worker assignments.", nameof(restored));
+                nextId = Math.Max(nextId, worker.WorkerId + 1);
+            }
+            if (restored.Count != Math.Max(0, owned.Count - 1))
+                throw new ArgumentException("Saved Workers must leave one owned building vacant.", nameof(restored));
+            assignments.Clear();
+            assignments.AddRange(restored);
+            knownOwnedBuildings.Clear();
+            knownOwnedBuildings.UnionWith(owned);
+            nextWorkerId = nextId;
+            RefreshSnapshots(buildings);
+        }
+
         public void AttachConfigurationGuard(IActiveWaveConfigurationGuard guard)
         {
             if (guard == null)

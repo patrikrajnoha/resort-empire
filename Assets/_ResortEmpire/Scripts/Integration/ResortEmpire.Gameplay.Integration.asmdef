@@ -4,7 +4,8 @@
     "references": [
         "ResortEmpire.Gameplay",
         "ResortEmpire.Gameplay.Waves",
-        "ResortEmpire.Gameplay.Staff"
+        "ResortEmpire.Gameplay.Staff",
+        "ResortEmpire.Gameplay.Progression"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

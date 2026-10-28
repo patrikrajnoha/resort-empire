@@ -22,9 +22,12 @@ namespace ResortEmpire.Gameplay
     {
         private GamePhase stateBeforePause;
 
-        public GameState()
+        public GameState(GamePhase checkpointPhase = GamePhase.AWAITING_WAVE)
         {
-            CurrentState = GamePhase.AWAITING_WAVE;
+            if (checkpointPhase != GamePhase.AWAITING_WAVE && checkpointPhase != GamePhase.WAVE_COMPLETE
+                && checkpointPhase != GamePhase.UPGRADE)
+                throw new ArgumentException("Only between-wave phases can be restored from a checkpoint.", nameof(checkpointPhase));
+            CurrentState = checkpointPhase;
             stateBeforePause = GamePhase.WAVE_ACTIVE;
         }
 
