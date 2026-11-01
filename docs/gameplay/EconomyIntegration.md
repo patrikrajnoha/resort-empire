@@ -19,6 +19,12 @@ runtime or change save DTOs from UI. All commands return `ResortGameplayCommandR
 | `CurrentWaveResult` / `WaveResultReady` | S4 satisfaction, stars, Perfect, reward amounts, per-building queue wait and claim status |
 | `CurrentPhase` / `StateChanged` | Window navigation |
 | `PersistenceDiagnostic` | Failed checkpoint write; allow retry through `TrySaveProgress()` or Claim |
+| `NextWaveForecast` / `CompletedWaves` / `TotalWaves` | S1 forecast and wave counter; reading the forecast never consumes a debut |
+
+`WaveNeedStatusTracker.Capture(facade)` turns the live wave into an S2 view model (served/total
+and `OK`/`BOTTLENECK`/`RECOVERING`/`SATISFIED` per owned need) without exposing simulation
+types. UI scripts compile into Assembly-CSharp, which does not reference the Waves or Staff
+assemblies, so presentation code must use these Integration types instead of `WaveSnapshot`.
 
 Subscribe in `OnEnable`, unsubscribe in `OnDisable`, and immediately read the current
 snapshot after subscribing. A reopened result must use its existing `RewardId`, not generate
@@ -110,9 +116,9 @@ configuration asset, scene dependency references, JSON persistence and facade in
 
 For Play Mode: open Resort, verify bootstrap `IsConfigured`, start/finish a wave, inspect
 `CurrentWaveResult`, claim, verify resources, continue and start wave 2. Connect S4 using the
-presenter above. Before UI buttons are wired, use the bootstrap component's **Gameplay/Start
-Next Wave**, **Gameplay/Claim Wave Reward**, and **Gameplay/Continue After Results** Inspector
-context menus during Play Mode. They are Editor-only and call the same facade commands.
+presenter above. The scene's buttons now drive these commands; the bootstrap component's
+**Gameplay/Start Next Wave**, **Gameplay/Claim Wave Reward**, and **Gameplay/Continue After Results**
+Inspector context menus remain for debugging. They are Editor-only and call the same facade commands.
 Check error retry and reopen behavior. Use a test save/config to reach gates
 3/6 and test purchases/upgrades; never edit a real player's save to balance the game.
 
@@ -131,22 +137,30 @@ integration tests, Play Mode and Android validation remain unrun.
 
 ## Review findings and remaining work
 
-The implementation covers the agreed economy task, not the entire Prototype definition of
-done. Keep the following review findings visible before merging or handing off a release:
+Resolved on 2026-11-01 by the gameplay/UI integration task:
 
-- The existing wave engine has a reproducible accelerated-step failure. With a fresh clock,
-  Wave 2, capacity 7 in all three starting buildings, the demo service/arrival/rush settings
-  and the initial Worker placement, `Advance(10000)` throws
-  `Wave simulation could not make deterministic progress` at simulation time 80. Advancing
-  the same scenario in `1 / 60` second steps completes it. Add a regression test and repair
-  the service boundary handling; the 135-test suite does not cover this case.
+- **Accelerated-step stall.** A service seat could round its progress to 1 inside a segment cut
+  short by an arrival boundary and stay occupied, so the loop stopped on a zero-length boundary
+  (`Wave simulation could not make deterministic progress`). It also happened with 0.3333 s
+  steps, Unity's default maximum frame delta, so a single frame hitch could end a wave in Play
+  Mode. `ServiceSlotRuntime.Advance` now completes every seat that reaches full progress.
+  Covered by `AcceleratedStepsCompleteWaveWhenArrivalAndServiceBoundariesCoincide`.
+- **Second launch failed to load.** `JsonUtility` cannot store a null class field, so a saved
+  `Result = null` came back as an empty result and validation threw "Awaiting wave cannot
+  contain an unconsumed result." The JSON adapter now treats `WaveId == 0` as no result.
+  Covered by `JsonCheckpointWithoutResultReloadsOnNextLaunch`.
+- **Invalid saves crashed `Awake`.** `InvalidDataException` is not an `IOException`, so it
+  escaped the bootstrap's filters. It now leaves the runtime unconfigured with a logged
+  diagnostic, as documented above.
+- The facade exposes the next-wave forecast, and S2 bottleneck/recovering states come from
+  `WaveNeedStatusTracker`. Screen navigation and UI wiring are done; see `docs/ui/ResortScreens.md`.
+
+Still open:
+
 - After its debut wave, Ocean View currently receives the same base demand as other needs
   (27 units each in Wave 8). The gameplay reference describes lower Ocean View demand with
   a higher satisfaction weight. A separate demand factor/table remains to be implemented.
-- The facade does not yet expose the next-wave forecast or ready-made bottleneck/recovering
-  states. The optional result presenter ranks buildings by total guest waiting time, not by
-  bottleneck duration, and provides generic feedback rather than the complete S5 recommendation.
-  Screen navigation and UI wiring are still owned by the UI integration task.
+- S4 and S5 rank buildings by total guest waiting time, not by how long each bottleneck lasted.
 
 Pre-commit verification on 2026-10-29 used isolated snapshots of the Git index, so later
 unstaged files could not accidentally satisfy earlier commits' dependencies. All 135 domain
@@ -154,3 +168,13 @@ tests passed again. The integration sources compiled against the temporary Unity
 scene IDs, configuration references and new asset metadata passed static checks. A repeat of
 the adapter smoke test was blocked by Windows Application Control when loading `UnityStubs.dll`.
 That blocked run is not a successful test and does not replace the outstanding Unity checks.
+
+Validation on 2026-11-01 in the Unity 6000.4.0f1 Editor: all 167 `ResortEmpire.Gameplay.EditMode.Tests`
+cases passed, including the Unity integration tests that had not run before and the new
+regression, need-status and navigation tests. Play Mode in `Resort.unity` (1920×1080 Game view)
+completed the full loop through the scene's own buttons: Start Wave → arrivals → Beach Bar
+bottleneck on S2 → Worker moved mid-wave on S3 → completion after the queues drained → 4★ on S4 →
+claim (a second click and a replayed claim were both rejected) → S5 upgrade → S1 for Wave 2.
+Waves 2–3 were then advanced through the facade to check the Sudden Rush target, the Pool
+unlock on S9 with its bundled Worker, and four needs on S2. All nine F1 previews still open and
+restore the canonical UI. No Android device validation was performed.

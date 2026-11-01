@@ -14,6 +14,7 @@ namespace ResortEmpire.Gameplay.Progression
             ServiceDuration = config.ServiceDurations[(int)BuildingId];
             PurchaseCost = config.PurchaseCosts[(int)BuildingId];
             UpgradeCost = Level > 0 && Level < config.Capacities.Length ? (int?)config.UpgradeCosts[Level - 1] : null;
+            NextCapacity = UpgradeCost.HasValue ? (int?)config.Capacities[Level] : null;
         }
         public BuildingId BuildingId { get; }
         public NeedType NeedType => BuildingNeedMapping.GetNeedType(BuildingId);
@@ -24,6 +25,7 @@ namespace ResortEmpire.Gameplay.Progression
         public double ServiceDuration { get; }
         public int PurchaseCost { get; }
         public int? UpgradeCost { get; }
+        public int? NextCapacity { get; }
     }
 
     public sealed class BuildingManager : IBuildingSnapshotProvider

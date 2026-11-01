@@ -1,13 +1,15 @@
-using System;
+using System.Collections.Generic;
 using ResortEmpire.Gameplay;
+using ResortEmpire.Gameplay.Progression;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ResortEmpire.Gameplay.Integration
 {
     /// <summary>
-    /// Minimal presentation coordinator for established state-driven windows.
-    /// It does not create result data or open upgrade/VIP flows.
+    /// Phase-driven window navigation for the Prototype loop: S2 during a wave, S4 for an
+    /// unclaimed result, S5 after claiming. S3 and S9 are player-opened modals that close
+    /// when the phase no longer allows them. It never creates result data or runs commands.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class ResortUiStateCoordinator : MonoBehaviour
@@ -21,6 +23,19 @@ namespace ResortEmpire.Gameplay.Integration
         [SerializeField]
         private GameObject waveNeedsPanel;
 
+        [SerializeField]
+        private GameObject waveCompleteWindow;
+
+        [SerializeField]
+        private GameObject upgradeSuggestionWindow;
+
+        [SerializeField]
+        private GameObject workerAllocationWindow;
+
+        [SerializeField]
+        private GameObject areaUnlockWindow;
+
+        private readonly HashSet<BuildingId> announcedAreas = new HashSet<BuildingId>();
         private IResortGameplayUiFacade gameplayFacade;
         private bool subscribed;
         private int previewOverrideDepth;
@@ -48,6 +63,29 @@ namespace ResortEmpire.Gameplay.Integration
             if (previewOverrideDepth == 0)
                 SynchronizeImmediately();
         }
+
+        /// <summary>Opens S3 when Workers may be viewed: between waves or while a wave runs.</summary>
+        public bool OpenWorkerAllocation()
+        {
+            if (IsPreviewOverrideActive || workerAllocationWindow == null || !AllowsWorkerAllocation(CurrentPhase))
+                return false;
+
+            workerAllocationWindow.SetActive(true);
+            return true;
+        }
+
+        /// <summary>Opens S9 between waves when an eligible building is not yet owned.</summary>
+        public bool OpenAreaUnlock()
+        {
+            if (IsPreviewOverrideActive || areaUnlockWindow == null || CurrentPhase != GamePhase.AWAITING_WAVE
+                || !FindEligibleArea().HasValue)
+                return false;
+
+            areaUnlockWindow.SetActive(true);
+            return true;
+        }
+
+        private GamePhase CurrentPhase => gameplayFacade == null ? GamePhase.AWAITING_WAVE : gameplayFacade.CurrentPhase;
 
         private void Awake()
         {
@@ -83,7 +121,15 @@ namespace ResortEmpire.Gameplay.Integration
             if (homeIslandView == null)
                 homeIslandView = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/HomeIslandView");
             if (waveNeedsPanel == null)
-                waveNeedsPanel = FindSceneObject("WaveNeedsPanel");
+                waveNeedsPanel = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/WaveNeedsPanel");
+            if (upgradeSuggestionWindow == null)
+                upgradeSuggestionWindow = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/UpgradeSuggestionPanel");
+            if (areaUnlockWindow == null)
+                areaUnlockWindow = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/AreaUnlockPanel");
+            if (waveCompleteWindow == null)
+                waveCompleteWindow = FindSceneObject("WaveCompleteCanvas/WaveComplete");
+            if (workerAllocationWindow == null)
+                workerAllocationWindow = FindSceneObject("AssignStaffRestaurantCanvas/AssignStaffRestaurant");
         }
 
         private void BindToGameplay()
@@ -97,6 +143,7 @@ namespace ResortEmpire.Gameplay.Integration
 
             gameplayFacade = gameplayBootstrap;
             gameplayFacade.StateChanged += HandleStateChanged;
+            gameplayFacade.WaveResultReady += HandleWaveResultReady;
             subscribed = true;
         }
 
@@ -106,6 +153,7 @@ namespace ResortEmpire.Gameplay.Integration
                 return;
 
             gameplayFacade.StateChanged -= HandleStateChanged;
+            gameplayFacade.WaveResultReady -= HandleWaveResultReady;
             gameplayFacade = null;
             subscribed = false;
         }
@@ -113,13 +161,18 @@ namespace ResortEmpire.Gameplay.Integration
         private void SynchronizeImmediately()
         {
             ResolveSceneReferences();
-            var phase = gameplayFacade == null ? GamePhase.AWAITING_WAVE : gameplayFacade.CurrentPhase;
-            ApplyPhase(phase);
+            ApplyPhase(CurrentPhase);
         }
 
         private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
         {
             ApplyPhase(nextState);
+        }
+
+        // The raw WAVE_COMPLETE transition happens before the result is calculated.
+        private void HandleWaveResultReady(WaveResult result)
+        {
+            ApplyPhase(CurrentPhase);
         }
 
         private void ApplyPhase(GamePhase phase)
@@ -130,14 +183,53 @@ namespace ResortEmpire.Gameplay.Integration
             if (homeIslandView != null)
                 homeIslandView.SetActive(true);
 
-            if (waveNeedsPanel != null)
+            SetActive(waveNeedsPanel, phase == GamePhase.WAVE_INCOMING
+                || phase == GamePhase.WAVE_ACTIVE
+                || phase == GamePhase.WAVE_PAUSED
+                || phase == GamePhase.WAVE_RESOLVING);
+            SetActive(waveCompleteWindow, phase == GamePhase.WAVE_COMPLETE
+                && gameplayFacade != null && gameplayFacade.CurrentWaveResult != null);
+            SetActive(upgradeSuggestionWindow, phase == GamePhase.UPGRADE);
+            if (!AllowsWorkerAllocation(phase))
+                SetActive(workerAllocationWindow, false);
+
+            if (phase != GamePhase.AWAITING_WAVE)
             {
-                var visible = phase == GamePhase.WAVE_INCOMING
-                    || phase == GamePhase.WAVE_ACTIVE
-                    || phase == GamePhase.WAVE_PAUSED
-                    || phase == GamePhase.WAVE_RESOLVING;
-                waveNeedsPanel.SetActive(visible);
+                SetActive(areaUnlockWindow, false);
+                return;
             }
+
+            // A newly eligible area is announced once per session; Later keeps the plot purchasable.
+            var area = FindEligibleArea();
+            if (area.HasValue && announcedAreas.Add(area.Value))
+                SetActive(areaUnlockWindow, true);
+        }
+
+        private BuildingId? FindEligibleArea()
+        {
+            if (gameplayFacade == null)
+                return null;
+
+            foreach (var building in gameplayFacade.Buildings)
+            {
+                if (building.IsEligible && !building.IsOwned)
+                    return building.BuildingId;
+            }
+            return null;
+        }
+
+        private static bool AllowsWorkerAllocation(GamePhase phase)
+        {
+            return phase == GamePhase.AWAITING_WAVE
+                || phase == GamePhase.WAVE_INCOMING
+                || phase == GamePhase.WAVE_ACTIVE
+                || phase == GamePhase.WAVE_PAUSED;
+        }
+
+        private static void SetActive(GameObject target, bool active)
+        {
+            if (target != null && target.activeSelf != active)
+                target.SetActive(active);
         }
 
         private static GameObject FindSceneObject(string path)

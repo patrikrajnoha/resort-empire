@@ -48,6 +48,20 @@ namespace ResortEmpire.Gameplay.Integration
             ? Array.Empty<BuildingStateSnapshot>() : progression.Buildings.States;
         public WaveResult CurrentWaveResult => progression?.CurrentWaveResult;
         public string PersistenceDiagnostic => progression?.PersistenceDiagnostic;
+        public int CompletedWaves => progression?.ClaimedWaves ?? 0;
+        public int TotalWaves => progression?.TotalWaves ?? 0;
+
+        public WaveForecast NextWaveForecast
+        {
+            get
+            {
+                var next = progression?.GetNextWave();
+                if (next == null) return default;
+                var demand = 0;
+                foreach (var need in next.Demand) demand += need.DemandTotal;
+                return new WaveForecast(next.WaveId, demand);
+            }
+        }
 
         public event Action<GamePhase, GamePhase> StateChanged;
         public event Action<NeedCompletionRecord> NeedCompleted;
@@ -76,8 +90,7 @@ namespace ResortEmpire.Gameplay.Integration
             if (productionSource != null)
             {
                 try { TryConfigureProgression(productionSource.ProgressionConfig, productionSource.CreatePersistence()); }
-                catch (Exception exception) when (exception is ArgumentException || exception is InvalidOperationException
-                    || exception is IOException || exception is UnauthorizedAccessException)
+                catch (Exception exception) when (IsConfigurationFailure(exception))
                 { SetUnconfigured("Gameplay configuration failed: " + exception.Message); }
                 return;
             }
@@ -160,13 +173,17 @@ namespace ResortEmpire.Gameplay.Integration
                 progression.WorkerAssignmentChanged += HandleWorkerAssignmentChanged;
                 return true;
             }
-            catch (Exception exception) when (exception is ArgumentException || exception is InvalidOperationException
-                || exception is IOException || exception is UnauthorizedAccessException)
+            catch (Exception exception) when (IsConfigurationFailure(exception))
             {
                 SetUnconfigured("Gameplay configuration failed: " + exception.Message);
                 return false;
             }
         }
+
+        // InvalidDataException (malformed or inconsistent save) is not an IOException.
+        private static bool IsConfigurationFailure(Exception exception) =>
+            exception is ArgumentException || exception is InvalidOperationException || exception is IOException
+            || exception is InvalidDataException || exception is UnauthorizedAccessException;
 
         /// <summary>
         /// Injects the real composition dependencies. No production defaults are fabricated.
@@ -349,6 +366,7 @@ namespace ResortEmpire.Gameplay.Integration
             waveDefinitionProvider = null;
             configurationDiagnostic = diagnostic;
             EnsureBaseRuntime();
+            Debug.LogWarning(diagnostic, this);
         }
 
         private string GetUnavailableMessage()

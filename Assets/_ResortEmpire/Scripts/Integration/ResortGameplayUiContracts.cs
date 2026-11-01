@@ -67,6 +67,20 @@ namespace ResortEmpire.Gameplay.Integration
         }
     }
 
+    /// <summary>Next-wave forecast for S1. WaveId is 0 when no scripted wave remains.</summary>
+    public readonly struct WaveForecast
+    {
+        public WaveForecast(int waveId, int demandTotal)
+        {
+            WaveId = waveId;
+            DemandTotal = demandTotal;
+        }
+
+        public int WaveId { get; }
+        public int DemandTotal { get; }
+        public bool HasWave => WaveId > 0;
+    }
+
     /// <summary>
     /// Presentation-facing boundary over the canonical gameplay runtime.
     /// It exposes immutable observations and validated commands only.
@@ -84,6 +98,10 @@ namespace ResortEmpire.Gameplay.Integration
         IReadOnlyList<BuildingStateSnapshot> Buildings { get; }
         WaveResult CurrentWaveResult { get; }
         string PersistenceDiagnostic { get; }
+        int CompletedWaves { get; }
+        int TotalWaves { get; }
+        /// <summary>Read-only forecast of the next scripted wave. Reading it never consumes a debut.</summary>
+        WaveForecast NextWaveForecast { get; }
 
         event Action<GamePhase, GamePhase> StateChanged;
         event Action<NeedCompletionRecord> NeedCompleted;

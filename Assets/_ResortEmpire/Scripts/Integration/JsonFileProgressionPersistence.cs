@@ -27,6 +27,9 @@ namespace ResortEmpire.Gameplay.Integration
                 if (string.IsNullOrWhiteSpace(json)) throw new ArgumentException("Empty checkpoint.");
                 var data = JsonUtility.FromJson<ProgressionSaveData>(json);
                 if (data == null) throw new ArgumentException("Empty checkpoint.");
+                // JsonUtility cannot store a null class field; it writes a default instance instead.
+                // A real result always has a positive wave ID, so WaveId 0 means "no result".
+                if (data.Result != null && data.Result.WaveId == 0) data.Result = null;
                 return data;
             }
             catch (ArgumentException exception) { throw new InvalidDataException("The local checkpoint is invalid; the file has been preserved.", exception); }

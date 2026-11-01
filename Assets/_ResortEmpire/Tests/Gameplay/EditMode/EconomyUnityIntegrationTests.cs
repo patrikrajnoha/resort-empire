@@ -141,6 +141,28 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(Directory.GetFiles(directory, "*.tmp"), Is.Empty);
         }
 
+        // Regression: JsonUtility writes a null Result as a default object, which used to make the
+        // second launch fail with "Awaiting wave cannot contain an unconsumed result."
+        [Test]
+        public void JsonCheckpointWithoutResultReloadsOnNextLaunch()
+        {
+            var path = Path.Combine(directory, "progress.json");
+            var store = new JsonFileProgressionPersistence(path);
+            using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), store))
+                Assert.That(game.CurrentWaveResult, Is.Null);
+            Assert.That(store.Load().Result, Is.Null);
+            using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), store))
+            {
+                EconomyTestFixtures.FinishWaves(game, 1);
+                Assert.That(game.State.CurrentState, Is.EqualTo(GamePhase.AWAITING_WAVE));
+            }
+            using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), store))
+            {
+                Assert.That(game.ClaimedWaves, Is.EqualTo(1));
+                Assert.That(game.CurrentWaveResult, Is.Null);
+            }
+        }
+
         [Test]
         public void InvalidJsonIsPreservedAndBlocksConfiguration()
         {

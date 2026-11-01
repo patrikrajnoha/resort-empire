@@ -449,6 +449,39 @@ namespace ResortEmpire.Gameplay.Tests
             }
         }
 
+        // Regression: a service seat could round its progress to 1 inside a segment cut short by
+        // an arrival boundary, leave it uncompleted, and stall the loop at a zero-length boundary.
+        // 0.3333 s is Unity's default maximum frame delta, so one frame hitch reproduced it in Play Mode.
+        [TestCase(10000d)]
+        [TestCase(0.3333d)]
+        public void AcceleratedStepsCompleteWaveWhenArrivalAndServiceBoundariesCoincide(double step)
+        {
+            var state = new GameState();
+            var clock = new SimulationClock();
+            var buildings = new TestBuildingProvider(capacity: 7, serviceDuration: 12d);
+            var workers = new WorkerManager(buildings, state, new[] { BuildingId.Reception, BuildingId.Restaurant });
+            var waves = new WaveManager(state, clock, buildings, workers,
+                PhaseTwoTestData.Config(incomingDuration: 2d, emptyUtilization: 0.33d));
+            Assert.That(waves.StartWave(new WaveDefinition(
+                2,
+                90d,
+                new[]
+                {
+                    new NeedDemandDefinition(NeedType.Rooms, 15),
+                    new NeedDemandDefinition(NeedType.Food, 15),
+                    new NeedDemandDefinition(NeedType.Drinks, 15)
+                },
+                new[] { new ScheduledDemandEvent("sudden-rush", ScheduledDemandEventKind.SuddenRush, 45d, 10d, 6) })), Is.True);
+
+            for (var guard = 0; state.CurrentState != GamePhase.WAVE_COMPLETE && guard < 10000; guard++)
+                Assert.DoesNotThrow(() => waves.Advance(step));
+
+            var snapshot = waves.CaptureSnapshot();
+            Assert.That(state.CurrentState, Is.EqualTo(GamePhase.WAVE_COMPLETE));
+            Assert.That(snapshot.CompletedUnits, Is.EqualTo(51));
+            AssertDemandConservation(snapshot, completedWave: true);
+        }
+
         private static void AssertDemandConservation(WaveSnapshot snapshot, bool completedWave)
         {
             foreach (var need in snapshot.Needs)
