@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ResortEmpire.Gameplay;
+using ResortEmpire.Gameplay.Integration;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -54,6 +56,11 @@ namespace ResortEmpire
         [SerializeField] private bool enableMouseFallback = true;
         [SerializeField, Min(0.001f)] private float mouseScrollSensitivity = 1.25f;
 
+        [Header("Wave presentation")]
+        [SerializeField] private ResortGameplayBootstrap gameplayBootstrap;
+        [SerializeField] private Vector2 activeWaveCameraOffset = new Vector2(2.8f, 0f);
+        [SerializeField, Min(0.01f)] private float activeWaveOrthographicSize = 4.5f;
+
         private readonly List<RaycastResult> raycastResults = new List<RaycastResult>(8);
         private Camera targetCamera;
         private Bounds worldBounds;
@@ -83,6 +90,11 @@ namespace ResortEmpire
         private Vector2 lastTapPosition;
         private float zoomBeforeDoubleTap = -1f;
         private float lastCameraAspect = -1f;
+        private IResortGameplayUiFacade gameplayFacade;
+        private Vector2 presentationOffset;
+        private float zoomBeforeWavePresentation = -1f;
+        private bool wavePresentationZoomActive;
+        private bool subscribed;
 
         private void Awake()
         {
@@ -134,6 +146,110 @@ namespace ResortEmpire
             cameraPositionVelocity = Vector3.zero;
             edgeReturnVelocity = Vector3.zero;
             zoomValueVelocity = 0f;
+            BindToGameplay();
+            SynchronizeWavePresentation();
+        }
+
+        private void OnDisable()
+        {
+            UnbindFromGameplay();
+            SetWavePresentation(false);
+        }
+
+        private void OnDestroy()
+        {
+            UnbindFromGameplay();
+        }
+
+        private void BindToGameplay()
+        {
+            if (subscribed)
+                return;
+
+            if (gameplayBootstrap == null)
+                gameplayBootstrap = FindAnyObjectByType<ResortGameplayBootstrap>();
+            if (gameplayBootstrap == null)
+                return;
+
+            gameplayFacade = gameplayBootstrap;
+            gameplayFacade.StateChanged += HandleStateChanged;
+            subscribed = true;
+        }
+
+        private void UnbindFromGameplay()
+        {
+            if (!subscribed || gameplayFacade == null)
+                return;
+
+            gameplayFacade.StateChanged -= HandleStateChanged;
+            gameplayFacade = null;
+            subscribed = false;
+        }
+
+        private void SynchronizeWavePresentation()
+        {
+            SetWavePresentation(gameplayFacade != null && IsWaveFocusPhase(gameplayFacade.CurrentPhase));
+        }
+
+        private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
+        {
+            SetWavePresentation(IsWaveFocusPhase(nextState));
+        }
+
+        private void SetWavePresentation(bool active)
+        {
+            SetPresentationOffset(active ? activeWaveCameraOffset : Vector2.zero);
+
+            if (targetCamera == null || !targetCamera.orthographic)
+                return;
+
+            if (active)
+            {
+                if (!wavePresentationZoomActive)
+                {
+                    zoomBeforeWavePresentation = targetZoomValue;
+                    wavePresentationZoomActive = true;
+                }
+
+                targetZoomValue = Mathf.Clamp(
+                    activeWaveOrthographicSize,
+                    minOrthographicSize,
+                    maxOrthographicSize);
+                return;
+            }
+
+            if (!wavePresentationZoomActive)
+                return;
+
+            targetZoomValue = Mathf.Clamp(
+                zoomBeforeWavePresentation,
+                minOrthographicSize,
+                maxOrthographicSize);
+            zoomBeforeWavePresentation = -1f;
+            wavePresentationZoomActive = false;
+        }
+
+        private void SetPresentationOffset(Vector2 offset)
+        {
+            var delta = offset - presentationOffset;
+            presentationOffset = offset;
+            if (targetCamera == null || delta.sqrMagnitude <= 0.000001f)
+                return;
+
+            targetCameraPosition = ClampCameraPosition(
+                targetCameraPosition + new Vector3(delta.x, delta.y, 0f),
+                targetZoomValue);
+            panVelocity = Vector3.zero;
+            edgeReturnVelocity = Vector3.zero;
+            cameraPositionVelocity = Vector3.zero;
+        }
+
+        private static bool IsWaveFocusPhase(GamePhase phase)
+        {
+            return phase == GamePhase.WAVE_INCOMING
+                || phase == GamePhase.WAVE_ACTIVE
+                || phase == GamePhase.WAVE_PAUSED
+                || phase == GamePhase.WAVE_RESOLVING;
         }
 
         private void Update()

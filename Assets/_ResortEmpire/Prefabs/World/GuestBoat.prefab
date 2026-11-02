@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2305216882742228968}
   - component: {fileID: 4735462422689699328}
   - component: {fileID: 3321706990346607348}
+  - component: {fileID: 7484930218364201571}
+  - component: {fileID: 5864137099197182451}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Untagged
@@ -96,6 +98,36 @@ MonoBehaviour:
   phaseOffset: 0
   bobAmplitude: 3
   tiltAmplitude: 0.8
+  tiltFrequency: 0.28
+--- !u!114 &7484930218364201571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595922055957813210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a7f1dcbbe1a4e7c9f4c3a9a0f2d6e81, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ResortEmpire.UI.BoatArrivalAnimation
+  boatRoot: {fileID: 340841425913596726}
+  boatIdleAnimation: {fileID: 3321706990346607348}
+  arrivalSignal: {fileID: 5864137099197182451}
+  arrivalDuration: 2.5
+  startMargin: {x: 220, y: 180}
+--- !u!114 &5864137099197182451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595922055957813210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0bd7aa8cc84c5b9d99d8cc8d9e1a72, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.BoatArrivalSignal
 --- !u!1 &5982031616878916848
 GameObject:
   m_ObjectHideFlags: 0
