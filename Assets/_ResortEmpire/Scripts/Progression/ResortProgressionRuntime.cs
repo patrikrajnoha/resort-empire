@@ -51,6 +51,7 @@ namespace ResortEmpire.Gameplay.Progression
         public ResourceSnapshot Resources => resources.Resources;
         public WaveResult CurrentWaveResult => rewards.CurrentResult;
         public int ClaimedWaves => checkpoint.ClaimedWaves;
+        public int TotalWaves => config.BaseDemand.Length;
         public string LastCommandError { get; private set; }
         public string PersistenceDiagnostic { get; private set; }
         public string NotificationDiagnostic { get; private set; }

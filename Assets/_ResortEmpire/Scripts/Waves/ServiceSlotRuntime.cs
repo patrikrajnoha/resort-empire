@@ -156,8 +156,10 @@ namespace ResortEmpire.Gameplay.Waves
                 // reached the precision limit of the current double value.
                 remaining = nextRemaining < remaining ? nextRemaining : 0d;
 
-                if (segment >= timeToCompletion)
-                    CompleteReadyServices(startTime + consumed, completedUnits);
+                // A segment cut short by an external boundary can still round a seat's
+                // progress up to 1. Completing it here keeps the next completion time
+                // positive, so the wave loop cannot stall on a zero-length boundary.
+                CompleteReadyServices(startTime + consumed, completedUnits);
             }
 
             return new ServiceAdvanceResult(consumed, completedUnits);
