@@ -93,12 +93,9 @@ MonoBehaviour:
   boatShadow: {fileID: 1663444372017071904}
   shadowOffset: {x: 14, y: -14}
   isMoving: 0
-  oceanAnimator: {fileID: 5274529515238498540, guid: b0dae685104754249914b7139ef1c4d4, type: 3}
-  oceanPhaseOffset: 0
+  phaseOffset: 0
   bobAmplitude: 3
-  bobFrequency: 0.28
   tiltAmplitude: 0.8
-  tiltFrequency: 0.28
 --- !u!1 &5982031616878916848
 GameObject:
   m_ObjectHideFlags: 0

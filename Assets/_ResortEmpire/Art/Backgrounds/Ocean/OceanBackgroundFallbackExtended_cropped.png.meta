@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d109e45ac40855246b0ba045421b181f
+guid: 944e471ef3839574481f8ea0f3357df7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7234115524246695089
-    second: ocean-bg-04_0
+      213: 283156207567565023
+    second: OceanBackgroundFallbackExtended_cropped_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ocean-bg-04_0
+      name: OceanBackgroundFallbackExtended_cropped_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2340
-        height: 1080
+        width: 3072
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f43132932424b9b90800000000000000
-      internalID: -7234115524246695089
+      spriteID: fd0f2001219fde300800000000000000
+      internalID: 283156207567565023
       vertices: []
       indices: 
       edges: []
@@ -125,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ocean-bg-04_0: -7234115524246695089
+      OceanBackgroundFallbackExtended_cropped_0: 283156207567565023
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

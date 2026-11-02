@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 81db05803a68ec74c9939a99865caa99
+guid: d0ff5f41827f96b46889a77843669ca2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4629298356080948203
-    second: ocean-bg-10_0
+      213: -373084091088560545
+    second: OceanBackgroundFallbackExtended_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 3072
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ocean-bg-10_0
+      name: OceanBackgroundFallbackExtended_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2340
-        height: 1080
+        width: 2560
+        height: 1920
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51cce761cad61cfb0800000000000000
-      internalID: -4629298356080948203
+      spriteID: f5e115feef982daf0800000000000000
+      internalID: -373084091088560545
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ocean-bg-10_0: -4629298356080948203
+      OceanBackgroundFallbackExtended_0: -373084091088560545
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

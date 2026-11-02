@@ -227,6 +227,15 @@ namespace ResortEmpire
                 if (graphic == null || !graphic.gameObject.activeInHierarchy)
                     continue;
 
+                // OceanVideo intentionally extends beyond the original
+                // background rect to fill aspect-ratio corners. It is visual
+                // padding, not additional playable world space, so it must
+                // not change the camera's original bounds or zoom limits.
+                bool isOceanVideoExtension = graphic.transform != boundsSource &&
+                    graphic.transform.GetComponentInParent<ResortEmpire.UI.OceanVideoBackground>() != null;
+                if (isOceanVideoExtension)
+                    continue;
+
                 var corners = new Vector3[4];
                 graphic.rectTransform.GetWorldCorners(corners);
                 foreach (var corner in corners)
