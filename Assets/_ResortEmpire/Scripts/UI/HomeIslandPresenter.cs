@@ -34,6 +34,8 @@ namespace ResortEmpire.UI
         [Tooltip("VIP visits are MVP-only and stay hidden in the Prototype.")]
         [SerializeField] private GameObject vipEntry;
         [SerializeField] private Button[] buildingMarkers;
+        [Tooltip("Pool Worker marker; shown only after Pool ownership is confirmed.")]
+        [SerializeField] private Button poolWorkerMarker;
         [SerializeField] private Button unlockAreaButton;
         [SerializeField] private WorldAnchoredUiMarker unlockAreaMarker;
         [SerializeField] private PlotMarkerTarget[] plots;
@@ -92,6 +94,9 @@ namespace ResortEmpire.UI
                 startWaveButton.gameObject.SetActive(gameplay.IsConfigured && phase == GamePhase.AWAITING_WAVE && forecast.HasWave);
             if (forecast.HasWave) SetText(startWaveText, "START WAVE " + forecast.WaveId);
 
+            if (poolWorkerMarker != null)
+                poolWorkerMarker.gameObject.SetActive(IsOwned(BuildingId.Pool));
+
             var plot = phase == GamePhase.AWAITING_WAVE ? FindEligiblePlot() : null;
             if (unlockAreaButton != null) unlockAreaButton.gameObject.SetActive(plot != null);
             if (plot != null && unlockAreaMarker != null && unlockAreaMarker.worldTarget != plot)
@@ -122,6 +127,13 @@ namespace ResortEmpire.UI
                     if (plot != null && plot.Building == building.BuildingId) return plot.Plot;
             }
             return null;
+        }
+
+        private bool IsOwned(BuildingId buildingId)
+        {
+            foreach (var building in gameplay.Buildings)
+                if (building.BuildingId == buildingId) return building.IsOwned;
+            return false;
         }
 
         private void StartWave()
