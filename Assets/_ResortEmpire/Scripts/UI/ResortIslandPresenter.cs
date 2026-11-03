@@ -9,8 +9,8 @@ using UnityEngine.UI;
 namespace ResortEmpire.UI
 {
     /// <summary>
-    /// Island art for building state: owned buildings show their level art, eligible plots show
-    /// a construction site, and locked plots stay hidden.
+    /// Island art for building state: owned buildings show their level art. Eligible but
+    /// unpurchased areas remain visually empty; S1's Plus marker is their only entry point.
     /// </summary>
     public sealed class ResortIslandPresenter : MonoBehaviour
     {
@@ -57,8 +57,8 @@ namespace ResortEmpire.UI
                 if (visual == null) continue;
                 var sprite = state.IsOwned && visual.LevelSprites.Length > 0
                     ? visual.LevelSprites[Mathf.Clamp(state.Level, 1, visual.LevelSprites.Length) - 1]
-                    : state.IsEligible ? visual.PlotSprite : null;
-                if (visual.Root != null) visual.Root.SetActive(sprite != null);
+                    : null;
+                if (visual.Root != null) visual.Root.SetActive(state.IsOwned && sprite != null);
                 if (sprite == null) continue;
                 foreach (var image in visual.Images)
                     if (image != null) image.sprite = sprite;
