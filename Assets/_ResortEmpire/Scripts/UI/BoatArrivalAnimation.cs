@@ -21,6 +21,9 @@ namespace ResortEmpire.UI
         [SerializeField]
         private BoatArrivalSignal arrivalSignal;
 
+        [SerializeField]
+        private CanvasGroup boatVisibility;
+
         [SerializeField, Min(0.1f)]
         private float arrivalDuration = 2.5f;
 
@@ -68,7 +71,7 @@ namespace ResortEmpire.UI
             if (!moving || paused || boatRoot == null)
                 return;
 
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             var normalizedTime = Mathf.Clamp01(elapsed / Mathf.Max(0.1f, arrivalDuration));
             var easedTime = Mathf.SmoothStep(0f, 1f, normalizedTime);
             boatRoot.anchoredPosition = Vector2.LerpUnclamped(startPosition, dockPosition, easedTime);
@@ -88,6 +91,8 @@ namespace ResortEmpire.UI
                 boatIdleAnimation = GetComponentInChildren<BoatIdleAnimation>();
             if (arrivalSignal == null)
                 arrivalSignal = GetComponent<BoatArrivalSignal>();
+            if (boatVisibility == null)
+                boatVisibility = GetComponent<CanvasGroup>();
         }
 
         private void CaptureDockPose()
@@ -136,9 +141,13 @@ namespace ResortEmpire.UI
                     StartArrivalIfNeeded();
                     break;
                 case GamePhase.WAVE_PAUSED:
+                    StartArrivalIfNeeded();
+                    SetBoatVisible(true);
                     paused = true;
                     break;
                 case GamePhase.WAVE_ACTIVE:
+                    StartArrivalIfNeeded();
+                    SetBoatVisible(true);
                     paused = false;
                     break;
                 default:
@@ -155,9 +164,13 @@ namespace ResortEmpire.UI
                     StartArrivalIfNeeded();
                     break;
                 case GamePhase.WAVE_PAUSED:
+                    StartArrivalIfNeeded();
+                    SetBoatVisible(true);
                     paused = true;
                     break;
                 case GamePhase.WAVE_ACTIVE:
+                    StartArrivalIfNeeded();
+                    SetBoatVisible(true);
                     paused = false;
                     break;
                 case GamePhase.WAVE_RESOLVING:
@@ -177,6 +190,7 @@ namespace ResortEmpire.UI
             CaptureDockPose();
             startPosition = CalculateStartPosition();
             arrivalSignal?.BeginArrival();
+            SetBoatVisible(true);
             boatRoot.anchoredPosition = startPosition;
             boatRoot.localRotation = dockRotation;
             elapsed = 0f;
@@ -194,6 +208,8 @@ namespace ResortEmpire.UI
                 boatRoot.localRotation = dockRotation;
             }
 
+            if (resetArrival)
+                SetBoatVisible(false);
             moving = false;
             paused = false;
             elapsed = 0f;
@@ -214,6 +230,16 @@ namespace ResortEmpire.UI
             return new Vector2(
                 bounds.xMax + startMargin.x + halfBoatSize.x,
                 bounds.yMin - startMargin.y - halfBoatSize.y);
+        }
+
+        private void SetBoatVisible(bool visible)
+        {
+            if (boatVisibility == null)
+                return;
+
+            boatVisibility.alpha = visible ? 1f : 0f;
+            boatVisibility.interactable = visible;
+            boatVisibility.blocksRaycasts = visible;
         }
     }
 }

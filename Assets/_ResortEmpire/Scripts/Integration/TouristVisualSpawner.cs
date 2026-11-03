@@ -32,33 +32,41 @@ namespace ResortEmpire.Gameplay.Integration
             public int SpawnSlot;
             public float StartDelayRemaining;
             public float StaggerDelay;
+            public float TalkingAnimationTime;
+            public int PortalEntryRouteIndex = -1;
+            public int PortalExitRouteIndex = -1;
+            public float PortalDelayRemaining;
         }
-
-        private static readonly Vector2[] DefaultSpawnPositions =
-        {
-            new Vector2(-420f, -170f),
-            new Vector2(-190f, 80f),
-            new Vector2(60f, -40f),
-            new Vector2(270f, 150f),
-            new Vector2(420f, -120f),
-            new Vector2(120f, 230f)
-        };
 
         private static readonly Vector2[] SpawnSpreadOffsets =
         {
-            new Vector2(-48f, 0f),
+            new Vector2(-18f, 0f),
             new Vector2(0f, 0f),
-            new Vector2(48f, 0f),
-            new Vector2(-24f, -36f),
-            new Vector2(24f, -36f),
-            new Vector2(0f, -72f)
+            new Vector2(18f, 0f),
+            new Vector2(-9f, -12f),
+            new Vector2(9f, -12f),
+            new Vector2(0f, -20f)
         };
 
-        private static readonly int[][] PathNodeIndicesByDestination =
+        // The route ends on the sand in front of the bar. These offsets place
+        // seated guests on the four visible level-1 bar stools without walking
+        // through the art. The inner pair sits slightly higher, matching the
+        // perspective of the stools in the bar illustration.
+        private static readonly Vector2[] BarSeatVisualOffsets =
         {
-            new[] { 0, 1, 2 }, // Reception branch
-            new[] { 0, 1, 3 }, // Bar branch
-            new[] { 0, 1, 4 }  // Restaurant branch
+            new Vector2(-52.46f, 136.11f),
+            new Vector2(-21.37f, 120.99f),
+            new Vector2(44.22f, 112.02f),
+            new Vector2(99.20f, 123.70f)
+        };
+
+        // Guests face inward so adjacent guests can visually interact.
+        private static readonly float[] BarSeatFacingDirections =
+        {
+            1f,
+            -1f,
+            1f,
+            -1f
         };
 
         [SerializeField]
@@ -74,13 +82,22 @@ namespace ResortEmpire.Gameplay.Integration
         private RectTransform spawnPoint;
 
         [SerializeField]
-        private RectTransform[] pathNodes;
+        private RectTransform islandBase;
+
+        [SerializeField]
+        private Texture2D navigationMapTexture;
 
         [SerializeField]
         private RectTransform receptionPoint;
 
         [SerializeField]
+        private RectTransform receptionExitPoint;
+
+        [SerializeField]
         private RectTransform barSeatPoint;
+
+        [SerializeField]
+        private RectTransform barSeatOverlay;
 
         [SerializeField]
         private RectTransform restaurantPoint;
@@ -93,17 +110,6 @@ namespace ResortEmpire.Gameplay.Integration
 
         [SerializeField, Range(3, 6)]
         private int touristCount = 5;
-
-        [SerializeField]
-        private Vector2[] spawnPositions =
-        {
-            new Vector2(-420f, -170f),
-            new Vector2(-190f, 80f),
-            new Vector2(60f, -40f),
-            new Vector2(270f, 150f),
-            new Vector2(420f, -120f),
-            new Vector2(120f, 230f)
-        };
 
         [SerializeField, Min(1f)]
         private float walkSpeed = 90f;
@@ -120,13 +126,23 @@ namespace ResortEmpire.Gameplay.Integration
         [SerializeField, Min(0f)]
         private float idleBobSpeed = 1.5f;
 
+        [SerializeField, Min(0f)]
+        private float barTalkingSwayWidth = 0.7f;
+
+        [SerializeField, Min(0f)]
+        private float barTalkingBounceHeight = 0.45f;
+
+        [SerializeField, Min(0f)]
+        private float barTalkingSpeed = 1.6f;
+
         private readonly List<GameObject> pooledTourists = new List<GameObject>();
         private readonly List<TouristRoutineState> touristRoutines = new List<TouristRoutineState>();
         private IResortGameplayUiFacade gameplayFacade;
         private bool subscribed;
         private int spriteVariantOffset;
+        private IslandNavigationMap navigationMap;
 
-        /// <summary>Number of tourist images currently visible in the active wave.</summary>
+        /// <summary>Number of tourist visuals assigned to the current wave.</summary>
         public int ActiveTouristCount { get; private set; }
 
         private void Awake()
@@ -168,19 +184,43 @@ namespace ResortEmpire.Gameplay.Integration
                 boatArrivalSignal = FindAnyObjectByType<BoatArrivalSignal>();
             if (touristContainer == null)
                 touristContainer = transform as RectTransform;
+            if (islandBase == null && touristContainer != null && touristContainer.parent != null)
+                islandBase = touristContainer.parent.Find("IslandBase") as RectTransform;
             if (spawnPoint == null && touristContainer != null)
             {
                 spawnPoint = touristContainer.Find("TouristSpawnPoint") as RectTransform;
                 if (spawnPoint == null && touristContainer.parent != null)
                     spawnPoint = touristContainer.parent.Find("TouristSpawnPoint") as RectTransform;
             }
+            if (barSeatOverlay == null && touristContainer != null && touristContainer.parent != null)
+                barSeatOverlay = touristContainer.parent.Find("TouristBarSeatOverlay") as RectTransform;
+            if (receptionPoint == null)
+                receptionPoint = FindScenePoint("TouristReceptionPoint");
+            if (receptionExitPoint == null)
+                receptionExitPoint = FindScenePoint("TouristReceptionExitPoint");
+            if (barSeatPoint == null)
+                barSeatPoint = FindScenePoint("TouristBarSeatPoint");
+            if (restaurantPoint == null)
+                restaurantPoint = FindScenePoint("TouristRestaurantPoint");
+        }
+
+        private RectTransform FindScenePoint(string pointName)
+        {
+            if (touristContainer == null)
+                return null;
+
+            var point = touristContainer.Find(pointName) as RectTransform;
+            if (point != null)
+                return point;
+
+            return touristContainer.parent == null
+                ? null
+                : touristContainer.parent.Find(pointName) as RectTransform;
         }
 
         private void NormalizeConfiguration()
         {
             touristCount = Mathf.Clamp(touristCount, 3, 6);
-            if (spawnPositions == null || spawnPositions.Length == 0)
-                spawnPositions = DefaultSpawnPositions;
         }
 
         private void BindToGameplay()
@@ -222,8 +262,8 @@ namespace ResortEmpire.Gameplay.Integration
         private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
         {
             SetWaveVisibility(IsWavePhase(nextState)
-                && boatArrivalSignal != null
-                && boatArrivalSignal.HasArrived);
+                && (ActiveTouristCount > 0
+                    || boatArrivalSignal != null && boatArrivalSignal.HasArrived));
         }
 
         private void HandleBoatArrived()
@@ -248,10 +288,26 @@ namespace ResortEmpire.Gameplay.Integration
             if (ActiveTouristCount > 0)
                 return;
 
-            if (touristContainer == null || touristPrefab == null)
+            if (touristContainer == null || touristPrefab == null || spawnPoint == null
+                || receptionPoint == null || receptionExitPoint == null
+                || barSeatPoint == null || restaurantPoint == null
+                || islandBase == null || navigationMapTexture == null)
             {
-                Debug.LogWarning("Tourist visuals cannot spawn because the container or prefab is missing.", this);
+                Debug.LogWarning("Tourist visuals cannot spawn because island navigation references are missing.", this);
                 return;
+            }
+
+            if (navigationMap == null)
+            {
+                try
+                {
+                    navigationMap = new IslandNavigationMap(navigationMapTexture, islandBase.rect);
+                }
+                catch (UnityException exception)
+                {
+                    Debug.LogError("The island navigation texture must have Read/Write enabled: " + exception.Message, this);
+                    return;
+                }
             }
 
             EnsurePool(touristCount);
@@ -260,16 +316,14 @@ namespace ResortEmpire.Gameplay.Integration
             for (var index = 0; index < touristCount; index++)
             {
                 var tourist = pooledTourists[index];
+                tourist.transform.SetParent(touristContainer, false);
                 var rectTransform = tourist.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = spawnPosition;
-                rectTransform.localScale = Vector3.one;
+                rectTransform.localScale = Vector3.one * 1.2f;
                 rectTransform.localRotation = Quaternion.identity;
                 var image = tourist.GetComponent<Image>();
                 if (image != null && touristSprites != null && touristSprites.Length > 0)
                     image.sprite = touristSprites[(index + spriteVariantOffset) % touristSprites.Length];
                 tourist.transform.SetAsLastSibling();
-                tourist.SetActive(true);
-
                 var routine = new TouristRoutineState
                 {
                     Tourist = tourist,
@@ -277,11 +331,16 @@ namespace ResortEmpire.Gameplay.Integration
                     SpawnSlot = index,
                     StaggerDelay = index * 0.4f
                 };
-                PrepareRoutine(routine, spawnPosition);
+                var routineSpawnPosition = spawnPosition + GetSpawnSpreadOffset(routine.SpawnSlot);
+                if (!PrepareRoutine(routine, routineSpawnPosition, routine.StaggerDelay))
+                {
+                    tourist.SetActive(false);
+                    continue;
+                }
                 touristRoutines.Add(routine);
             }
 
-            ActiveTouristCount = touristCount;
+            ActiveTouristCount = touristRoutines.Count;
             if (touristSprites != null && touristSprites.Length > 0)
                 spriteVariantOffset = (spriteVariantOffset + touristCount) % touristSprites.Length;
         }
@@ -331,9 +390,13 @@ namespace ResortEmpire.Gameplay.Integration
 
                 if (routine.AtDestination)
                 {
+                    if (routine.DwellRemaining > 0f
+                        && routine.Activity == TouristActivity.SitAtDestination)
+                        AnimateBarConversation(routine, deltaTime);
+
                     routine.DwellRemaining -= deltaTime;
                     if (routine.DwellRemaining <= 0f)
-                        CompleteRoutine(routine);
+                        AdvanceRoutine(routine);
                     continue;
                 }
 
@@ -341,31 +404,77 @@ namespace ResortEmpire.Gameplay.Integration
             }
         }
 
-        private void PrepareRoutine(TouristRoutineState routine, Vector2 spawnPosition)
+        private bool PrepareRoutine(TouristRoutineState routine, Vector2 startPosition, float startDelay)
         {
-            var routineSpawnPosition = spawnPosition + GetSpawnSpreadOffset(routine.SpawnSlot);
             routine.Route.Clear();
-            routine.Route.Add(routineSpawnPosition);
-
-            int destinationIndex = routine.RoutineIndex % 3;
-            var pathNodeIndices = PathNodeIndicesByDestination[destinationIndex];
-            for (var index = 0; index < pathNodeIndices.Length; index++)
+            routine.PortalEntryRouteIndex = -1;
+            routine.PortalExitRouteIndex = -1;
+            int destinationIndex = routine.RoutineIndex;
+            routine.Activity = GetActivity(destinationIndex);
+            var destination = GetDestinationPosition(destinationIndex, routine.SpawnSlot);
+            var baseStart = islandBase.InverseTransformPoint(touristContainer.TransformPoint(startPosition));
+            var baseDestination = islandBase.InverseTransformPoint(touristContainer.TransformPoint(destination));
+            var baseRoute = new List<Vector2>();
+            if (!navigationMap.TryFindPath(baseStart, baseDestination, baseRoute))
             {
-                int pathNodeIndex = pathNodeIndices[index];
-                if (pathNodes != null && pathNodeIndex < pathNodes.Length)
-                    AddRoutePoint(routine.Route, GetPointPosition(pathNodes[pathNodeIndex]));
+                if (!TryBuildPortalRoute(baseStart, baseDestination, baseRoute, routine))
+                {
+                    Debug.LogWarning("No walkable island route to destination " + destinationIndex, this);
+                    return false;
+                }
+            }
+            for (var index = 0; index < baseRoute.Count; index++)
+                routine.Route.Add(touristContainer.InverseTransformPoint(islandBase.TransformPoint(baseRoute[index])));
+
+            // The navigation texture snaps to cell centres. Keep the configured
+            // destination as the final point so a guest cannot visually stop at
+            // the spawn-side cell when the route is short or both points share a
+            // navigation cell.
+            if (routine.Route.Count > 0
+                && Vector2.Distance(routine.Route[routine.Route.Count - 1], destination) > 1f)
+            {
+                routine.Route.Add(destination);
             }
 
-            routine.Activity = GetActivity(destinationIndex);
-            AddRoutePoint(routine.Route, GetDestinationPosition(destinationIndex, routine.SpawnSlot));
-            routine.RouteIndex = routine.Route.Count > 1 ? 1 : 0;
+            routine.RouteIndex = 0;
             routine.AtDestination = false;
             routine.Completed = false;
             routine.DwellRemaining = 0f;
-            routine.PathPosition = routineSpawnPosition;
-            routine.StartDelayRemaining = routine.StaggerDelay;
+            routine.TalkingAnimationTime = 0f;
+            routine.PathPosition = startPosition;
+            routine.StartDelayRemaining = startDelay;
+            routine.PortalDelayRemaining = 0f;
             routine.Tourist.SetActive(true);
             SetTouristPosition(routine);
+            return true;
+        }
+
+        private bool TryBuildPortalRoute(
+            Vector2 baseStart,
+            Vector2 baseDestination,
+            List<Vector2> route,
+            TouristRoutineState routine)
+        {
+            var portalEntries = new[] { receptionPoint, receptionExitPoint };
+            var portalExits = new[] { receptionExitPoint, receptionPoint };
+            for (var portalIndex = 0; portalIndex < portalEntries.Length; portalIndex++)
+            {
+                var entry = islandBase.InverseTransformPoint(portalEntries[portalIndex].position);
+                var exit = islandBase.InverseTransformPoint(portalExits[portalIndex].position);
+                var entryRoute = new List<Vector2>();
+                var destinationRoute = new List<Vector2>();
+                if (!navigationMap.TryFindPath(baseStart, entry, entryRoute)
+                    || !navigationMap.TryFindPath(exit, baseDestination, destinationRoute))
+                    continue;
+
+                route.AddRange(entryRoute);
+                routine.PortalEntryRouteIndex = route.Count - 1;
+                routine.PortalExitRouteIndex = route.Count;
+                route.AddRange(destinationRoute);
+                return true;
+            }
+
+            return false;
         }
 
         private void MoveAlongRoutine(TouristRoutineState routine, float deltaTime)
@@ -376,6 +485,15 @@ namespace ResortEmpire.Gameplay.Integration
             if (routine.StartDelayRemaining > 0f)
             {
                 routine.StartDelayRemaining -= deltaTime;
+                SetTouristPosition(routine);
+                return;
+            }
+
+            if (routine.PortalDelayRemaining > 0f)
+            {
+                routine.PortalDelayRemaining -= deltaTime;
+                if (routine.PortalDelayRemaining <= 0f)
+                    routine.Tourist.SetActive(true);
                 SetTouristPosition(routine);
                 return;
             }
@@ -402,6 +520,14 @@ namespace ResortEmpire.Gameplay.Integration
             routine.PathPosition = target;
             rectTransform.anchoredPosition = target;
             routine.RouteIndex++;
+            if (routine.RouteIndex == routine.PortalExitRouteIndex)
+            {
+                routine.Tourist.SetActive(false);
+                routine.PathPosition = routine.Route[routine.PortalExitRouteIndex];
+                routine.RouteIndex++;
+                routine.PortalDelayRemaining = 0.8f;
+                return;
+            }
             if (routine.RouteIndex < routine.Route.Count)
                 return;
 
@@ -411,12 +537,79 @@ namespace ResortEmpire.Gameplay.Integration
         private void EnterDestination(TouristRoutineState routine)
         {
             routine.AtDestination = true;
+            routine.TalkingAnimationTime = 0f;
             routine.DwellRemaining = routine.Activity == TouristActivity.SitAtDestination
                 ? seatedDwellSeconds
                 : insideDwellSeconds;
 
             if (routine.Activity == TouristActivity.HideInside)
+            {
                 routine.Tourist.SetActive(false);
+                return;
+            }
+
+            if (routine.Activity == TouristActivity.SitAtDestination)
+            {
+                var seatIndex = routine.SpawnSlot % BarSeatVisualOffsets.Length;
+                var seatPosition = GetPointPosition(barSeatPoint) + BarSeatVisualOffsets[seatIndex];
+                SetHorizontalFacing(
+                    routine.Tourist.GetComponent<RectTransform>(),
+                    BarSeatFacingDirections[seatIndex]);
+                PlaceAtBarSeat(routine, seatPosition);
+            }
+        }
+
+        private void AnimateBarConversation(TouristRoutineState routine, float deltaTime)
+        {
+            var rectTransform = routine.Tourist.GetComponent<RectTransform>();
+            if (rectTransform == null)
+                return;
+
+            routine.TalkingAnimationTime += deltaTime;
+            var phase = routine.TalkingAnimationTime * barTalkingSpeed
+                + routine.RoutineIndex * 0.9f;
+            var sway = Mathf.Sin(phase) * barTalkingSwayWidth;
+            var bounce = Mathf.Sin(phase * 1.35f) * barTalkingBounceHeight;
+            rectTransform.anchoredPosition = routine.PathPosition + new Vector2(sway, bounce);
+        }
+
+        private void AdvanceRoutine(TouristRoutineState routine)
+        {
+            var departurePosition = GetDeparturePosition(routine);
+            routine.Tourist.transform.SetParent(touristContainer, false);
+            routine.RoutineIndex = (routine.RoutineIndex + 1) % 3;
+            if (!PrepareRoutine(routine, departurePosition, 0f))
+            {
+                routine.AtDestination = false;
+                routine.Completed = true;
+                routine.DwellRemaining = 0f;
+            }
+        }
+
+        private Vector2 GetDeparturePosition(TouristRoutineState routine)
+        {
+            if (routine.RoutineIndex == 0)
+                return GetPointPosition(receptionExitPoint);
+
+            if (routine.RoutineIndex == 2)
+                return GetPointPosition(restaurantPoint);
+
+            return touristContainer.InverseTransformPoint(routine.Tourist.transform.position);
+        }
+
+        private void PlaceAtBarSeat(TouristRoutineState routine, Vector2 seatPosition)
+        {
+            if (barSeatOverlay == null || touristContainer == null)
+            {
+                routine.PathPosition = seatPosition;
+                SetTouristPosition(routine);
+                return;
+            }
+
+            var seatWorldPosition = touristContainer.TransformPoint(seatPosition);
+            routine.Tourist.transform.SetParent(barSeatOverlay, false);
+            routine.PathPosition = barSeatOverlay.InverseTransformPoint(seatWorldPosition);
+            SetTouristPosition(routine);
         }
 
         private void CompleteRoutine(TouristRoutineState routine)
@@ -424,9 +617,6 @@ namespace ResortEmpire.Gameplay.Integration
             routine.AtDestination = false;
             routine.Completed = true;
             routine.DwellRemaining = 0f;
-
-            if (routine.Activity == TouristActivity.HideInside)
-                routine.Tourist.SetActive(false);
         }
 
         private TouristActivity GetActivity(int destinationIndex)
@@ -444,35 +634,12 @@ namespace ResortEmpire.Gameplay.Integration
                     ? barSeatPoint
                     : restaurantPoint;
 
-            var destination = point != null
-                ? GetPointPosition(point)
-                : GetSpawnPosition(destinationIndex + 1);
+            var destination = GetPointPosition(point);
 
             if (destinationIndex == 1)
-            {
-                destination += GetBarSeatOffset(spawnSlot);
-            }
+                destination += new Vector2((spawnSlot % 3 - 1) * 12f, 0f);
 
             return destination;
-        }
-
-        private static Vector2 GetBarSeatOffset(int spawnSlot)
-        {
-            switch (spawnSlot % 6)
-            {
-                case 0:
-                    return new Vector2(0f, -60f);
-                case 1:
-                    return Vector2.zero;
-                case 2:
-                    return new Vector2(0f, 60f);
-                case 3:
-                    return new Vector2(0f, 120f);
-                case 4:
-                    return new Vector2(0f, -120f);
-                default:
-                    return new Vector2(0f, 180f);
-            }
         }
 
         private void SetTouristPosition(TouristRoutineState routine)
@@ -487,12 +654,6 @@ namespace ResortEmpire.Gameplay.Integration
             return SpawnSpreadOffsets[spawnSlot % SpawnSpreadOffsets.Length];
         }
 
-        private void AddRoutePoint(List<Vector2> route, Vector2 point)
-        {
-            if (route.Count == 0 || Vector2.Distance(route[route.Count - 1], point) > 1f)
-                route.Add(point);
-        }
-
         private Vector2 GetPointPosition(RectTransform point)
         {
             if (point == null || touristContainer == null)
@@ -503,9 +664,6 @@ namespace ResortEmpire.Gameplay.Integration
 
         private Vector2 GetSpawnPointPosition()
         {
-            if (spawnPoint == null || touristContainer == null)
-                return GetSpawnPosition(0);
-
             return touristContainer.InverseTransformPoint(spawnPoint.position);
         }
 
@@ -517,14 +675,6 @@ namespace ResortEmpire.Gameplay.Integration
             var scale = rectTransform.localScale;
             scale.x = Mathf.Abs(scale.x) * (horizontalDirection < 0f ? -1f : 1f);
             rectTransform.localScale = scale;
-        }
-
-        private Vector2 GetSpawnPosition(int index)
-        {
-            if (spawnPositions == null || spawnPositions.Length == 0)
-                return DefaultSpawnPositions[index % DefaultSpawnPositions.Length];
-
-            return spawnPositions[index % spawnPositions.Length];
         }
 
         private static bool IsWavePhase(GamePhase phase)

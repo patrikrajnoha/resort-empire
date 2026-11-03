@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 2100000, guid: 8ff5420517294a8ca6b097a864433218, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,7 +91,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResortEmpire.UI.BoatIdleAnimation
   boat: {fileID: 340841425913596726}
-  boatWave: {fileID: 3806258377225728141}
+  boatWave: {fileID: 8723456789012345683}
+  splashFrames:
+  - {fileID: 21300000, guid: 46612bb20581915459e7d9a03920b8a1, type: 3}
+  - {fileID: 21300000, guid: b735a4868baf6e443ae152d5b3507217, type: 3}
+  - {fileID: 21300000, guid: 78d9d4b7fad1c29468da06a2b83e561f, type: 3}
+  - {fileID: 21300000, guid: 4513e2e26d60b4a4eba280df4eef5e8d, type: 3}
+  - {fileID: 21300000, guid: c87b2fd64079db34ba397f6360e9a8e0, type: 3}
+  - {fileID: 21300000, guid: 65550dc20c4788a4196187353091e1ff, type: 3}
+  - {fileID: 21300000, guid: bd8568590634fba4bb5f281c67b4c4cd, type: 3}
+  - {fileID: 21300000, guid: e0d91509684c27c428eac256c99e4662, type: 3}
+  - {fileID: 21300000, guid: 0c39860bd4dac0b41949980fbf1341a1, type: 3}
+  splashFramesPerSecond: 12
   boatShadow: {fileID: 1663444372017071904}
   shadowOffset: {x: 14, y: -14}
   isMoving: 0
@@ -111,10 +122,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7f1dcbbe1a4e7c9f4c3a9a0f2d6e81, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ResortEmpire.UI.BoatArrivalAnimation
-  boatRoot: {fileID: 340841425913596726}
+  boatRoot: {fileID: 1183838162570530394}
   boatIdleAnimation: {fileID: 3321706990346607348}
   arrivalSignal: {fileID: 5864137099197182451}
-  arrivalDuration: 2.5
+  boatVisibility: {fileID: 8723456789012345678}
+  arrivalDuration: 5
   startMargin: {x: 220, y: 180}
 --- !u!114 &5864137099197182451
 MonoBehaviour:
@@ -128,6 +140,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0bd7aa8cc84c5b9d99d8cc8d9e1a72, type: 3}
   m_Name:
   m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.BoatArrivalSignal
+--- !u!225 &8723456789012345678
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6166235639981644898}
+  m_Enabled: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+  m_Alpha: 0
 --- !u!1 &5982031616878916848
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +238,7 @@ GameObject:
   - component: {fileID: 1183838162570530394}
   - component: {fileID: 2032773742172951962}
   - component: {fileID: 3806258377225728141}
+  - component: {fileID: 8723456789012345678}
   m_Layer: 0
   m_Name: GuestBoat
   m_TagString: Untagged
@@ -221,6 +246,81 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &8723456789012345680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8723456789012345681}
+  - component: {fileID: 8723456789012345682}
+  - component: {fileID: 8723456789012345683}
+  m_Layer: 0
+  m_Name: BoatSplash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8723456789012345681
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8723456789012345680}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1183838162570530394}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -50, y: 60}
+  m_SizeDelta: {x: 273.1881, y: 273.1881}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8723456789012345682
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8723456789012345680}
+  m_CullTransparentMesh: 1
+--- !u!114 &8723456789012345683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8723456789012345680}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 46612bb20581915459e7d9a03920b8a1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!224 &1183838162570530394
 RectTransform:
   m_ObjectHideFlags: 0
@@ -234,6 +334,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1663444372017071904}
+  - {fileID: 8723456789012345681}
   - {fileID: 340841425913596726}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

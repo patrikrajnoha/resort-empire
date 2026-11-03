@@ -8,6 +8,9 @@ namespace ResortEmpire.UI
     {
         [SerializeField] private RectTransform boat;
         [SerializeField] private Image boatWave;
+        [SerializeField] private Sprite[] splashFrames;
+        [SerializeField, Min(0.1f)] private float splashFramesPerSecond = 12f;
+        [SerializeField] private Vector2 splashOffset = new Vector2(-50f, 60f);
         [SerializeField] private RectTransform boatShadow;
         [SerializeField] private Vector2 shadowOffset = new Vector2(14f, -14f);
         [SerializeField] private bool isMoving;
@@ -17,6 +20,8 @@ namespace ResortEmpire.UI
 
         private Vector2 restPosition;
         private float restRotationZ;
+        private float splashElapsed;
+        private int splashFrameIndex = -1;
 
         public bool IsMoving => isMoving;
 
@@ -47,6 +52,8 @@ namespace ResortEmpire.UI
                 boat.localRotation = Quaternion.Euler(0f, 0f, restRotationZ + tilt);
             }
 
+            UpdateSplashAnimation();
+            ApplySplashPose();
             ApplyShadowPose();
         }
 
@@ -66,7 +73,10 @@ namespace ResortEmpire.UI
                 CaptureRestPose();
 
             isMoving = moving;
+            if (moving)
+                ResetSplashAnimation();
             ApplyWaveVisibility();
+            ApplySplashPose();
             ApplyShadowPose();
         }
 
@@ -96,8 +106,57 @@ namespace ResortEmpire.UI
 
         private void ApplyWaveVisibility()
         {
-            if (boatWave != null)
-                boatWave.enabled = isMoving;
+            if (boatWave == null)
+                return;
+
+            var shouldShowWave = isMoving && HasSplashFrames();
+            boatWave.enabled = shouldShowWave;
+            if (boatWave.gameObject.activeSelf != shouldShowWave)
+                boatWave.gameObject.SetActive(shouldShowWave);
+
+            if (shouldShowWave && splashFrameIndex < 0)
+                ResetSplashAnimation();
+        }
+
+        private void UpdateSplashAnimation()
+        {
+            if (!isMoving || boatWave == null || !HasSplashFrames())
+                return;
+
+            splashElapsed += Time.unscaledDeltaTime;
+            var nextFrameIndex = Mathf.FloorToInt(splashElapsed * splashFramesPerSecond) % splashFrames.Length;
+            if (nextFrameIndex == splashFrameIndex)
+                return;
+
+            splashFrameIndex = nextFrameIndex;
+            boatWave.sprite = splashFrames[splashFrameIndex];
+        }
+
+        private void ResetSplashAnimation()
+        {
+            splashElapsed = 0f;
+            splashFrameIndex = -1;
+
+            if (boatWave != null && HasSplashFrames())
+            {
+                splashFrameIndex = 0;
+                boatWave.sprite = splashFrames[0];
+            }
+        }
+
+        private bool HasSplashFrames()
+        {
+            return splashFrames != null && splashFrames.Length > 0;
+        }
+
+        private void ApplySplashPose()
+        {
+            if (boat == null || boatWave == null)
+                return;
+
+            var splashRect = boatWave.rectTransform;
+            splashRect.anchoredPosition = boat.anchoredPosition + splashOffset;
+            splashRect.localRotation = boat.localRotation;
         }
 
         private void ApplyShadowPose()
@@ -113,6 +172,7 @@ namespace ResortEmpire.UI
         {
             bobAmplitude = Mathf.Max(0f, bobAmplitude);
             tiltAmplitude = Mathf.Max(0f, tiltAmplitude);
+            splashFramesPerSecond = Mathf.Max(0.1f, splashFramesPerSecond);
 
             CacheReferences();
             ApplyWaveVisibility();
