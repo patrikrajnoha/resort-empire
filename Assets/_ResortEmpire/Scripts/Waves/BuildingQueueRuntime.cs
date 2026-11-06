@@ -20,6 +20,7 @@ namespace ResortEmpire.Gameplay.Waves
 
         public BuildingId BuildingId { get; }
         public int Count => waitingUnits.Count;
+        internal IReadOnlyList<NeedRuntime> WaitingUnits => waitingUnits;
         public IReadOnlyList<long> WaitingUnitIds
         {
             get

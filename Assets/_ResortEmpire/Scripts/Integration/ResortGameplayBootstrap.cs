@@ -14,7 +14,7 @@ namespace ResortEmpire.Gameplay.Integration
     /// Without an injected dependency source it remains safely unconfigured.
     /// </summary>
     [DisallowMultipleComponent]
-    public sealed class ResortGameplayBootstrap : MonoBehaviour, IResortGameplayUiFacade
+    public sealed class ResortGameplayBootstrap : MonoBehaviour, IResortGameplayUiFacade, ISuddenRushUiFacade
     {
         private static ResortGameplayBootstrap activeInstance;
 
@@ -23,6 +23,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         [SerializeField]
         private bool advanceSimulation = true;
+
+        [Tooltip("Optional override implementing IEnergyBoostService. The progression runtime provides the default.")]
+        [SerializeField] private MonoBehaviour energyBoostBehaviour;
 
         private GameState gameState;
         private SimulationClock simulationClock;
@@ -50,6 +53,52 @@ namespace ResortEmpire.Gameplay.Integration
         public string PersistenceDiagnostic => progression?.PersistenceDiagnostic;
         public int CompletedWaves => progression?.ClaimedWaves ?? 0;
         public int TotalWaves => progression?.TotalWaves ?? 0;
+        public int EnergyBoostCost => progression?.EnergyBoostCost ?? 0;
+        public bool HasUsedEnergyBoost(BuildingId buildingId) => waveManager?.HasUsedServiceBoost(buildingId) ?? false;
+        public double EnergyBoostRemaining(BuildingId buildingId) => waveManager?.ServiceBoostRemaining(buildingId) ?? 0d;
+
+        public SuddenRushNotice CurrentSuddenRush
+        {
+            get
+            {
+                if (CurrentPhase != GamePhase.WAVE_ACTIVE && CurrentPhase != GamePhase.WAVE_PAUSED)
+                    return default;
+                var rush = waveManager?.CaptureSuddenRush();
+                return rush == null || rush.NotificationDismissed ? default
+                    : new SuddenRushNotice(rush.EventId, rush.BuildingId, rush.DemandUnits, rush.Duration);
+            }
+        }
+
+        public ResortGameplayCommandResult TryDismissSuddenRush(string eventId) =>
+            waveManager != null && waveManager.TryDismissSuddenRush(eventId)
+                ? ResortGameplayCommandResult.Success()
+                : ResortGameplayCommandResult.Rejected("This Sudden Rush notification is no longer available.");
+
+        public ResortGameplayCommandResult GetEnergyBoostAvailability(BuildingId buildingId)
+        {
+            if (!IsConfigured || CurrentPhase != GamePhase.WAVE_ACTIVE)
+                return ResortGameplayCommandResult.Rejected("Energy boosts are available while the wave is running.");
+            var restriction = waveManager.ServiceBoostRestriction(buildingId);
+            if (restriction != null) return ResortGameplayCommandResult.Rejected(restriction);
+            if (energyBoostBehaviour is IEnergyBoostService boost) return boost.GetAvailability(buildingId);
+            if (progression == null) return ResortGameplayCommandResult.Unavailable("Energy boost unavailable.");
+            restriction = progression.EnergyBoostRestriction(buildingId);
+            return restriction == null ? ResortGameplayCommandResult.Success() : ResortGameplayCommandResult.Rejected(restriction);
+        }
+
+        public ResortGameplayCommandResult TryUseEnergyBoost(BuildingId buildingId) =>
+            TryUseEnergyBoost(buildingId, null);
+
+        public ResortGameplayCommandResult TryUseEnergyBoost(BuildingId buildingId, string dismissRushId)
+        {
+            var availability = GetEnergyBoostAvailability(buildingId);
+            if (!availability.Succeeded) return availability;
+            if (!(energyBoostBehaviour is IEnergyBoostService boost))
+                return ProgressionCommand(() => progression.TryUseEnergyBoost(buildingId, dismissRushId));
+            var result = boost.TryUseBoost(buildingId);
+            if (result.Succeeded && dismissRushId != null) TryDismissSuddenRush(dismissRushId);
+            return result;
+        }
 
         public WaveForecast NextWaveForecast
         {
@@ -133,7 +182,8 @@ namespace ResortEmpire.Gameplay.Integration
             if (paused)
             {
                 pausedByApplication = waveManager.TryPauseWave();
-                if (CurrentPhase == GamePhase.AWAITING_WAVE || CurrentPhase == GamePhase.WAVE_COMPLETE || CurrentPhase == GamePhase.UPGRADE)
+                if (CurrentPhase == GamePhase.AWAITING_WAVE || CurrentPhase == GamePhase.WAVE_COMPLETE
+                    || CurrentPhase == GamePhase.UPGRADE || progression?.CanSaveActiveWave == true)
                     progression?.TrySaveProgress();
             }
             else if (pausedByApplication)
@@ -141,6 +191,12 @@ namespace ResortEmpire.Gameplay.Integration
                 waveManager.TryResumeWave();
                 pausedByApplication = false;
             }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (progression?.CanSaveActiveWave == true)
+                progression.TrySaveProgress();
         }
 
         private void OnDestroy()

@@ -41,6 +41,8 @@ namespace ResortEmpire.Gameplay.Integration
         private int previewOverrideDepth;
 
         public bool IsPreviewOverrideActive => previewOverrideDepth > 0;
+        public BuildingId? WorkerAllocationTarget { get; private set; }
+        public event System.Action WorkerAllocationContextChanged;
 
         /// <summary>
         /// Temporarily suppresses normal state-driven visibility while a presentation-only
@@ -67,10 +69,26 @@ namespace ResortEmpire.Gameplay.Integration
         /// <summary>Opens S3 when Workers may be viewed: between waves or while a wave runs.</summary>
         public bool OpenWorkerAllocation()
         {
+            return OpenWorkerAllocationFor(null);
+        }
+
+        public bool OpenWorkerAllocation(BuildingId buildingId)
+        {
+            if (gameplayFacade == null) return false;
+            foreach (var building in gameplayFacade.Buildings)
+                if (building.BuildingId == buildingId && building.IsOwned)
+                    return OpenWorkerAllocationFor(buildingId);
+            return false;
+        }
+
+        private bool OpenWorkerAllocationFor(BuildingId? buildingId)
+        {
             if (IsPreviewOverrideActive || workerAllocationWindow == null || !AllowsWorkerAllocation(CurrentPhase))
                 return false;
 
+            WorkerAllocationTarget = buildingId;
             workerAllocationWindow.SetActive(true);
+            WorkerAllocationContextChanged?.Invoke();
             return true;
         }
 

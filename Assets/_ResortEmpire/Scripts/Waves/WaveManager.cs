@@ -4,6 +4,26 @@ using System.Collections.ObjectModel;
 
 namespace ResortEmpire.Gameplay.Waves
 {
+    /// <summary>Read-only state of a started rush. Dismissing its notice never changes demand.</summary>
+    public sealed class SuddenRushSnapshot
+    {
+        internal SuddenRushSnapshot(string eventId, BuildingId buildingId, int demandUnits,
+            double duration, bool notificationDismissed)
+        {
+            EventId = eventId;
+            BuildingId = buildingId;
+            DemandUnits = demandUnits;
+            Duration = duration;
+            NotificationDismissed = notificationDismissed;
+        }
+
+        public string EventId { get; }
+        public BuildingId BuildingId { get; }
+        public int DemandUnits { get; }
+        public double Duration { get; }
+        public bool NotificationDismissed { get; }
+    }
+
     public readonly struct NeedFlowSnapshot
     {
         internal NeedFlowSnapshot(
@@ -83,7 +103,7 @@ namespace ResortEmpire.Gameplay.Waves
     }
 
     /// <summary>Single authority for one deterministic scripted wave.</summary>
-    public sealed class WaveManager : IActiveWaveConfigurationGuard
+    public sealed partial class WaveManager : IActiveWaveConfigurationGuard
     {
         private readonly GameState gameState;
         private readonly SimulationClock clock;
@@ -135,6 +155,33 @@ namespace ResortEmpire.Gameplay.Waves
         public bool IsConfigurationStable => EnsureActiveConfigurationStable();
         public event Action<NeedCompletionRecord> NeedCompleted;
         public event Action<WaveSnapshot> WaveCompleted;
+
+        public SuddenRushSnapshot CaptureSuddenRush()
+        {
+            foreach (var scheduled in scheduledEvents)
+                if (scheduled.Definition.Kind == ScheduledDemandEventKind.SuddenRush
+                    && scheduled.IsStarted && !scheduled.IsFiltered)
+                    return new SuddenRushSnapshot(scheduled.Definition.EventId,
+                        scheduled.Flow.Building.BuildingId, scheduled.Definition.DemandUnits,
+                        scheduled.Definition.Duration, scheduled.NotificationDismissed);
+            return null;
+        }
+
+        public bool TryDismissSuddenRush(string eventId)
+        {
+            if (CurrentPhase != GamePhase.WAVE_ACTIVE && CurrentPhase != GamePhase.WAVE_PAUSED)
+                return false;
+            foreach (var scheduled in scheduledEvents)
+            {
+                if (scheduled.Definition.Kind != ScheduledDemandEventKind.SuddenRush
+                    || scheduled.Definition.EventId != eventId || !scheduled.IsStarted
+                    || scheduled.IsFiltered || scheduled.NotificationDismissed)
+                    continue;
+                scheduled.NotificationDismissed = true;
+                return true;
+            }
+            return false;
+        }
 
         public bool StartWave(WaveDefinition waveDefinition)
         {
@@ -546,7 +593,11 @@ namespace ResortEmpire.Gameplay.Waves
             }
 
             foreach (var building in buildings)
+            {
                 next = Math.Min(next, building.ServiceSlots.TimeUntilNextCompletion());
+                if (building.Boost.ExpiresAt > clock.CurrentTime)
+                    next = Math.Min(next, building.Boost.ExpiresAt - clock.CurrentTime);
+            }
 
             return Math.Max(0d, next);
         }
@@ -579,6 +630,9 @@ namespace ResortEmpire.Gameplay.Waves
                 var utilization = workerProvider.GetAssignedWorkerCount(building.BuildingId) > 0
                     ? config.UtilizationStaffed
                     : config.UtilizationEmpty;
+                var boost = building.Boost;
+                if (boost.ExpiresAt > clock.CurrentTime)
+                    utilization *= boost.SpeedMultiplier;
                 building.ServiceSlots.SetUtilization(utilization);
             }
         }
@@ -683,6 +737,7 @@ namespace ResortEmpire.Gameplay.Waves
             public BuildingId BuildingId => Snapshot.BuildingId;
             public BuildingQueueRuntime Queue { get; }
             public ServiceSlotRuntime ServiceSlots { get; }
+            public ServiceBoostCheckpoint Boost { get; set; }
         }
 
         private sealed class NeedFlowRuntime
@@ -713,6 +768,7 @@ namespace ResortEmpire.Gameplay.Waves
             public ScheduledDemandEvent Definition { get; }
             public bool IsStarted { get; set; }
             public bool IsFiltered { get; set; }
+            public bool NotificationDismissed { get; set; }
             public int Emitted { get; set; }
             public NeedType? TargetNeed { get; set; }
             public NeedFlowRuntime Flow { get; set; }

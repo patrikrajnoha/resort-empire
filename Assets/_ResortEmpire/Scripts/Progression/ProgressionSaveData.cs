@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using ResortEmpire.Gameplay.Waves;
 
 namespace ResortEmpire.Gameplay.Progression
 {
-    /// <summary>Persistence DTO, never exposed as live UI state. Only between-wave checkpoints are stored.</summary>
+    /// <summary>Progression checkpoint, with an active wave when Energy has been spent.</summary>
     [Serializable]
     public sealed class ProgressionSaveData
     {
@@ -18,6 +19,7 @@ namespace ResortEmpire.Gameplay.Progression
         public WorkerSaveData[] Workers;
         public List<string> ClaimedRewardIds = new List<string>();
         public WaveResultData Result;
+        public ActiveWaveCheckpoint ActiveWave;
 
         public ProgressionSaveData Copy()
         {
@@ -26,6 +28,7 @@ namespace ResortEmpire.Gameplay.Progression
             copy.Workers = Array.ConvertAll(Workers, x => x.Copy());
             copy.ClaimedRewardIds = new List<string>(ClaimedRewardIds);
             copy.Result = Result?.Copy();
+            copy.ActiveWave = ActiveWave?.Copy();
             return copy;
         }
     }

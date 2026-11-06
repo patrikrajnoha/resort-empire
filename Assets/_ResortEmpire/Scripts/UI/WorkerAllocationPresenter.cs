@@ -16,6 +16,7 @@ namespace ResortEmpire.UI
     public sealed class WorkerAllocationPresenter : MonoBehaviour
     {
         [SerializeField] private ResortGameplayBootstrap gameplay;
+        [SerializeField] private ResortUiStateCoordinator navigation;
         [SerializeField] private TextMeshProUGUI header;
         [SerializeField] private RectTransform cardContainer;
         [SerializeField] private ChefCardView cardTemplate;
@@ -43,6 +44,8 @@ namespace ResortEmpire.UI
         private void OnEnable()
         {
             if (gameplay == null) gameplay = FindAnyObjectByType<ResortGameplayBootstrap>();
+            if (navigation == null) navigation = FindAnyObjectByType<ResortUiStateCoordinator>();
+            if (navigation != null) navigation.WorkerAllocationContextChanged += HandleContextChanged;
             moveFeedback = null;
             if (gameplay == null) return;
             gameplay.StateChanged += HandleStateChanged;
@@ -53,6 +56,7 @@ namespace ResortEmpire.UI
 
         private void OnDisable()
         {
+            if (navigation != null) navigation.WorkerAllocationContextChanged -= HandleContextChanged;
             if (gameplay == null) return;
             gameplay.StateChanged -= HandleStateChanged;
             gameplay.WorkerAssignmentChanged -= HandleWorkerAssignmentChanged;
@@ -62,9 +66,15 @@ namespace ResortEmpire.UI
         private void HandleStateChanged(GamePhase previous, GamePhase next) => Refresh();
         private void HandleWorkerAssignmentChanged(WorkerAssignmentChange change) => Refresh();
         private void HandleBuildingsChanged(IReadOnlyList<BuildingStateSnapshot> buildings) => Refresh();
+        private void HandleContextChanged()
+        {
+            moveFeedback = null;
+            Refresh();
+        }
 
         private void Refresh()
         {
+            if (gameplay == null) return;
             var staffed = new HashSet<BuildingId>();
             foreach (var worker in gameplay.CurrentWorkerAssignments) staffed.Add(worker.BuildingId);
             cardBuildings.Clear();
@@ -75,6 +85,9 @@ namespace ResortEmpire.UI
                 cardBuildings.Add(building.BuildingId);
                 if (!staffed.Contains(building.BuildingId)) vacant = building.BuildingId;
             }
+            var target = navigation == null ? null : navigation.WorkerAllocationTarget;
+            if (target.HasValue)
+                vacant = cardBuildings.Contains(target.Value) && !staffed.Contains(target.Value) ? target : null;
 
             var canMove = vacant.HasValue
                 && (gameplay.CurrentPhase == GamePhase.AWAITING_WAVE || gameplay.CurrentPhase == GamePhase.WAVE_ACTIVE);
@@ -88,7 +101,9 @@ namespace ResortEmpire.UI
 
             if (header == null) return;
             if (moveFeedback != null) header.text = moveFeedback;
-            else if (!vacant.HasValue) header.text = "ALL BUILDINGS STAFFED";
+            else if (!vacant.HasValue) header.text = target.HasValue
+                ? ResortUiText.BuildingName(target.Value).ToUpperInvariant() + " ALREADY STAFFED"
+                : "ALL BUILDINGS STAFFED";
             else header.text = "MOVE A WORKER TO " + ResortUiText.BuildingName(vacant.Value).ToUpperInvariant();
         }
 
@@ -141,6 +156,9 @@ namespace ResortEmpire.UI
             foreach (var worker in gameplay.CurrentWorkerAssignments) staffed.Add(worker.BuildingId);
             foreach (var building in cardBuildings)
                 if (!staffed.Contains(building)) destination = building;
+            var target = navigation == null ? null : navigation.WorkerAllocationTarget;
+            if (target.HasValue)
+                destination = cardBuildings.Contains(target.Value) && !staffed.Contains(target.Value) ? target : null;
             if (!destination.HasValue) return;
 
             var command = gameplay.TryReassignWorker(source, destination.Value);

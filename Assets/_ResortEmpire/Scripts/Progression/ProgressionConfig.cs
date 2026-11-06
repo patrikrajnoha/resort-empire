@@ -35,6 +35,9 @@ namespace ResortEmpire.Gameplay.Progression
         public double RushDuration;
         public int RushUnits;
         public double DebutDemandFactor;
+        public int EnergyBoostCost = 3;
+        public double EnergyBoostTimeReduction = 0.5d;
+        public double EnergyBoostDuration = 15d;
 
         public WaveSimulationConfig SimulationConfig =>
             new WaveSimulationConfig(IncomingDuration, UtilizationStaffed, UtilizationEmpty);
@@ -60,6 +63,8 @@ namespace ResortEmpire.Gameplay.Progression
         public void Validate()
         {
             Require(InitialCoins >= 0 && InitialEnergy >= 0 && InitialResortValue >= 0, "Negative initial resources.");
+            Require(EnergyBoostCost > 0 && EnergyBoostTimeReduction > 0d && EnergyBoostTimeReduction < 1d
+                && Finite(EnergyBoostDuration) && EnergyBoostDuration > 0d, "Invalid Energy boost configuration.");
             Require(Capacities != null && Capacities.Length == 3, "Three capacity levels are required.");
             Require(UpgradeCosts != null && UpgradeCosts.Length == 2, "Two upgrade prices are required.");
             Require(PurchaseCosts != null && PurchaseCosts.Length == 5 && UnlockWaves != null && UnlockWaves.Length == 5

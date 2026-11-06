@@ -56,3 +56,6 @@ MonoBehaviour:
     RushDuration: 10
     RushUnits: 6
     DebutDemandFactor: 0.5
+    EnergyBoostCost: 3
+    EnergyBoostTimeReduction: 0.5
+    EnergyBoostDuration: 15

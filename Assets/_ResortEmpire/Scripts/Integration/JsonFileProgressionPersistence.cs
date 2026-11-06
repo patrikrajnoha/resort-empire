@@ -30,6 +30,7 @@ namespace ResortEmpire.Gameplay.Integration
                 // JsonUtility cannot store a null class field; it writes a default instance instead.
                 // A real result always has a positive wave ID, so WaveId 0 means "no result".
                 if (data.Result != null && data.Result.WaveId == 0) data.Result = null;
+                if (data.ActiveWave != null && data.ActiveWave.WaveId == 0) data.ActiveWave = null;
                 return data;
             }
             catch (ArgumentException exception) { throw new InvalidDataException("The local checkpoint is invalid; the file has been preserved.", exception); }

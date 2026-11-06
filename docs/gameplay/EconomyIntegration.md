@@ -82,15 +82,22 @@ IDs, progress, current result and the claim ledger are in that same file. Reward
 the persisted profile ID and wave number. Malformed/unknown versions disable configuration
 with a diagnostic and preserve the original file; there is no silent reset or guessed migration.
 
-The agreed scope is **between-wave checkpoints**. Before starting a wave the current Worker
-placement is saved. Relaunch during a wave restarts that wave from its pre-wave checkpoint,
-without offline progress. Backgrounding a live process suspends simulation; returning resumes
-it. Unclaimed results reopen on S4; claimed results reopen in `UPGRADE`. A completion write
-failure retains the result in memory and allows Claim to retry the complete transaction. If the
-process is killed before a failed write can be retried, the prior checkpoint is retained.
+Before starting a wave the current Worker placement is saved. Waves that use no boosts
+resume from that pre-wave checkpoint after relaunch. A Speed Up purchase saves the
+deduction and the active wave together, including queue order, work already done in
+occupied seats, scheduled demand and each building's boost allowance. Backgrounding,
+quitting normally or explicitly saving updates that checkpoint. Relaunch resumes it
+at its saved simulation time. Backgrounding a live process freezes the clock.
 
-Energy has balance and reward support only: boosts, regeneration, Firebase and active-queue
-serialization are outside this task. Resort Value cannot be spent or decreased.
+Unclaimed results reopen on S4 and claimed results reopen in `UPGRADE`. A completion
+write failure retains the result in memory and allows Claim to retry the complete
+transaction. The previous checkpoint remains available until a write succeeds.
+
+The S2 service cards and Sudden Rush use Energy Mode A. `DemoEconomy.asset` exposes
+`EnergyBoostCost`, `EnergyBoostTimeReduction` and `EnergyBoostDuration`. The defaults
+are 3 Energy, a 50% reduction and 15 seconds. The service rate is multiplied by
+`1 / (1 - reduction)` on top of Worker utilization. A building has one purchase
+per wave and keeps its existing number of seats.
 
 ## Demo waves and ratings
 

@@ -28,10 +28,8 @@ namespace ResortEmpire.Gameplay.Progression
             this.persistence = persistence ?? throw new ArgumentNullException(nameof(persistence));
             checkpoint = persistence.Load() ?? CreateNewGame(this.config);
             ValidateSave(checkpoint, this.config);
-            // Persist the profile ID before a wave can produce a stable reward ID.
-            persistence.Save(checkpoint.Copy());
             State = new GameState(checkpoint.Phase);
-            Clock = new SimulationClock();
+            Clock = new SimulationClock(checkpoint.ActiveWave?.ClockTime ?? 0d);
             Buildings = new BuildingManager(this.config, checkpoint);
             resources = new ResourceManager(new ResourceSnapshot(checkpoint.Coins, checkpoint.Energy, checkpoint.ResortValue));
             calculator = new WaveRewardCalculator(this.config);
@@ -39,6 +37,13 @@ namespace ResortEmpire.Gameplay.Progression
             Workers = new WorkerManager(Buildings, State, Array.ConvertAll(checkpoint.Workers, w => w.BuildingId));
             Workers.RestoreAssignments(assignments);
             Waves = new WaveManager(State, Clock, Buildings, Workers, this.config.SimulationConfig);
+            if (checkpoint.ActiveWave != null)
+            {
+                activeDefinition = GetNextWave();
+                Waves.RestoreActiveWave(activeDefinition, checkpoint.ActiveWave);
+            }
+            // Persist the profile ID before a wave can produce a stable reward ID.
+            persistence.Save(checkpoint.Copy());
             rewards.Apply(checkpoint.Result);
             Waves.WaveCompleted += HandleWaveCompleted;
         }
@@ -52,6 +57,7 @@ namespace ResortEmpire.Gameplay.Progression
         public WaveResult CurrentWaveResult => rewards.CurrentResult;
         public int ClaimedWaves => checkpoint.ClaimedWaves;
         public int TotalWaves => config.BaseDemand.Length;
+        public int EnergyBoostCost => config.EnergyBoostCost;
         public string LastCommandError { get; private set; }
         public string PersistenceDiagnostic { get; private set; }
         public string NotificationDiagnostic { get; private set; }
@@ -117,9 +123,63 @@ namespace ResortEmpire.Gameplay.Progression
 
         public bool TrySaveProgress() => Execute(() =>
         {
+            if (CanSaveActiveWave)
+                return SaveActiveWave(CaptureCheckpoint(), Waves.CaptureActiveWave());
             if (!IsCheckpointPhase(State.CurrentState)) return Reject("Active waves restart from their pre-wave checkpoint.");
             return Commit(CaptureCheckpoint());
         });
+
+        public bool CanSaveActiveWave =>
+            (State.CurrentState == GamePhase.WAVE_ACTIVE || State.CurrentState == GamePhase.WAVE_PAUSED)
+            && Waves.HasUsedServiceBoosts;
+
+        public string EnergyBoostRestriction(BuildingId buildingId)
+        {
+            var restriction = Waves.ServiceBoostRestriction(buildingId);
+            if (restriction != null) return restriction;
+            return Resources.Energy < config.EnergyBoostCost
+                ? "Speed Up needs " + config.EnergyBoostCost + " Energy."
+                : null;
+        }
+
+        public bool TryUseEnergyBoost(BuildingId buildingId, string dismissRushId = null) => Execute(() =>
+        {
+            var restriction = EnergyBoostRestriction(buildingId);
+            if (restriction != null) return Reject(restriction);
+            if (!Waves.IsConfigurationStable) return Reject(Waves.ConfigurationDiagnostic);
+            if (dismissRushId != null)
+            {
+                var rush = Waves.CaptureSuddenRush();
+                if (rush == null || rush.NotificationDismissed || rush.EventId != dismissRushId || rush.BuildingId != buildingId)
+                    return Reject("This Sudden Rush notification is no longer available.");
+            }
+            var expiresAt = Clock.CurrentTime + config.EnergyBoostDuration;
+            if (!ProgressionConfig.Finite(expiresAt) || expiresAt <= Clock.CurrentTime)
+                return Reject("Speed Up duration is outside the supported simulation time.");
+
+            var boost = new ServiceBoostCheckpoint
+            {
+                Building = buildingId, ExpiresAt = expiresAt,
+                SpeedMultiplier = 1d / (1d - config.EnergyBoostTimeReduction)
+            };
+            var next = CaptureCheckpoint();
+            next.Energy -= config.EnergyBoostCost;
+            if (!SaveActiveWave(next, Waves.CaptureActiveWave(boost, dismissRushId))) return false;
+
+            Waves.ApplyServiceBoost(boost);
+            if (dismissRushId != null) Waves.TryDismissSuddenRush(dismissRushId);
+            resources.Apply(new ResourceSnapshot(next.Coins, next.Energy, next.ResortValue));
+            Publish(ResourcesChanged, Resources);
+            return true;
+        });
+
+        private bool SaveActiveWave(ProgressionSaveData next, ActiveWaveCheckpoint activeWave)
+        {
+            next.ActiveWave = activeWave;
+            if (!WriteCheckpoint(next)) return false;
+            checkpoint = next;
+            return true;
+        }
 
         public bool TryPurchaseBuilding(BuildingId id) => Execute(() =>
         {
@@ -203,6 +263,7 @@ namespace ResortEmpire.Gameplay.Progression
         private ProgressionSaveData CaptureCheckpoint()
         {
             var next = (pendingCompletion ?? checkpoint).Copy();
+            next.ActiveWave = null;
             next.Coins = Resources.Coins;
             next.Energy = Resources.Energy;
             next.ResortValue = Resources.ResortValue;
@@ -220,13 +281,7 @@ namespace ResortEmpire.Gameplay.Progression
             var nextWorkers = new WorkerManager(nextBuildings, new GameState(next.Phase), Array.ConvertAll(next.Workers, w => w.BuildingId));
             var assignments = ReadWorkers(next);
             nextWorkers.RestoreAssignments(assignments);
-            try { persistence.Save(next.Copy()); }
-            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
-            {
-                PersistenceDiagnostic = "Progress could not be saved: " + exception.Message;
-                LastFailureWasPersistence = true;
-                return Reject(PersistenceDiagnostic);
-            }
+            if (!WriteCheckpoint(next)) return false;
             var previousResources = Resources;
             var previousWorkers = Workers.Assignments;
             checkpoint = next;
@@ -246,6 +301,19 @@ namespace ResortEmpire.Gameplay.Progression
                 foreach (var worker in Workers.Assignments)
                     if (worker.WorkerId == previousWorkers[i].WorkerId && worker.BuildingId != previousWorkers[i].BuildingId)
                         Publish(WorkerAssignmentChanged, new WorkerAssignmentChange(worker.WorkerId, previousWorkers[i].BuildingId, worker.BuildingId));
+            return true;
+        }
+
+        private bool WriteCheckpoint(ProgressionSaveData next)
+        {
+            try { persistence.Save(next.Copy()); }
+            catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException)
+            {
+                PersistenceDiagnostic = "Progress could not be saved: " + exception.Message;
+                LastFailureWasPersistence = true;
+                return Reject(PersistenceDiagnostic);
+            }
+            PersistenceDiagnostic = null;
             return true;
         }
 
@@ -303,6 +371,10 @@ namespace ResortEmpire.Gameplay.Progression
             Check(Guid.TryParseExact(data.ProfileId, "N", out profile), "Invalid profile ID.");
             Check(data.Coins >= 0 && data.Energy >= 0 && data.ResortValue >= 0, "Negative saved resources.");
             Check(data.ClaimedWaves >= 0 && data.ClaimedWaves <= config.BaseDemand.Length && IsCheckpointPhase(data.Phase), "Invalid saved progress.");
+            if (data.ActiveWave != null)
+                Check(data.Phase == GamePhase.AWAITING_WAVE && data.Result == null
+                    && data.ActiveWave.WaveId == data.ClaimedWaves + 1
+                    && data.ActiveWave.WaveId <= config.BaseDemand.Length, "Active wave does not match saved progress.");
             Check(data.Buildings != null && data.Buildings.Length == 5 && data.Workers != null, "Missing buildings or Workers.");
             Check(data.ClaimedRewardIds != null && data.ClaimedRewardIds.Count == data.ClaimedWaves, "Invalid reward ledger.");
             for (var i = 0; i < data.ClaimedWaves; i++)

@@ -105,6 +105,20 @@ namespace ResortEmpire.Gameplay.Waves
             return true;
         }
 
+        internal void CaptureServices(List<WaveUnitCheckpoint> units)
+        {
+            foreach (var service in activeServices)
+                units.Add(WaveUnitCheckpoint.InService(service.Need, service.Progress));
+        }
+
+        internal bool TryRestoreService(NeedRuntime unit, double startTime, double progress)
+        {
+            if (!(progress >= 0d && progress < 1d) || !TryStartService(unit, startTime))
+                return false;
+            activeServices[activeServices.Count - 1].Progress = progress;
+            return true;
+        }
+
         public double TimeUntilNextCompletion()
         {
             if (activeServices.Count == 0)
