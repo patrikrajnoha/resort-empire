@@ -406,13 +406,23 @@ namespace ResortEmpire.Gameplay.Integration
 
         private bool PrepareRoutine(TouristRoutineState routine, Vector2 startPosition, float startDelay)
         {
+            return PrepareRoutine(routine, startPosition, startDelay, startPosition);
+        }
+
+        private bool PrepareRoutine(
+            TouristRoutineState routine,
+            Vector2 startPosition,
+            float startDelay,
+            Vector2 navigationStartPosition)
+        {
             routine.Route.Clear();
             routine.PortalEntryRouteIndex = -1;
             routine.PortalExitRouteIndex = -1;
             int destinationIndex = routine.RoutineIndex;
             routine.Activity = GetActivity(destinationIndex);
             var destination = GetDestinationPosition(destinationIndex, routine.SpawnSlot);
-            var baseStart = islandBase.InverseTransformPoint(touristContainer.TransformPoint(startPosition));
+            var baseStart = islandBase.InverseTransformPoint(
+                touristContainer.TransformPoint(navigationStartPosition));
             var baseDestination = islandBase.InverseTransformPoint(touristContainer.TransformPoint(destination));
             var baseRoute = new List<Vector2>();
             if (!navigationMap.TryFindPath(baseStart, baseDestination, baseRoute))
@@ -425,6 +435,18 @@ namespace ResortEmpire.Gameplay.Integration
             }
             for (var index = 0; index < baseRoute.Count; index++)
                 routine.Route.Add(touristContainer.InverseTransformPoint(islandBase.TransformPoint(baseRoute[index])));
+
+            // A seated guest is rendered on a bar stool inside the building art.
+            // Leave from the configured walkable bar anchor, but preserve the
+            // visible seat position as a short, explicit exit segment.
+            if (Vector2.Distance(startPosition, navigationStartPosition) > 1f)
+            {
+                routine.Route.Insert(0, startPosition);
+                if (routine.PortalEntryRouteIndex >= 0)
+                    routine.PortalEntryRouteIndex++;
+                if (routine.PortalExitRouteIndex >= 0)
+                    routine.PortalExitRouteIndex++;
+            }
 
             // The navigation texture snaps to cell centres. Keep the configured
             // destination as the final point so a guest cannot visually stop at
@@ -576,9 +598,13 @@ namespace ResortEmpire.Gameplay.Integration
         private void AdvanceRoutine(TouristRoutineState routine)
         {
             var departurePosition = GetDeparturePosition(routine);
+            var navigationDeparturePosition = departurePosition;
+            if (routine.RoutineIndex == 1 && barSeatPoint != null)
+                navigationDeparturePosition = GetPointPosition(barSeatPoint);
+
             routine.Tourist.transform.SetParent(touristContainer, false);
             routine.RoutineIndex = (routine.RoutineIndex + 1) % 3;
-            if (!PrepareRoutine(routine, departurePosition, 0f))
+            if (!PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition))
             {
                 routine.AtDestination = false;
                 routine.Completed = true;

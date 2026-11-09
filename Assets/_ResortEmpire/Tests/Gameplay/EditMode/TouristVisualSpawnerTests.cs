@@ -217,6 +217,50 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
+        public void BarGuestLeavesVisualSeatThroughWalkableAnchorBeforeRestaurantRoute()
+        {
+            var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
+                "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png");
+            Assert.That(realMap, Is.Not.Null);
+            SetPrivateField(spawner, "navigationMapTexture", realMap);
+            spawnPoint.anchoredPosition = new Vector2(102f, -311f);
+            ((RectTransform)GetPrivateField(spawner, "receptionPoint")).anchoredPosition =
+                new Vector2(76f, -265f);
+            ((RectTransform)GetPrivateField(spawner, "receptionExitPoint")).anchoredPosition =
+                new Vector2(-74f, -37f);
+            ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
+                new Vector2(26f, -25f);
+            ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
+                new Vector2(500f, -30f);
+
+            boatArrivalSignal.NotifyArrived();
+            var stateChanged = typeof(TouristVisualSpawner).GetMethod(
+                "HandleStateChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            stateChanged.Invoke(spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var barRoutine = routines[1];
+            var enter = typeof(TouristVisualSpawner).GetMethod(
+                "EnterDestination", BindingFlags.Instance | BindingFlags.NonPublic);
+            enter.Invoke(spawner, new[] { barRoutine });
+            SetPrivateField(barRoutine, "DwellRemaining", 0f);
+
+            var advance = typeof(TouristVisualSpawner).GetMethod(
+                "AdvanceRoutine", BindingFlags.Instance | BindingFlags.NonPublic);
+            advance.Invoke(spawner, new[] { barRoutine });
+
+            Assert.That(GetPrivateField(barRoutine, "Completed"), Is.EqualTo(false),
+                "A bar guest should not be dropped when its visual stool is inside blocked art.");
+            Assert.That(GetPrivateField(barRoutine, "RoutineIndex"), Is.EqualTo(2));
+            Assert.That(GetPrivateField(barRoutine, "AtDestination"), Is.EqualTo(false));
+
+            var route = (IList)GetPrivateField(barRoutine, "Route");
+            Assert.That(route.Count, Is.GreaterThan(2));
+            Assert.That(Vector2.Distance((Vector2)route[0], new Vector2(4.63f, 95.99f)), Is.LessThan(0.01f));
+            Assert.That(Vector2.Distance((Vector2)route[1], new Vector2(26f, -25f)), Is.LessThan(16f));
+        }
+
+        [Test]
         public void BarGuestsAnimateWhileTalking()
         {
             boatArrivalSignal.NotifyArrived();
