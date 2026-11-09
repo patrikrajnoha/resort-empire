@@ -324,6 +324,39 @@ namespace ResortEmpire.Gameplay.Tests
                 Is.EqualTo((Vector2)route[portalExit]));
         }
 
+        [Test]
+        public void RestaurantGuestUsesReceptionPortalAndAllConfiguredTouristsRemainActive()
+        {
+            var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
+                "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png");
+            Assert.That(realMap, Is.Not.Null);
+            SetPrivateField(spawner, "navigationMapTexture", realMap);
+            spawnPoint.anchoredPosition = new Vector2(102f, -311f);
+            ((RectTransform)GetPrivateField(spawner, "receptionPoint")).anchoredPosition =
+                new Vector2(76f, -265f);
+            ((RectTransform)GetPrivateField(spawner, "receptionExitPoint")).anchoredPosition =
+                new Vector2(-74f, -37f);
+            ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
+                new Vector2(26f, -25f);
+            ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
+                new Vector2(356f, -77f);
+
+            boatArrivalSignal.NotifyArrived();
+            var stateChanged = typeof(TouristVisualSpawner).GetMethod(
+                "HandleStateChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            stateChanged.Invoke(spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            Assert.That(spawner.ActiveTouristCount, Is.EqualTo(5),
+                "A disconnected restaurant region must not skip a configured tourist when the reception portal is valid.");
+
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var restaurantRoutine = routines[2];
+            var portalEntry = (int)GetPrivateField(restaurantRoutine, "PortalEntryRouteIndex");
+            var portalExit = (int)GetPrivateField(restaurantRoutine, "PortalExitRouteIndex");
+            Assert.That(portalEntry, Is.GreaterThan(0));
+            Assert.That(portalExit, Is.EqualTo(portalEntry + 1));
+        }
+
         private static void SetPrivateField(object target, string fieldName, object value)
         {
             var field = target.GetType().GetField(
