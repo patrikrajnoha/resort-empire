@@ -24,7 +24,7 @@ namespace ResortEmpire.Gameplay.Tests
             {
                 (dock, PixelToLocal(800f, 808f)),          // Reception entrance
                 (receptionExit, PixelToLocal(750f, 568f)), // Beach Bar entrance
-                (receptionExit, PixelToLocal(1080f, 620f)) // Restaurant entrance
+                (receptionExit, PixelToLocal(1224f, 573f)) // Restaurant stairs
             };
 
             foreach (var (start, destination) in routes)

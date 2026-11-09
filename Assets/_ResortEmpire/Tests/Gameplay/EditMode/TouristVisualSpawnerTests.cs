@@ -293,7 +293,7 @@ namespace ResortEmpire.Gameplay.Tests
             ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
                 new Vector2(26f, -25f);
             ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
-                new Vector2(356f, -77f);
+                new Vector2(500f, -30f);
 
             boatArrivalSignal.NotifyArrived();
             var stateChanged = typeof(TouristVisualSpawner).GetMethod(
@@ -339,7 +339,7 @@ namespace ResortEmpire.Gameplay.Tests
             ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
                 new Vector2(26f, -25f);
             ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
-                new Vector2(356f, -77f);
+                new Vector2(500f, -30f);
 
             boatArrivalSignal.NotifyArrived();
             var stateChanged = typeof(TouristVisualSpawner).GetMethod(
