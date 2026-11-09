@@ -36,6 +36,8 @@ namespace ResortEmpire.UI
         [SerializeField] private Button[] buildingMarkers;
         [Tooltip("Pool Worker marker; shown only after Pool ownership is confirmed.")]
         [SerializeField] private Button poolWorkerMarker;
+        [Tooltip("Bungalows Worker marker; shown only after Bungalows ownership is confirmed.")]
+        [SerializeField] private Button bungalowsWorkerMarker;
         [SerializeField] private Button unlockAreaButton;
         [SerializeField] private WorldAnchoredUiMarker unlockAreaMarker;
         [SerializeField] private PlotMarkerTarget[] plots;
@@ -55,6 +57,8 @@ namespace ResortEmpire.UI
             if (unlockAreaButton != null) unlockAreaButton.onClick.AddListener(OpenAreaUnlock);
             foreach (var marker in buildingMarkers)
                 if (marker != null) marker.onClick.AddListener(OpenWorkerAllocation);
+            if (poolWorkerMarker != null) poolWorkerMarker.onClick.AddListener(OpenPoolWorkerAllocation);
+            if (bungalowsWorkerMarker != null) bungalowsWorkerMarker.onClick.AddListener(OpenBungalowsWorkerAllocation);
             Refresh();
         }
 
@@ -72,6 +76,8 @@ namespace ResortEmpire.UI
             if (unlockAreaButton != null) unlockAreaButton.onClick.RemoveListener(OpenAreaUnlock);
             foreach (var marker in buildingMarkers)
                 if (marker != null) marker.onClick.RemoveListener(OpenWorkerAllocation);
+            if (poolWorkerMarker != null) poolWorkerMarker.onClick.RemoveListener(OpenPoolWorkerAllocation);
+            if (bungalowsWorkerMarker != null) bungalowsWorkerMarker.onClick.RemoveListener(OpenBungalowsWorkerAllocation);
         }
 
         private void HandleStateChanged(GamePhase previous, GamePhase next) => Refresh();
@@ -96,6 +102,8 @@ namespace ResortEmpire.UI
 
             if (poolWorkerMarker != null)
                 poolWorkerMarker.gameObject.SetActive(IsOwned(BuildingId.Pool));
+            if (bungalowsWorkerMarker != null)
+                bungalowsWorkerMarker.gameObject.SetActive(IsOwned(BuildingId.Bungalows));
 
             var plot = phase == GamePhase.AWAITING_WAVE ? FindEligiblePlot() : null;
             if (unlockAreaButton != null) unlockAreaButton.gameObject.SetActive(plot != null);
@@ -147,6 +155,16 @@ namespace ResortEmpire.UI
         private void OpenWorkerAllocation()
         {
             if (navigation != null) navigation.OpenWorkerAllocation();
+        }
+
+        private void OpenPoolWorkerAllocation()
+        {
+            if (navigation != null) navigation.OpenWorkerAllocation(BuildingId.Pool);
+        }
+
+        private void OpenBungalowsWorkerAllocation()
+        {
+            if (navigation != null) navigation.OpenWorkerAllocation(BuildingId.Bungalows);
         }
 
         private void OpenAreaUnlock()
