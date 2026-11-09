@@ -334,7 +334,7 @@ namespace ResortEmpire.Gameplay.Integration
                 var routineSpawnPosition = spawnPosition + GetSpawnSpreadOffset(routine.SpawnSlot);
                 if (!PrepareRoutine(routine, routineSpawnPosition, routine.StaggerDelay))
                 {
-                    tourist.SetActive(false);
+                    SetTouristActive(tourist, false);
                     continue;
                 }
                 touristRoutines.Add(routine);
@@ -366,7 +366,7 @@ namespace ResortEmpire.Gameplay.Integration
             for (var index = 0; index < pooledTourists.Count; index++)
             {
                 if (pooledTourists[index] != null)
-                    pooledTourists[index].SetActive(false);
+                    SetTouristActive(pooledTourists[index], false);
             }
 
             ActiveTouristCount = 0;
@@ -466,8 +466,8 @@ namespace ResortEmpire.Gameplay.Integration
             routine.PathPosition = startPosition;
             routine.StartDelayRemaining = startDelay;
             routine.PortalDelayRemaining = 0f;
-            routine.Tourist.SetActive(true);
             SetTouristPosition(routine);
+            SetTouristActive(routine.Tourist, true);
             return true;
         }
 
@@ -514,9 +514,9 @@ namespace ResortEmpire.Gameplay.Integration
             if (routine.PortalDelayRemaining > 0f)
             {
                 routine.PortalDelayRemaining -= deltaTime;
-                if (routine.PortalDelayRemaining <= 0f)
-                    routine.Tourist.SetActive(true);
                 SetTouristPosition(routine);
+                if (routine.PortalDelayRemaining <= 0f)
+                    SetTouristActive(routine.Tourist, true);
                 return;
             }
 
@@ -544,8 +544,9 @@ namespace ResortEmpire.Gameplay.Integration
             routine.RouteIndex++;
             if (routine.RouteIndex == routine.PortalExitRouteIndex)
             {
-                routine.Tourist.SetActive(false);
                 routine.PathPosition = routine.Route[routine.PortalExitRouteIndex];
+                SetTouristPosition(routine);
+                SetTouristActive(routine.Tourist, false);
                 routine.RouteIndex++;
                 routine.PortalDelayRemaining = 0.8f;
                 return;
@@ -566,7 +567,7 @@ namespace ResortEmpire.Gameplay.Integration
 
             if (routine.Activity == TouristActivity.HideInside)
             {
-                routine.Tourist.SetActive(false);
+                SetTouristActive(routine.Tourist, false);
                 return;
             }
 
@@ -673,6 +674,12 @@ namespace ResortEmpire.Gameplay.Integration
             var rectTransform = routine.Tourist.GetComponent<RectTransform>();
             if (rectTransform != null)
                 rectTransform.anchoredPosition = routine.PathPosition;
+        }
+
+        private static void SetTouristActive(GameObject tourist, bool active)
+        {
+            if (tourist != null && tourist.activeSelf != active)
+                tourist.SetActive(active);
         }
 
         private static Vector2 GetSpawnSpreadOffset(int spawnSlot)

@@ -231,7 +231,7 @@ namespace ResortEmpire.Gameplay.Tests
             ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
                 new Vector2(26f, -25f);
             ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
-                new Vector2(500f, -30f);
+                new Vector2(480f, -100f);
 
             boatArrivalSignal.NotifyArrived();
             var stateChanged = typeof(TouristVisualSpawner).GetMethod(
@@ -337,7 +337,7 @@ namespace ResortEmpire.Gameplay.Tests
             ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
                 new Vector2(26f, -25f);
             ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
-                new Vector2(500f, -30f);
+                new Vector2(480f, -100f);
 
             boatArrivalSignal.NotifyArrived();
             var stateChanged = typeof(TouristVisualSpawner).GetMethod(
@@ -361,6 +361,9 @@ namespace ResortEmpire.Gameplay.Tests
                 "MoveAlongRoutine", BindingFlags.Instance | BindingFlags.NonPublic);
             move.Invoke(spawner, new[] { barRoutine, (object)0.1f });
             Assert.That(tourist.activeSelf, Is.False);
+            Assert.That(tourist.GetComponent<RectTransform>().anchoredPosition,
+                Is.EqualTo((Vector2)route[portalExit]),
+                "A hidden tourist must be positioned at the portal exit before reactivation.");
 
             move.Invoke(spawner, new[] { barRoutine, (object)1f });
             Assert.That(tourist.activeSelf, Is.True);
@@ -383,7 +386,7 @@ namespace ResortEmpire.Gameplay.Tests
             ((RectTransform)GetPrivateField(spawner, "barSeatPoint")).anchoredPosition =
                 new Vector2(26f, -25f);
             ((RectTransform)GetPrivateField(spawner, "restaurantPoint")).anchoredPosition =
-                new Vector2(500f, -30f);
+                new Vector2(480f, -100f);
 
             boatArrivalSignal.NotifyArrived();
             var stateChanged = typeof(TouristVisualSpawner).GetMethod(

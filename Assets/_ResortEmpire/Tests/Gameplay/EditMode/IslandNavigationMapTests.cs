@@ -24,7 +24,7 @@ namespace ResortEmpire.Gameplay.Tests
             {
                 (dock, PixelToLocal(800f, 808f)),          // Reception entrance
                 (receptionExit, PixelToLocal(750f, 568f)), // Beach Bar entrance
-                (receptionExit, PixelToLocal(1224f, 573f)) // Restaurant stairs
+                (receptionExit, PixelToLocal(1204f, 643f)) // Restaurant stair foot
             };
 
             foreach (var (start, destination) in routes)
@@ -44,6 +44,27 @@ namespace ResortEmpire.Gameplay.Tests
                         Assert.That(map.IsWalkable(Vector2.Lerp(a, b, (float)sample / samples)),
                             Is.True, "A route segment crossed water, a building plot, or an obstacle.");
                 }
+            }
+
+            var restaurantStairFoot = PixelToLocal(1204f, 643f);
+            Assert.That(map.IsWalkable(PixelToLocal(1224f, 573f)), Is.False,
+                "The Restaurant stair artwork must not remain a walkable navigation surface.");
+            Assert.That(map.IsWalkable(restaurantStairFoot), Is.True,
+                "The walkable Restaurant stair-foot approach must remain connected.");
+
+            var restaurantRoute = new List<Vector2>();
+            Assert.That(map.TryFindPath(receptionExit, restaurantStairFoot, restaurantRoute), Is.True);
+            Assert.That(restaurantRoute.Exists(point => point.y <= -75f), Is.True,
+                "The Restaurant route must descend into the front approach corridor before the stairs.");
+            var stairObstacle = new Rect(456f, -80f, 88f, 80f);
+            for (var segment = 1; segment < restaurantRoute.Count; segment++)
+            {
+                var a = restaurantRoute[segment - 1];
+                var b = restaurantRoute[segment];
+                var samples = Mathf.CeilToInt(Vector2.Distance(a, b) / 2f);
+                for (var sample = 0; sample <= samples; sample++)
+                    Assert.That(stairObstacle.Contains(Vector2.Lerp(a, b, (float)sample / samples)), Is.False,
+                        "The Restaurant route entered the lower-right staircase footprint.");
             }
 
             var impossibleShortcut = new List<Vector2>();
