@@ -1,16 +1,20 @@
 using System;
+using System.Collections.Generic;
 using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Integration;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace ResortEmpire.UI
 {
     /// <summary>
-    /// S2 binding: served/total and queue warnings for each owned need, stacked in a stable
-    /// 3 -> 4 -> 5 order. Numeric satisfaction is never shown during a wave; tapping a need opens S3.
+    /// S2 binding: one card per owned need, stacked in a stable 3 -> 4 -> 5 order. Each card shows
+    /// its service, served/total, the waiting queue and the Worker or seat limit behind it. Status is
+    /// spelled out, never colour-only. Numeric satisfaction is never shown during a wave. Tapping a
+    /// card opens S3 for that service; S2 stays active underneath, so closing S3 returns here.
     /// </summary>
     public sealed class WaveNeedsPresenter : MonoBehaviour
     {
@@ -19,9 +23,13 @@ namespace ResortEmpire.UI
         {
             public NeedType Need;
             public RectTransform Root;
+            [Tooltip("Need name label; the service name is appended in a smaller grey run.")]
+            public TextMeshProUGUI Name;
             public TextMeshProUGUI Count;
             public Image ProgressFill;
-            public TextMeshProUGUI Warning;
+            [Tooltip("Always-visible row: status word, waiting queue and the Worker or seat limit.")]
+            [FormerlySerializedAs("Warning")]
+            public TextMeshProUGUI Detail;
             public GameObject AlertIcon;
             public Image Icon;
             [Tooltip("Glyph icons take the status color; full-color building art keeps its own.")]
@@ -31,6 +39,7 @@ namespace ResortEmpire.UI
             public TextMeshProUGUI SpeedUpLabel;
             public TextMeshProUGUI BoostTimer;
             [NonSerialized] public UnityAction SpeedUp;
+            [NonSerialized] public UnityAction Open;
             [NonSerialized] public string BoostFailure;
         }
 
@@ -45,12 +54,24 @@ namespace ResortEmpire.UI
         [SerializeField] private NeedCard[] cards;
         [SerializeField] private float firstCardTop = 150f;
         [SerializeField] private float cardSpacing = 24f;
-        [SerializeField] private float cardHeight = 150f;
-        [SerializeField] private float warningCardHeight = 209f;
+        [SerializeField] private float cardHeight = 176f;
         [SerializeField] private float refreshInterval = 0.1f;
         [SerializeField] private Color okColor = new Color(0.06f, 0.72f, 0.51f);
         [SerializeField] private Color recoveringColor = new Color(1f, 0.6f, 0f);
         [SerializeField] private Color bottleneckColor = new Color(0.96f, 0.25f, 0.27f);
+        [SerializeField] private Color serviceNameColor = new Color(0.45f, 0.5f, 0.58f);
+
+        [Header("Bottleneck detection")]
+        [SerializeField] private WaveNeedStatusSettings statusSettings = new WaveNeedStatusSettings();
+
+        [Header("Feedback toast")]
+        [Tooltip("Short contextual messages. Never blocks taps; holds while S3 covers the panel.")]
+        [SerializeField] private CanvasGroup feedbackToast;
+        [SerializeField] private TextMeshProUGUI feedbackText;
+        [SerializeField] private float feedbackDuration = 3.5f;
+        [SerializeField] private float feedbackFade = 0.25f;
+        [Tooltip("A lower-priority message may replace a higher one only after this many seconds.")]
+        [SerializeField] private float feedbackMinimumTime = 1.5f;
 
         [Header("Sudden Rush")]
         [SerializeField] private RectTransform rushNotification;
@@ -61,19 +82,42 @@ namespace ResortEmpire.UI
         [SerializeField] private UnityEngine.UI.Button energyBoostButton;
         [SerializeField] private UnityEngine.UI.Button ignoreRushButton;
 
-        private readonly WaveNeedStatusTracker tracker = new WaveNeedStatusTracker();
+        private WaveNeedStatusTracker tracker;
         private float nextRefresh;
         private string rushActionMessage;
         private bool scrollToTop;
+        private float feedbackRemaining;
+        private float feedbackShown;
+        private NeedFeedbackKind feedbackKind;
+
+        private WaveNeedStatusTracker Tracker
+        {
+            get
+            {
+                if (tracker != null) return tracker;
+                try { tracker = new WaveNeedStatusTracker(statusSettings); }
+                catch (ArgumentOutOfRangeException exception)
+                {
+                    Debug.LogError("Invalid S2 bottleneck settings; using defaults. " + exception.Message, this);
+                    tracker = new WaveNeedStatusTracker();
+                }
+                return tracker;
+            }
+        }
 
         private void OnEnable()
         {
             scrollToTop = true;
+            HideFeedback();
             if (gameplay == null) gameplay = FindAnyObjectByType<ResortGameplayBootstrap>();
             if (navigation == null) navigation = FindAnyObjectByType<ResortUiStateCoordinator>();
             foreach (var card in cards)
             {
-                if (card.Button != null) card.Button.onClick.AddListener(OpenWorkerAllocation);
+                if (card.Button != null)
+                {
+                    card.Open = () => OpenWorkerAllocation(card);
+                    card.Button.onClick.AddListener(card.Open);
+                }
                 if (card.SpeedUpButton == null) continue;
                 card.BoostFailure = null;
                 card.SpeedUp = () => UseEnergyForCard(card);
@@ -92,8 +136,8 @@ namespace ResortEmpire.UI
         {
             foreach (var card in cards)
             {
-                if (card.Button != null) card.Button.onClick.RemoveListener(OpenWorkerAllocation);
-                if (card.SpeedUpButton != null) card.SpeedUpButton.onClick.RemoveListener(card.SpeedUp);
+                if (card.Button != null && card.Open != null) card.Button.onClick.RemoveListener(card.Open);
+                if (card.SpeedUpButton != null && card.SpeedUp != null) card.SpeedUpButton.onClick.RemoveListener(card.SpeedUp);
             }
             if (moveWorkerButton != null) moveWorkerButton.onClick.RemoveListener(MoveWorkerToRush);
             if (energyBoostButton != null) energyBoostButton.onClick.RemoveListener(UseEnergyForRush);
@@ -105,6 +149,7 @@ namespace ResortEmpire.UI
 
         private void Update()
         {
+            UpdateFeedback();
             if (Time.unscaledTime < nextRefresh) return;
             Refresh();
         }
@@ -116,7 +161,7 @@ namespace ResortEmpire.UI
         {
             nextRefresh = Time.unscaledTime + refreshInterval;
             // Before the first wave (for example an F1 preview) the static layout stays untouched.
-            var wave = tracker.Capture(gameplay);
+            var wave = Tracker.Capture(gameplay);
             if (wave == null)
             {
                 ResetScrollIfRequested();
@@ -134,9 +179,10 @@ namespace ResortEmpire.UI
                 card.Root.gameObject.SetActive(status.HasValue);
                 if (!status.HasValue) continue;
                 var need = status.Value;
-                var warning = WarningFor(need);
                 var color = ColorFor(need.Status);
-                SetText(card.Count, need.Served + "/" + need.Total + SuffixFor(need.Status));
+                SetText(card.Name, ResortUiText.NeedName(need.NeedType) + "<size=72%><color=#"
+                    + ColorUtility.ToHtmlStringRGB(serviceNameColor) + ">  " + ResortUiText.BuildingName(need.BuildingId) + "</color></size>");
+                SetText(card.Count, need.Served + "/" + need.Total);
                 if (card.Count != null) card.Count.color = color;
                 if (card.Icon != null && card.TintIcon) card.Icon.color = color;
                 if (card.ProgressFill != null)
@@ -144,21 +190,20 @@ namespace ResortEmpire.UI
                     card.ProgressFill.fillAmount = need.Total > 0 ? (float)need.Served / need.Total : 0f;
                     card.ProgressFill.color = color;
                 }
-                if (card.Warning != null)
+                if (card.Detail != null)
                 {
-                    card.Warning.gameObject.SetActive(warning != null);
-                    card.Warning.text = warning ?? string.Empty;
+                    if (!card.Detail.gameObject.activeSelf) card.Detail.gameObject.SetActive(true);
+                    card.Detail.text = DetailFor(need);
                 }
                 if (card.AlertIcon != null) card.AlertIcon.SetActive(need.Status == NeedServiceStatus.BOTTLENECK);
                 RefreshBoost(card, need);
 
-                var height = warning == null ? cardHeight : warningCardHeight;
-                if (!Mathf.Approximately(card.Root.rect.height, height))
-                    card.Root.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+                if (!Mathf.Approximately(card.Root.rect.height, cardHeight))
+                    card.Root.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardHeight);
                 if (needsScroll == null)
                 {
-                    card.Root.anchoredPosition = new Vector2(card.Root.anchoredPosition.x, -(top + height * 0.5f));
-                    top += height + cardSpacing;
+                    card.Root.anchoredPosition = new Vector2(card.Root.anchoredPosition.x, -(top + cardHeight * 0.5f));
+                    top += cardHeight + cardSpacing;
                 }
                 if (IsWorse(need, worst)) worst = need;
             }
@@ -171,6 +216,7 @@ namespace ResortEmpire.UI
                     guestQuote.anchoredPosition = new Vector2(guestQuote.anchoredPosition.x, -(top + guestQuote.rect.height * 0.5f));
                 SetText(guestQuoteText, QuoteFor(worst));
             }
+            ShowFeedback(wave.Feedback);
             ResetScrollIfRequested();
         }
 
@@ -229,25 +275,35 @@ namespace ResortEmpire.UI
             return status == NeedServiceStatus.RECOVERING ? recoveringColor : okColor;
         }
 
-        private static string SuffixFor(NeedServiceStatus status)
+        // The status word always leads, so the state never depends on colour alone. The cause then
+        // separates a missing Worker (move one now) from full seats (upgrade between waves).
+        private string DetailFor(NeedStatusSnapshot need)
         {
-            switch (status)
+            var waiting = need.Waiting + " waiting";
+            switch (need.Status)
             {
-                case NeedServiceStatus.BOTTLENECK: return " BOTTLENECK";
-                case NeedServiceStatus.RECOVERING: return " RECOVERING";
-                case NeedServiceStatus.SATISFIED: return " DONE";
-                default: return string.Empty;
+                case NeedServiceStatus.SATISFIED:
+                    return Colored("SATISFIED", okColor) + " · all " + need.Total + " served";
+                case NeedServiceStatus.BOTTLENECK:
+                    return Colored("BOTTLENECK", bottleneckColor) + " · " + waiting + " · "
+                        + Colored(CauseFor(need), bottleneckColor);
+                case NeedServiceStatus.RECOVERING:
+                    return Colored("RECOVERING", recoveringColor) + " · " + waiting + ", shrinking";
+                default:
+                    return Colored("OK", okColor) + " · " + waiting + " · "
+                        + (need.IsStaffed ? "Worker on duty" : Colored("No Worker", recoveringColor));
             }
         }
 
-        // Distinguishes a missing Worker (move one now) from full seats (upgrade between waves).
-        private static string WarningFor(NeedStatusSnapshot need)
+        private static string CauseFor(NeedStatusSnapshot need)
         {
-            var building = ResortUiText.BuildingName(need.BuildingId);
-            if (need.Status == NeedServiceStatus.RECOVERING) return building + " queue recovering";
-            if (need.Status != NeedServiceStatus.BOTTLENECK) return null;
-            return need.IsStaffed ? building + " queue growing: seats full" : building + " queue growing: no Worker";
+            return need.Cause == NeedQueueCause.ServiceCapacity
+                ? "SEATS FULL " + need.InService + "/" + need.Capacity
+                : "NO WORKER";
         }
+
+        private static string Colored(string text, Color color) =>
+            "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">" + text + "</color>";
 
         private static bool IsWorse(NeedStatusSnapshot candidate, NeedStatusSnapshot? current)
         {
@@ -268,9 +324,81 @@ namespace ResortEmpire.UI
             return "\"Everything is running smoothly!\"";
         }
 
-        private void OpenWorkerAllocation()
+        private void ShowFeedback(IReadOnlyList<NeedFeedback> feedback)
         {
-            if (navigation != null) navigation.OpenWorkerAllocation();
+            if (feedback.Count == 0 || feedbackToast == null || feedbackText == null) return;
+            var lead = feedback[0];
+            // A routine message must not immediately hide a fresh warning.
+            if (feedbackRemaining > 0f && lead.Kind < feedbackKind && feedbackShown < feedbackMinimumTime) return;
+
+            var message = MessageFor(lead);
+            // A Worker move helps one building and slows another: show both halves together.
+            if (feedback.Count > 1) message += "\n" + MessageFor(feedback[1]);
+            feedbackText.text = message;
+            feedbackKind = lead.Kind;
+            feedbackRemaining = feedbackDuration;
+            feedbackShown = 0f;
+            if (!feedbackToast.gameObject.activeSelf) feedbackToast.gameObject.SetActive(true);
+        }
+
+        private void UpdateFeedback()
+        {
+            if (feedbackToast == null || feedbackRemaining <= 0f) return;
+            // S3 covers the panel; hold the message so it is still there when the player returns.
+            if (navigation == null || !navigation.IsWorkerAllocationOpen)
+            {
+                feedbackRemaining -= Time.unscaledDeltaTime;
+                feedbackShown += Time.unscaledDeltaTime;
+            }
+            if (feedbackRemaining <= 0f)
+            {
+                HideFeedback();
+                return;
+            }
+            var fade = Mathf.Max(0.01f, feedbackFade);
+            feedbackToast.alpha = Mathf.Clamp01(Mathf.Min(feedbackShown, feedbackRemaining) / fade);
+        }
+
+        private void HideFeedback()
+        {
+            feedbackRemaining = 0f;
+            if (feedbackToast == null) return;
+            feedbackToast.alpha = 0f;
+            feedbackToast.blocksRaycasts = false;
+            feedbackToast.interactable = false;
+            if (feedbackToast.gameObject.activeSelf) feedbackToast.gameObject.SetActive(false);
+        }
+
+        private static string MessageFor(NeedFeedback feedback)
+        {
+            var building = ResortUiText.BuildingName(feedback.BuildingId);
+            var need = ResortUiText.NeedName(feedback.NeedType);
+            switch (feedback.Kind)
+            {
+                case NeedFeedbackKind.BottleneckMissingWorker:
+                    return building + " queue keeps growing: no Worker. Tap " + need + " to send one.";
+                case NeedFeedbackKind.BottleneckCapacity:
+                    return building + " seats are full. Use Energy now or upgrade after the wave.";
+                case NeedFeedbackKind.RecoveringAfterWorker:
+                    return "Worker arrived! " + building + " is recovering.";
+                case NeedFeedbackKind.WorkerRemoved:
+                    return building + " has no Worker now and serves slower.";
+                case NeedFeedbackKind.Recovering:
+                    return building + " queue is shrinking.";
+                case NeedFeedbackKind.BackToNormal:
+                    return building + " is back to normal.";
+                case NeedFeedbackKind.WorkerAssigned:
+                    return building + " has a Worker: full speed.";
+                case NeedFeedbackKind.ArrivalsEnded:
+                    return "All guests have arrived. Clear the remaining queues.";
+                default:
+                    return need + " fully served at " + building + ".";
+            }
+        }
+
+        private void OpenWorkerAllocation(NeedCard card)
+        {
+            if (navigation != null) navigation.OpenWorkerAllocationForService(BuildingNeedMapping.GetBuildingId(card.Need));
         }
 
         private float RefreshRushNotification()

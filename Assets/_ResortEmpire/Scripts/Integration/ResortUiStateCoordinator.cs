@@ -41,7 +41,12 @@ namespace ResortEmpire.Gameplay.Integration
         private int previewOverrideDepth;
 
         public bool IsPreviewOverrideActive => previewOverrideDepth > 0;
+        /// <summary>Fixed move destination for S3. Null lets S3 use the single vacant building.</summary>
         public BuildingId? WorkerAllocationTarget { get; private set; }
+        /// <summary>The service S3 was opened for, if any. It may already be staffed.</summary>
+        public BuildingId? WorkerAllocationFocus { get; private set; }
+        /// <summary>True while S3 is showing; S2 stays active underneath and is visible again once S3 closes.</summary>
+        public bool IsWorkerAllocationOpen => workerAllocationWindow != null && workerAllocationWindow.activeInHierarchy;
         public event System.Action WorkerAllocationContextChanged;
 
         /// <summary>
@@ -69,24 +74,46 @@ namespace ResortEmpire.Gameplay.Integration
         /// <summary>Opens S3 when Workers may be viewed: between waves or while a wave runs.</summary>
         public bool OpenWorkerAllocation()
         {
-            return OpenWorkerAllocationFor(null);
+            return OpenWorkerAllocationFor(null, null);
         }
 
+        /// <summary>Opens S3 with <paramref name="buildingId"/> as the fixed move destination.</summary>
         public bool OpenWorkerAllocation(BuildingId buildingId)
+        {
+            return IsOwned(buildingId) && OpenWorkerAllocationFor(buildingId, buildingId);
+        }
+
+        /// <summary>
+        /// Opens S3 for one service from an S2 need card. A vacant service becomes the fixed
+        /// destination; a staffed one stays the focus while its Worker can still be moved away.
+        /// </summary>
+        public bool OpenWorkerAllocationForService(BuildingId buildingId)
+        {
+            if (!IsOwned(buildingId))
+                return false;
+
+            var isStaffed = false;
+            foreach (var worker in gameplayFacade.CurrentWorkerAssignments)
+                isStaffed |= worker.BuildingId == buildingId;
+            return OpenWorkerAllocationFor(isStaffed ? (BuildingId?)null : buildingId, buildingId);
+        }
+
+        private bool IsOwned(BuildingId buildingId)
         {
             if (gameplayFacade == null) return false;
             foreach (var building in gameplayFacade.Buildings)
                 if (building.BuildingId == buildingId && building.IsOwned)
-                    return OpenWorkerAllocationFor(buildingId);
+                    return true;
             return false;
         }
 
-        private bool OpenWorkerAllocationFor(BuildingId? buildingId)
+        private bool OpenWorkerAllocationFor(BuildingId? target, BuildingId? focus)
         {
             if (IsPreviewOverrideActive || workerAllocationWindow == null || !AllowsWorkerAllocation(CurrentPhase))
                 return false;
 
-            WorkerAllocationTarget = buildingId;
+            WorkerAllocationTarget = target;
+            WorkerAllocationFocus = focus;
             workerAllocationWindow.SetActive(true);
             WorkerAllocationContextChanged?.Invoke();
             return true;

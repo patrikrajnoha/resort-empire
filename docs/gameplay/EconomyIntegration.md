@@ -21,9 +21,10 @@ runtime or change save DTOs from UI. All commands return `ResortGameplayCommandR
 | `PersistenceDiagnostic` | Failed checkpoint write; allow retry through `TrySaveProgress()` or Claim |
 | `NextWaveForecast` / `CompletedWaves` / `TotalWaves` | S1 forecast and wave counter; reading the forecast never consumes a debut |
 
-`WaveNeedStatusTracker.Capture(facade)` turns the live wave into an S2 view model (served/total
-and `OK`/`BOTTLENECK`/`RECOVERING`/`SATISFIED` per owned need) without exposing simulation
-types. UI scripts compile into Assembly-CSharp, which does not reference the Waves or Staff
+`WaveNeedStatusTracker.Capture(facade)` turns the live wave into an S2 view model (served/total,
+waiting queue, occupied seats, staffing, `OK`/`BOTTLENECK`/`RECOVERING`/`SATISFIED` and one-shot
+feedback per owned need) without exposing simulation types. Its rules and settings are described in
+`docs/ui/ResortScreens.md`. UI scripts compile into Assembly-CSharp, which does not reference the Waves or Staff
 assemblies, so presentation code must use these Integration types instead of `WaveSnapshot`.
 
 Subscribe in `OnEnable`, unsubscribe in `OnDisable`, and immediately read the current

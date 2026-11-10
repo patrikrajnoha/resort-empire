@@ -2,68 +2,50 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using ResortEmpire.Gameplay.Integration;
-using ResortEmpire.Gameplay.Waves;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace ResortEmpire.Gameplay.Tests
 {
-    public sealed class WaveNeedStatusTrackerTests
+    public sealed class WaveNeedsPanelSceneTests
     {
         [Test]
-        public void OccupiedSeatsAloneNeverRaiseABottleneck()
+        public void ResortSceneS2BindsOrderedCardsHidesLiveSatisfactionAndKeepsTheIslandVisible()
         {
-            var scenario = PhaseTwoTestData.CreateScenario(capacity: 5, serviceDuration: 100d);
-            scenario.Waves.StartWave(new WaveDefinition(1, 5d, new[] { new NeedDemandDefinition(NeedType.Drinks, 5) }));
-            scenario.Waves.Advance(5d);
-            var tracker = new WaveNeedStatusTracker();
-
-            var drinks = tracker.Update(scenario.Waves.CaptureSnapshot()).Single();
-
-            Assert.That(drinks.Waiting, Is.Zero);
-            Assert.That(drinks.Status, Is.EqualTo(NeedServiceStatus.OK));
-        }
-
-        [Test]
-        public void GrowingQueueIsBottleneckAndWorkerMoveShowsRecoveringImmediately()
-        {
-            var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 4d);
-            scenario.Waves.StartWave(new WaveDefinition(1, 8d, new[] { new NeedDemandDefinition(NeedType.Drinks, 8) }));
-            var tracker = new WaveNeedStatusTracker();
-            scenario.Waves.Advance(4.5d);
-
-            var before = tracker.Update(scenario.Waves.CaptureSnapshot()).Single();
-            Assert.That(before.Waiting, Is.EqualTo(3));
-            Assert.That(before.IsStaffed, Is.False);
-            Assert.That(before.Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK));
-
-            Assert.That(scenario.Waves.TryReassignWorker(BuildingId.Restaurant, BuildingId.BeachBar), Is.True);
-            var after = tracker.Update(scenario.Waves.CaptureSnapshot()).Single();
-            Assert.That(after.Waiting, Is.EqualTo(3), "The queue has not drained yet.");
-            Assert.That(after.Status, Is.EqualTo(NeedServiceStatus.RECOVERING));
-        }
-
-        [Test]
-        public void EveryNeedIsSatisfiedOnceArrivalsCloseAndServiceFinishes()
-        {
-            var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 1d);
-            scenario.Waves.StartWave(PhaseTwoTestData.ThreeNeedWave());
-            var tracker = new WaveNeedStatusTracker();
-            for (var step = 0; step < 200 && scenario.State.CurrentState != GamePhase.WAVE_COMPLETE; step++)
+            var scene = EditorSceneManager.OpenPreviewScene("Assets/_ResortEmpire/Scenes/Resort.unity");
+            try
             {
-                scenario.Waves.Advance(0.25d);
-                tracker.Update(scenario.Waves.CaptureSnapshot());
+                var gameUi = scene.GetRootGameObjects().Single(x => x.name == "GameUI");
+                var s2 = gameUi.transform.Find("SafeArea/HomeIslandViewCanvas/WaveNeedsPanel");
+                Assert.That(s2, Is.Not.Null);
+                var presenter = new SerializedObject(s2.GetComponent("WaveNeedsPresenter"));
+
+                var cards = presenter.FindProperty("cards");
+                Assert.That(cards.arraySize, Is.EqualTo(5), "Three base needs plus Pool and Bungalows.");
+                for (var i = 0; i < cards.arraySize; i++)
+                {
+                    var card = cards.GetArrayElementAtIndex(i);
+                    Assert.That(card.FindPropertyRelative("Need").intValue, Is.EqualTo(i), "Cards keep NeedType order.");
+                    foreach (var field in new[] { "Root", "Name", "Count", "Detail", "Button", "AlertIcon" })
+                        Assert.That(card.FindPropertyRelative(field).objectReferenceValue, Is.Not.Null, "Card " + i + " " + field);
+                }
+
+                // Build IV: no live numeric Wave Satisfaction during a wave.
+                foreach (var name in new[] { "RatingStars", "RatingValue", "SatisfactionBar", "SatisfactionThresholds" })
+                    Assert.That(s2.Find("Panel/" + name).gameObject.activeSelf, Is.False, name);
+
+                var toast = (CanvasGroup)presenter.FindProperty("feedbackToast").objectReferenceValue;
+                Assert.That(toast, Is.Not.Null);
+                Assert.That(toast.gameObject.activeSelf, Is.False);
+                Assert.That(toast.blocksRaycasts, Is.False, "Feedback never interrupts play.");
+                Assert.That(presenter.FindProperty("feedbackText").objectReferenceValue, Is.Not.Null);
+
+                var panel = (RectTransform)s2.Find("Panel");
+                Assert.That(panel.anchorMin.x, Is.EqualTo(1f), "S2 docks to the right edge.");
+                Assert.That(panel.sizeDelta.x / 2340f, Is.LessThan(0.4f), "Most of the island stays visible.");
             }
-
-            var final = tracker.Update(scenario.Waves.CaptureSnapshot());
-            Assert.That(final, Has.Count.EqualTo(3));
-            Assert.That(final.All(need => need.Status == NeedServiceStatus.SATISFIED), Is.True);
-        }
-
-        [Test]
-        public void ThresholdsMustLeaveRoomForHysteresis()
-        {
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => new WaveNeedStatusTracker(2, 2));
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => new WaveNeedStatusTracker(3, -1));
+            finally { EditorSceneManager.ClosePreviewScene(scene); }
         }
     }
 
@@ -140,6 +122,39 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(upgrade.activeSelf, Is.False);
             Assert.That(bootstrap.CompletedWaves, Is.EqualTo(1));
             Assert.That(bootstrap.NextWaveForecast.WaveId, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void NeedCardOpensWorkerAllocationForItsServiceAndClosingReturnsToS2()
+        {
+            Assert.That(bootstrap.TryStartWave().Succeeded, Is.True);
+            Assert.That(needs.activeSelf, Is.True, "S2 opens automatically when the wave starts.");
+
+            Assert.That(coordinator.OpenWorkerAllocationForService(BuildingId.BeachBar), Is.True);
+            Assert.That(workers.activeSelf, Is.True);
+            Assert.That(coordinator.IsWorkerAllocationOpen, Is.True);
+            Assert.That(needs.activeSelf, Is.True, "S2 stays active underneath S3.");
+            Assert.That(coordinator.WorkerAllocationFocus, Is.EqualTo(BuildingId.BeachBar));
+            Assert.That(coordinator.WorkerAllocationTarget, Is.EqualTo(BuildingId.BeachBar), "A vacant service is the move destination.");
+
+            Assert.That(coordinator.OpenWorkerAllocationForService(BuildingId.Reception), Is.True);
+            Assert.That(coordinator.WorkerAllocationFocus, Is.EqualTo(BuildingId.Reception));
+            Assert.That(coordinator.WorkerAllocationTarget, Is.Null, "A staffed service can still give its Worker away.");
+
+            workers.SetActive(false);
+            Assert.That(coordinator.IsWorkerAllocationOpen, Is.False);
+            Assert.That(needs.activeSelf, Is.True, "Closing S3 returns to S2.");
+
+            bootstrap.AdvanceSimulation(5);
+            Assert.That(needs.activeSelf, Is.True, "S2 remains visible while the wave runs.");
+        }
+
+        [Test]
+        public void NeedCardForAnUnpurchasedServiceDoesNotOpenWorkerAllocation()
+        {
+            Assert.That(bootstrap.TryStartWave().Succeeded, Is.True);
+            Assert.That(coordinator.OpenWorkerAllocationForService(BuildingId.Pool), Is.False);
+            Assert.That(workers.activeSelf, Is.False);
         }
 
         [Test]

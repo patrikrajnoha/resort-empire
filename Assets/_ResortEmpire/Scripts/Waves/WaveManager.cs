@@ -33,7 +33,8 @@ namespace ResortEmpire.Gameplay.Waves
             int demandArrived,
             int completedUnits,
             int waitingQueueLength,
-            int activeServiceCount)
+            int activeServiceCount,
+            int capacity)
         {
             NeedType = needType;
             BuildingId = buildingId;
@@ -42,6 +43,7 @@ namespace ResortEmpire.Gameplay.Waves
             CompletedUnits = completedUnits;
             WaitingQueueLength = waitingQueueLength;
             ActiveServiceCount = activeServiceCount;
+            Capacity = capacity;
             Backlog = demandArrived - completedUnits;
         }
 
@@ -51,7 +53,10 @@ namespace ResortEmpire.Gameplay.Waves
         public int DemandArrived { get; }
         public int CompletedUnits { get; }
         public int WaitingQueueLength { get; }
+        /// <summary>Occupied seats; these units are being served and are never part of the waiting queue.</summary>
         public int ActiveServiceCount { get; }
+        /// <summary>Service seats of the building for this wave.</summary>
+        public int Capacity { get; }
         public int Backlog { get; }
     }
 
@@ -327,7 +332,8 @@ namespace ResortEmpire.Gameplay.Waves
                     flow.DemandArrived,
                     flow.CompletedUnits,
                     flow.Building.Queue.Count,
-                    flow.Building.ServiceSlots.ActiveCount));
+                    flow.Building.ServiceSlots.ActiveCount,
+                    flow.Building.ServiceSlots.Capacity));
             }
 
             var assignments = new List<WorkerAssignmentSnapshot>(workerProvider.Assignments ?? Array.Empty<WorkerAssignmentSnapshot>());

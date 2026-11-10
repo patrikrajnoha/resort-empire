@@ -27,7 +27,7 @@ when the phase no longer allows them.
 | --- | --- | --- |
 | S1 `HomeIslandView` | `HomeIslandPresenter` | Coins, Energy, Resort Value, next-wave forecast, `START WAVE n`. H/R/B markers open S3; the `+` marker follows the eligible plot and opens S9. The VIP button is hidden (MVP only). |
 | Island art | `ResortIslandPresenter` | Level 1–3 art per building; construction site once eligible; hidden while locked. |
-| S2 `WaveNeedsPanel` | `WaveNeedsPresenter` | Served/total and queue state per owned need, stacked 3 → 4 → 5. Tapping a card opens S3. |
+| S2 `WaveNeedsPanel` | `WaveNeedsPresenter` | Need + service name, served/total, waiting queue and Worker/seat cause per owned need, stacked 3 → 4 → 5. Tapping a card opens S3 for that service. See [S2 Wave Needs Panel](#s2-wave-needs-panel). |
 | S3 `AssignStaffRestaurant` | `WorkerAllocationPresenter` | One card per owned building. MOVE sends that Worker to the single vacant building and names both the helped and the slowed building. |
 | S4 `WaveComplete` | `WaveResultsPresenter` | Result, longest-queue warning, `+N` rewards, claim once. |
 | S5 `UpgradeSuggestionPanel` | `UpgradeSuggestionPresenter` | Capacity upgrade for the longest queue. LATER or UPGRADE NOW returns to S1. |
@@ -37,8 +37,9 @@ Deliberate deviations from the mockups, for the screen owners to review:
 
 - **S2:** the live satisfaction stars, value, bar and thresholds are deactivated, because Build IV
   forbids numeric satisfaction during a wave. Relax and Ocean View cards were added as copies of the
-  Food card, and every card gained a warning row and a Button. These are scene overrides on the
-  prefab instance; the prefab asset is unchanged.
+  Food card, and every card gained an always-visible detail row and a Button. Cards are 176 px tall so
+  three needs fit without scrolling, and a `FeedbackToast` sits above the panel. These are scene
+  overrides on the prefab instance; the prefab asset is unchanged.
 - **S3:** the named-chef cards are reused as card art only. At runtime the names, portraits and star
   ratings are replaced with building names and the anonymous Worker icons, because the Prototype
   has no named staff. The prefab still shows the chef mockup in edit mode. A dedicated anonymous
@@ -49,6 +50,49 @@ Deliberate deviations from the mockups, for the screen owners to review:
 - **Art import:** `bungalows-level-01.png` and `bungalows-level-03.png` import as tiny slices
   (58×25 and 89×51 px), so level 2 Bungalows art stands in for every level. The importer settings
   were not changed.
+
+## S2 Wave Needs Panel
+
+S2 opens with the wave and stays docked right (about a third of the width) until the result is
+ready. Each card shows the need and its service (`Drinks  Beach Bar`), served/total, and a detail
+row that leads with the state in words, so nothing depends on colour alone:
+
+| State | Detail row | Meaning |
+| --- | --- | --- |
+| OK | `OK · 0 waiting · Worker on duty` / `No Worker` | Normal service |
+| BOTTLENECK | `BOTTLENECK · 4 waiting · NO WORKER` or `SEATS FULL 3/3` | Queue over the threshold and still growing |
+| RECOVERING | `RECOVERING · 3 waiting, shrinking` | Overloaded queue draining, not yet normal |
+| SATISFIED | `SATISFIED · all 12 served` | Arrivals closed and every unit served |
+
+`NO WORKER` means moving a Worker helps now; `SEATS FULL` (Worker present, every seat busy) means only
+Energy or a capacity upgrade helps. Occupied seats never count as the waiting queue.
+
+`WaveNeedStatusTracker` derives the states from the waiting queue in simulation time, so pausing never
+raises a warning. Tune it under **Bottleneck detection** on the `WaveNeedsPresenter`:
+
+| Setting | Default | Rule |
+| --- | --- | --- |
+| `BottleneckQueueThreshold` | 2 | BOTTLENECK needs more than this many waiting |
+| `GrowthDuration` | 4 s | …and the queue must stay above it and be longer than when it crossed, after this long |
+| `RecoveryDrop` | 2 | RECOVERING once the queue is this far below its bottleneck peak |
+| `RecoveredQueue` | 1 | Warnings clear to OK at or below this; must be below the threshold |
+
+Moving a Worker into a bottleneck shows RECOVERING immediately; removing it shows BOTTLENECK
+immediately. Re-warning from RECOVERING needs a full `RecoveryDrop` band of renewed, sustained growth,
+so the arrival that lands just after a Worker move cannot flip it back. With the demo tuning, Wave 1's
+unstaffed Beach Bar saw-tooths between 1 and 2 waiting without a warning, then turns BOTTLENECK at
+4 waiting (about 77 s).
+
+The toast shows one or two short messages for 3.5 s, for example `Worker arrived! Beach Bar is
+recovering.` plus `Reception has no Worker now and serves slower.` It never takes taps. While S3 covers
+the panel the toast is held, so it is still there when the player returns. Tapping a card calls
+`ResortUiStateCoordinator.OpenWorkerAllocationForService`: a vacant service becomes S3's fixed
+destination; a staffed one is only the focus, and S3 says `BEACH BAR IS STAFFED · RECEPTION NEEDS A WORKER`.
+S2 stays active under S3, so closing S3 returns to it.
+
+Validated 2026-11-10 in Unity 6000.4.0f1 Play Mode, rendered at 2340×1080 on a fresh profile: the Wave 1
+bottleneck, tapping Drinks into S3, moving Reception's Worker, and returning to S2 with RECOVERING and
+the toast. Android device readability has not been checked.
 
 ## Git LFS
 

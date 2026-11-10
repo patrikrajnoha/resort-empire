@@ -100,10 +100,15 @@ namespace ResortEmpire.UI
             Layout(cardBuildings.Count);
 
             if (header == null) return;
+            // Opened from a staffed S2 need: say so, because its queue is a capacity limit, not a missing Worker.
+            var focus = navigation == null ? null : navigation.WorkerAllocationFocus;
             if (moveFeedback != null) header.text = moveFeedback;
             else if (!vacant.HasValue) header.text = target.HasValue
                 ? ResortUiText.BuildingName(target.Value).ToUpperInvariant() + " ALREADY STAFFED"
                 : "ALL BUILDINGS STAFFED";
+            else if (focus.HasValue && focus.Value != vacant.Value && staffed.Contains(focus.Value))
+                header.text = ResortUiText.BuildingName(focus.Value).ToUpperInvariant() + " IS STAFFED · "
+                    + ResortUiText.BuildingName(vacant.Value).ToUpperInvariant() + " NEEDS A WORKER";
             else header.text = "MOVE A WORKER TO " + ResortUiText.BuildingName(vacant.Value).ToUpperInvariant();
         }
 
