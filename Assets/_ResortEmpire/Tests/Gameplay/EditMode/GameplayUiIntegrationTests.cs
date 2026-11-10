@@ -29,6 +29,13 @@ namespace ResortEmpire.Gameplay.Tests
                     Assert.That(card.FindPropertyRelative("Need").intValue, Is.EqualTo(i), "Cards keep NeedType order.");
                     foreach (var field in new[] { "Root", "Name", "Count", "Detail", "Button", "AlertIcon" })
                         Assert.That(card.FindPropertyRelative(field).objectReferenceValue, Is.Not.Null, "Card " + i + " " + field);
+
+                    // Tapping a card must open S3 for its own need: the Button lives on that card, with no stale scene listeners.
+                    var cardRoot = (RectTransform)card.FindPropertyRelative("Root").objectReferenceValue;
+                    var button = (UnityEngine.UI.Button)card.FindPropertyRelative("Button").objectReferenceValue;
+                    Assert.That(cardRoot.name, Is.EqualTo(((NeedType)i) + "Card"));
+                    Assert.That(button.gameObject, Is.SameAs(cardRoot.gameObject));
+                    Assert.That(button.onClick.GetPersistentEventCount(), Is.Zero, cardRoot.name);
                 }
 
                 // Build IV: no live numeric Wave Satisfaction during a wave.

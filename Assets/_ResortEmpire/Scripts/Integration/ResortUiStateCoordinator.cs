@@ -84,8 +84,27 @@ namespace ResortEmpire.Gameplay.Integration
         }
 
         /// <summary>
-        /// Opens S3 for one service from an S2 need card. A vacant service becomes the fixed
-        /// destination; a staffed one stays the focus while its Worker can still be moved away.
+        /// S2 need-card entry point: opens S3 for the building that serves <paramref name="need"/>
+        /// (Rooms → Reception, Food → Restaurant, Drinks → Beach Bar, Relax → Pool,
+        /// Ocean View → Bungalows). Unpurchased services are rejected and S3 stays closed.
+        /// </summary>
+        public bool OpenWorkerAllocationForNeed(NeedType need)
+        {
+            return System.Enum.IsDefined(typeof(NeedType), need)
+                && OpenWorkerAllocationForService(BuildingNeedMapping.GetBuildingId(need));
+        }
+
+        /// <summary>S3's move rule for the current target and focus, read from live gameplay state.</summary>
+        public WorkerAllocationContext CaptureWorkerAllocationContext()
+        {
+            return gameplayFacade == null
+                ? WorkerAllocationContext.Resolve(new BuildingId[0], new BuildingId[0], WorkerAllocationTarget, WorkerAllocationFocus, CurrentPhase)
+                : WorkerAllocationContext.Capture(gameplayFacade, WorkerAllocationTarget, WorkerAllocationFocus);
+        }
+
+        /// <summary>
+        /// Opens S3 for one service. A vacant service becomes the fixed destination; a staffed
+        /// one stays the focus while its Worker can still be moved away.
         /// </summary>
         public bool OpenWorkerAllocationForService(BuildingId buildingId)
         {

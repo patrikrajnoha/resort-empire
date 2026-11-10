@@ -398,7 +398,7 @@ namespace ResortEmpire.UI
 
         private void OpenWorkerAllocation(NeedCard card)
         {
-            if (navigation != null) navigation.OpenWorkerAllocationForService(BuildingNeedMapping.GetBuildingId(card.Need));
+            if (navigation != null) navigation.OpenWorkerAllocationForNeed(card.Need);
         }
 
         private float RefreshRushNotification()

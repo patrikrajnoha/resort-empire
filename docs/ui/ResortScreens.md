@@ -28,7 +28,7 @@ when the phase no longer allows them.
 | S1 `HomeIslandView` | `HomeIslandPresenter` | Coins, Energy, Resort Value, next-wave forecast, `START WAVE n`. H/R/B markers open S3; the `+` marker follows the eligible plot and opens S9. The VIP button is hidden (MVP only). |
 | Island art | `ResortIslandPresenter` | Level 1–3 art per building; construction site once eligible; hidden while locked. |
 | S2 `WaveNeedsPanel` | `WaveNeedsPresenter` | Need + service name, served/total, waiting queue and Worker/seat cause per owned need, stacked 3 → 4 → 5. Tapping a card opens S3 for that service. See [S2 Wave Needs Panel](#s2-wave-needs-panel). |
-| S3 `AssignStaffRestaurant` | `WorkerAllocationPresenter` | One card per owned building. MOVE sends that Worker to the single vacant building and names both the helped and the slowed building. |
+| S3 `AssignStaffRestaurant` | `WorkerAllocationPresenter` | One card per owned building. MOVE sends that Worker to the single vacant building and names both the helped and the slowed building. Opened from an S2 need, the serving building's card is outlined. |
 | S4 `WaveComplete` | `WaveResultsPresenter` | Result, longest-queue warning, `+N` rewards, claim once. |
 | S5 `UpgradeSuggestionPanel` | `UpgradeSuggestionPresenter` | Capacity upgrade for the longest queue. LATER or UPGRADE NOW returns to S1. |
 | S9 `AreaUnlockPanel` | `AreaUnlockPresenter` | Pool after Wave 3, Bungalows after Wave 6; announced once per session. |
@@ -85,14 +85,26 @@ unstaffed Beach Bar saw-tooths between 1 and 2 waiting without a warning, then t
 
 The toast shows one or two short messages for 3.5 s, for example `Worker arrived! Beach Bar is
 recovering.` plus `Reception has no Worker now and serves slower.` It never takes taps. While S3 covers
-the panel the toast is held, so it is still there when the player returns. Tapping a card calls
-`ResortUiStateCoordinator.OpenWorkerAllocationForService`: a vacant service becomes S3's fixed
-destination; a staffed one is only the focus, and S3 says `BEACH BAR IS STAFFED · RECEPTION NEEDS A WORKER`.
-S2 stays active under S3, so closing S3 returns to it.
+the panel the toast is held, so it is still there when the player returns.
+
+Tapping a card calls `ResortUiStateCoordinator.OpenWorkerAllocationForNeed(card.Need)`, which opens S3
+for the serving building: Rooms → Reception, Food → Restaurant, Drinks → Beach Bar, Relax → Pool,
+Ocean View → Bungalows. Unpurchased services have no card and are rejected anyway, so S3 stays closed.
+That building's S3 card is outlined. A vacant service becomes S3's fixed destination (`MOVE A WORKER TO
+BEACH BAR`) and stays fixed after the move, so the next tap cannot pull a Worker to the newly vacant
+building. A staffed service is only the focus, so its Worker can still be moved away (`RECEPTION ALREADY
+STAFFED · BEACH BAR NEEDS A WORKER`). Cards deliberately do not use `OpenWorkerAllocation(BuildingId)`:
+that overload always fixes the destination, so for a staffed building it would disable every MOVE.
+`WorkerAllocationContext` holds the target/focus/destination rule that S3's buttons, header and moves
+share. S2 stays active under S3, so closing S3 returns to it.
 
 Validated 2026-11-10 in Unity 6000.4.0f1 Play Mode, rendered at 2340×1080 on a fresh profile: the Wave 1
 bottleneck, tapping Drinks into S3, moving Reception's Worker, and returning to S2 with RECOVERING and
 the toast. Android device readability has not been checked.
+Need-card navigation was also checked in Play Mode with 3, 4 and 5 needs, using saves produced by playing
+the demo economy (fresh profile, Pool after Wave 3, Bungalows after Wave 6). Every visible card opened
+S3 for its building with that card outlined, locked needs left S3 closed, and S2 returned after each close.
+Moves from the Drinks and Relax cards behaved as described above.
 
 ## Git LFS
 
