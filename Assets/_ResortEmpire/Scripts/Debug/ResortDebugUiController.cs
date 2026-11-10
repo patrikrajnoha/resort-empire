@@ -12,7 +12,7 @@ namespace ResortEmpire.DebugUi
 {
     /// <summary>
     /// Development-only presentation inspector for the existing Resort UI screens.
-    /// F1 cycles through deterministic visual previews without blocking gameplay input.
+    /// F4 cycles through deterministic visual previews without blocking gameplay input.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class ResortDebugUiController : MonoBehaviour
@@ -28,7 +28,7 @@ namespace ResortEmpire.DebugUi
         private Canvas debugCanvas;
         private TextMeshProUGUI indicatorText;
         private bool overrideOwned;
-        private bool f1WasPressed;
+        private bool f4WasPressed;
 
         public bool PreviewVisible => previewManager != null && previewManager.HasActivePreview;
         public int CurrentPreviewIndex => cycleState == null ? -1 : cycleState.CurrentIndex;
@@ -74,10 +74,10 @@ namespace ResortEmpire.DebugUi
             if (!IsDevelopmentUiAvailable || activeInstance != this)
                 return;
 
-            var f1Pressed = Keyboard.current != null && Keyboard.current.f1Key.isPressed;
-            if (f1Pressed && !f1WasPressed)
+            var f4Pressed = Keyboard.current != null && Keyboard.current.f4Key.isPressed;
+            if (f4Pressed && !f4WasPressed)
                 AdvancePreviewCycle();
-            f1WasPressed = f1Pressed;
+            f4WasPressed = f4Pressed;
 #endif
         }
 
@@ -231,7 +231,7 @@ namespace ResortEmpire.DebugUi
 
             indicatorText.text = visible
                 ? "DEBUG " + (CurrentPreviewIndex + 1) + "/" + previewEntries.Count
-                    + " — " + previewEntries[CurrentPreviewIndex].Label + "  [F1: next]"
+                    + " — " + previewEntries[CurrentPreviewIndex].Label + "  [F4: next]"
                 : string.Empty;
             indicatorText.gameObject.SetActive(visible);
         }

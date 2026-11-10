@@ -34,6 +34,7 @@ namespace ResortEmpire.UI
             if (gameplay == null) gameplay = FindAnyObjectByType<ResortGameplayBootstrap>();
             if (gameplay == null) return;
             gameplay.BuildingsChanged += Render;
+            ResortDebugLevelOverride.Changed += HandleDebugLevelChanged;
             Render(gameplay.Buildings);
         }
 
@@ -46,6 +47,13 @@ namespace ResortEmpire.UI
         private void OnDisable()
         {
             if (gameplay != null) gameplay.BuildingsChanged -= Render;
+            ResortDebugLevelOverride.Changed -= HandleDebugLevelChanged;
+        }
+
+        private void HandleDebugLevelChanged(int? level)
+        {
+            if (gameplay != null)
+                Render(gameplay.Buildings);
         }
 
         private void Render(IReadOnlyList<BuildingStateSnapshot> states)
@@ -55,8 +63,9 @@ namespace ResortEmpire.UI
             {
                 var visual = Find(state.BuildingId);
                 if (visual == null) continue;
+                var level = ResortDebugLevelOverride.CurrentLevel ?? state.Level;
                 var sprite = state.IsOwned && visual.LevelSprites.Length > 0
-                    ? visual.LevelSprites[Mathf.Clamp(state.Level, 1, visual.LevelSprites.Length) - 1]
+                    ? visual.LevelSprites[Mathf.Clamp(level, 1, visual.LevelSprites.Length) - 1]
                     : null;
                 if (visual.Root != null) visual.Root.SetActive(state.IsOwned && sprite != null);
                 if (sprite == null) continue;

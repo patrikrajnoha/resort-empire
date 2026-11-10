@@ -10,7 +10,7 @@ namespace ResortEmpire.Gameplay.Tests
     public sealed class ResortDebugUiTests
     {
         [Test]
-        public void F1CycleAdvancesNinePreviewsThenReturnsToNormal()
+        public void F4CycleAdvancesNinePreviewsThenReturnsToNormal()
         {
             var state = new ResortDebugUiCycleState(9);
 
@@ -27,7 +27,7 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
-        public void F1CycleWithNoPreviewsStaysNormal()
+        public void F4CycleWithNoPreviewsStaysNormal()
         {
             var state = new ResortDebugUiCycleState(0);
 
@@ -118,7 +118,7 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
-        public void F1KeyboardInputAdvancesOncePerPressAndNotWhileHeld()
+        public void F4KeyboardInputAdvancesOncePerPressAndNotWhileHeld()
         {
             var previewNames = new[]
             {
@@ -159,12 +159,12 @@ namespace ResortEmpire.Gameplay.Tests
                 keyboard.MakeCurrent();
                 InputSystem.ResetDevice(keyboard);
 
-                Assert.That(keyboard.f1Key.wasPressedThisFrame, Is.False);
+                Assert.That(keyboard.f4Key.wasPressedThisFrame, Is.False);
                 InputSystem.Update();
-                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.F1));
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.F4));
                 InputSystem.Update();
                 Assert.That(Keyboard.current, Is.SameAs(keyboard));
-                Assert.That(keyboard.f1Key.isPressed, Is.True);
+                Assert.That(keyboard.f4Key.isPressed, Is.True);
                 InvokeControllerMethod(controller, "Update");
                 Assert.That(CurrentPreviewIndex(controller), Is.EqualTo(0));
 
@@ -172,7 +172,7 @@ namespace ResortEmpire.Gameplay.Tests
                 InvokeControllerMethod(controller, "Update");
                 Assert.That(CurrentPreviewIndex(controller), Is.EqualTo(0));
 
-                // Holding F1 across a later input update must not advance again.
+                // Holding F4 across a later input update must not advance again.
                 InputSystem.Update();
                 InvokeControllerMethod(controller, "Update");
                 Assert.That(CurrentPreviewIndex(controller), Is.EqualTo(0));
@@ -180,7 +180,7 @@ namespace ResortEmpire.Gameplay.Tests
                 InputSystem.QueueStateEvent(keyboard, new KeyboardState());
                 InputSystem.Update();
                 InvokeControllerMethod(controller, "Update");
-                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.F1));
+                InputSystem.QueueStateEvent(keyboard, new KeyboardState(Key.F4));
                 InputSystem.Update();
                 InvokeControllerMethod(controller, "Update");
                 Assert.That(CurrentPreviewIndex(controller), Is.EqualTo(1));

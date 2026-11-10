@@ -19,6 +19,8 @@ namespace ResortEmpire.Gameplay.Tests
         private TouristVisualSpawner spawner;
         private GameObject containerObject;
         private RectTransform spawnPoint;
+        private RectTransform receptionEntryPoint;
+        private RectTransform restaurantEntryPoint;
         private RectTransform barSeatOverlay;
         private GameObject touristPrefab;
         private GameObject boatSignalObject;
@@ -63,6 +65,8 @@ namespace ResortEmpire.Gameplay.Tests
             var receptionExit = CreateDestination("TouristReceptionExitPoint", new Vector2(100f, 20f));
             var bar = CreateDestination("TouristBarSeatPoint", new Vector2(250f, 10f));
             var restaurant = CreateDestination("TouristRestaurantPoint", new Vector2(300f, -20f));
+            receptionEntryPoint = CreateDestination("ReceptionEntrancePoint", new Vector2(190f, -45f));
+            restaurantEntryPoint = CreateDestination("RestaurantEntrancePoint", new Vector2(480f, -100f));
             var barSeatOverlayObject = new GameObject("TouristBarSeatOverlay");
             barSeatOverlay = barSeatOverlayObject.AddComponent<RectTransform>();
             barSeatOverlay.SetParent(containerObject.transform, false);
@@ -81,6 +85,8 @@ namespace ResortEmpire.Gameplay.Tests
             SetPrivateField(spawner, "barSeatPoint", bar);
             SetPrivateField(spawner, "barSeatOverlay", barSeatOverlay);
             SetPrivateField(spawner, "restaurantPoint", restaurant);
+            SetPrivateField(spawner, "receptionEntryPoint", receptionEntryPoint);
+            SetPrivateField(spawner, "restaurantEntryPoint", restaurantEntryPoint);
             SetPrivateField(spawner, "touristPrefab", touristPrefab);
             SetPrivateField(spawner, "touristCount", 5);
             spawnerObject.SetActive(true);
@@ -114,7 +120,7 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(spawner.ActiveTouristCount, Is.Zero, "Tourists wait for the arrival signal.");
             boatArrivalSignal.NotifyArrived();
             Assert.That(spawner.ActiveTouristCount, Is.EqualTo(5), "No tourists appeared after boat arrival.");
-            Assert.That(containerObject.transform.childCount, Is.EqualTo(11));
+            Assert.That(containerObject.transform.childCount, Is.EqualTo(13));
             Assert.That(bootstrap.TryPauseWave().Succeeded, Is.True, "Pausing the visual test wave failed.");
             Assert.That(bootstrap.CurrentPhase, Is.EqualTo(GamePhase.WAVE_PAUSED));
             Assert.That(spawner.ActiveTouristCount, Is.EqualTo(5), "Tourists disappeared when the wave was paused.");
@@ -123,7 +129,7 @@ namespace ResortEmpire.Gameplay.Tests
             bootstrap.AdvanceSimulation(100d);
             Assert.That(bootstrap.CurrentPhase, Is.EqualTo(GamePhase.WAVE_COMPLETE));
             Assert.That(spawner.ActiveTouristCount, Is.Zero);
-            Assert.That(containerObject.transform.childCount, Is.EqualTo(11), "The pool is reused instead of recreated.");
+            Assert.That(containerObject.transform.childCount, Is.EqualTo(13), "The pool is reused instead of recreated.");
         }
 
         [Test]
@@ -138,7 +144,7 @@ namespace ResortEmpire.Gameplay.Tests
             stateChanged.Invoke(spawner, new object[] { GamePhase.WAVE_INCOMING, GamePhase.WAVE_ACTIVE });
 
             Assert.That(spawner.ActiveTouristCount, Is.EqualTo(5));
-            Assert.That(containerObject.transform.childCount, Is.EqualTo(11));
+            Assert.That(containerObject.transform.childCount, Is.EqualTo(13));
             foreach (var image in containerObject.GetComponentsInChildren<Image>(true))
                 Assert.That(image.raycastTarget, Is.False);
         }
@@ -189,6 +195,35 @@ namespace ResortEmpire.Gameplay.Tests
                 startPosition), Is.GreaterThan(1f), "Tourist remained at its spawn point instead of following its route.");
         }
 
+        [TestCase("PalmObstacle")]
+        [TestCase("RestaurantSupportPostsNavigationObstacle")]
+        public void HardNavigationObstaclesKeepTouristSpriteClear(string obstacleName)
+        {
+            var obstacleObject = new GameObject(obstacleName);
+            try
+            {
+                var obstacleTransform = obstacleObject.AddComponent<RectTransform>();
+                obstacleTransform.SetParent(islandBaseObject.transform, false);
+                obstacleTransform.sizeDelta = new Vector2(100f, 40f);
+
+                var buildObstacle = typeof(TouristVisualSpawner).GetMethod(
+                    "BuildNavigationObstacle", BindingFlags.Instance | BindingFlags.NonPublic);
+                Assert.That(buildObstacle, Is.Not.Null);
+                var obstacle = (IslandNavigationMap.NavigationObstacle)buildObstacle.Invoke(
+                    spawner,
+                    new object[] { obstacleTransform });
+
+                Assert.That(
+                    obstacle.IntersectsSegment(new Vector2(-120f, 25f), new Vector2(120f, 25f)),
+                    Is.True,
+                    "The visible tourist footprint must not overlap a hard scene blocker.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(obstacleObject);
+            }
+        }
+
         [Test]
         public void TouristAdvancesToNextDestinationInsteadOfCompleting()
         {
@@ -214,6 +249,64 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(GetPrivateField(barRoutine, "AtDestination"), Is.EqualTo(false));
             Assert.That(tourist.gameObject.activeSelf, Is.True);
             Assert.That(((IList)GetPrivateField(barRoutine, "Route")).Count, Is.GreaterThan(1));
+        }
+
+        [Test]
+        public void RestaurantGuestUsesReceptionExitBeforeRestaurantApproach()
+        {
+            boatArrivalSignal.NotifyArrived();
+            var stateChanged = typeof(TouristVisualSpawner).GetMethod(
+                "HandleStateChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            stateChanged.Invoke(spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var restaurantRoutine = routines[2];
+            var route = (IList)GetPrivateField(restaurantRoutine, "Route");
+            var passesReceptionExit = false;
+            foreach (Vector2 point in route)
+                passesReceptionExit |= Vector2.Distance(point, new Vector2(100f, 20f)) < 0.01f;
+
+            Assert.That(
+                passesReceptionExit,
+                Is.True,
+                "Restaurant guests must use the authored route behind Reception.");
+        }
+
+        [Test]
+        public void LevelOneBarReservesAtMostItsFourAuthoredStools()
+        {
+            boatArrivalSignal.NotifyArrived();
+            var stateChanged = typeof(TouristVisualSpawner).GetMethod(
+                "HandleStateChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            stateChanged.Invoke(spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            var prepare = FindPrivateMethod("PrepareRoutine", 3);
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            foreach (var index in new[] { 0, 2, 3 })
+            {
+                var routine = routines[index];
+                SetPrivateField(routine, "RoutineIndex", 1);
+                Assert.That(
+                    (bool)prepare.Invoke(spawner, new object[] { routine, Vector2.zero, 0f }),
+                    Is.True);
+            }
+
+            var reservedSeats = new HashSet<int>();
+            var waitingGuests = 0;
+            foreach (var routine in routines)
+            {
+                if ((int)GetPrivateField(routine, "RoutineIndex") != 1)
+                    continue;
+
+                var seatIndex = (int)GetPrivateField(routine, "BarSeatIndex");
+                if (seatIndex >= 0)
+                    reservedSeats.Add(seatIndex);
+                else
+                    waitingGuests++;
+            }
+
+            Assert.That(reservedSeats.Count, Is.EqualTo(4));
+            Assert.That(waitingGuests, Is.EqualTo(1));
         }
 
         [Test]
@@ -258,6 +351,13 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(route.Count, Is.GreaterThan(2));
             Assert.That(Vector2.Distance((Vector2)route[0], new Vector2(4.63f, 95.99f)), Is.LessThan(0.01f));
             Assert.That(Vector2.Distance((Vector2)route[1], new Vector2(26f, -25f)), Is.LessThan(16f));
+            var passedReceptionExit = false;
+            foreach (Vector2 point in route)
+                passedReceptionExit |= Vector2.Distance(point, new Vector2(-74f, -37f)) < 16f;
+            Assert.That(
+                passedReceptionExit,
+                Is.True,
+                "A bar guest must leave through the ReceptionExitPoint before continuing to the Restaurant.");
         }
 
         [Test]
@@ -318,8 +418,33 @@ namespace ResortEmpire.Gameplay.Tests
                 new Vector2(228.63f, 130.99f)), Is.LessThan(0.01f));
             Assert.That(Vector2.Distance(secondBarGuest.GetComponent<RectTransform>().anchoredPosition,
                 new Vector2(197.54f, 146.11f)), Is.LessThan(0.01f));
+            Assert.That(firstBarGuest.GetComponent<RectTransform>().localScale.y, Is.EqualTo(1.2f).Within(0.001f));
+            Assert.That(secondBarGuest.GetComponent<RectTransform>().localScale.y, Is.EqualTo(1.2f).Within(0.001f));
             Assert.That(firstBarGuest.GetComponent<RectTransform>().localScale.x, Is.LessThan(0f));
             Assert.That(secondBarGuest.GetComponent<RectTransform>().localScale.x, Is.GreaterThan(0f));
+        }
+
+        [Test]
+        public void BuildingGuestsHideAtTheirConfiguredEntranceMarkers()
+        {
+            boatArrivalSignal.NotifyArrived();
+            var stateChanged = typeof(TouristVisualSpawner).GetMethod(
+                "HandleStateChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            stateChanged.Invoke(spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var enter = typeof(TouristVisualSpawner).GetMethod(
+                "EnterDestination", BindingFlags.Instance | BindingFlags.NonPublic);
+            foreach (var index in new[] { 0, 2 })
+            {
+                var routine = routines[index];
+                enter.Invoke(spawner, new[] { routine });
+                var tourist = (GameObject)GetPrivateField(routine, "Tourist");
+                var expectedEntry = index == 0 ? receptionEntryPoint : restaurantEntryPoint;
+                Assert.That(tourist.activeSelf, Is.False);
+                Assert.That(tourist.GetComponent<RectTransform>().anchoredPosition,
+                    Is.EqualTo(expectedEntry.anchoredPosition));
+            }
         }
 
         [Test]
@@ -429,6 +554,23 @@ namespace ResortEmpire.Gameplay.Tests
                 BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             Assert.That(field, Is.Not.Null, fieldName);
             return field.GetValue(target);
+        }
+
+        private static MethodInfo FindPrivateMethod(string methodName, int parameterCount)
+        {
+            var methods = typeof(TouristVisualSpawner).GetMethods(
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            foreach (var method in methods)
+            {
+                if (method.Name == methodName
+                    && method.GetParameters().Length == parameterCount)
+                {
+                    return method;
+                }
+            }
+
+            Assert.Fail($"Missing {methodName} overload with {parameterCount} parameters.");
+            return null;
         }
 
         private sealed class TestDependencies : IResortGameplayDependencySource

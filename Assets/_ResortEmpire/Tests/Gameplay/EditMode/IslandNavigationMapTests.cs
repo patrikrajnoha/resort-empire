@@ -10,6 +10,8 @@ namespace ResortEmpire.Gameplay.Tests
     {
         private const string MapPath =
             "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png";
+        private const string WalkablePathLayerPath =
+            "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable-path-layer.png";
         private static readonly Rect IslandBounds = new Rect(-724f, -543f, 1448f, 1086f);
 
         [Test]
@@ -84,6 +86,51 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(map.IsWalkable(PixelToLocal(760f, 440f)), Is.False);  // Bar plot
             Assert.That(map.IsWalkable(PixelToLocal(1050f, 350f)), Is.False); // Open build plot
             Assert.That(map.IsWalkable(PixelToLocal(1135f, 794f)), Is.False); // Shore boulder
+        }
+
+        [Test]
+        public void AuthoringWalkablePathLayerConnectsBoatToBothBuildingEntries()
+        {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(WalkablePathLayerPath);
+            Assert.That(texture, Is.Not.Null);
+            var map = new IslandNavigationMap(texture, IslandBounds, true, 181, 136);
+            var spawn = new Vector2(102f, -311f);
+            var receptionEntry = new Vector2(55f, -169f);
+            var restaurantEntry = new Vector2(481f, -32f);
+
+            foreach (var destination in new[] { receptionEntry, restaurantEntry })
+            {
+                var path = new List<Vector2>();
+                Assert.That(map.TryFindPath(spawn, destination, path), Is.True);
+                Assert.That(path.Count, Is.GreaterThan(1));
+                for (var segment = 1; segment < path.Count; segment++)
+                {
+                    var a = path[segment - 1];
+                    var b = path[segment];
+                    var samples = Mathf.Max(1, Mathf.CeilToInt(Vector2.Distance(a, b) / 2f));
+                    for (var sample = 0; sample <= samples; sample++)
+                    {
+                        var point = Vector2.Lerp(a, b, (float)sample / samples);
+                        Assert.That(
+                            map.IsWalkable(point),
+                            Is.True,
+                            $"Route to {destination} crossed a non-walkable cell at segment {segment}, sample {sample}: {point} from {a} to {b}.");
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void AuthoringWalkablePathLayerCanExcludeBuildingFootprints()
+        {
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(WalkablePathLayerPath);
+            Assert.That(texture, Is.Not.Null);
+            var blockedBuilding = new Rect(300f, -100f, 260f, 280f);
+            var map = new IslandNavigationMap(texture, IslandBounds, true, 181, 136,
+                new[] { blockedBuilding });
+
+            Assert.That(map.IsWalkable(new Vector2(400f, 0f)), Is.False);
+            Assert.That(map.IsWalkable(new Vector2(250f, 0f)), Is.True);
         }
 
         private static Vector2 PixelToLocal(float x, float y)
