@@ -116,7 +116,9 @@ the toast. Android device readability has not been checked.
 Need-card navigation was also checked in Play Mode with 3, 4 and 5 needs, using saves produced by playing
 the demo economy (fresh profile, Pool after Wave 3, Bungalows after Wave 6). Every visible card opened
 S3 for its building with that card outlined, locked needs left S3 closed, and S2 returned after each close.
-Moves from the Drinks and Relax cards behaved as described above.
+Moves from the Drinks and Relax cards behaved as described above. These card checks invoked each card's
+`Button` directly. A later check with real pointer input found that taps never reach the cards, because each
+card's background Image has Raycast Target off. See [the loop verification](../qa/PrototypeLoopVerification.md#defects-found).
 Bottleneck timing was checked in Play Mode on a fresh profile at 3× speed, reading the S2 cards. Wave 1's
 Beach Bar queue first exceeded the threshold at 69.7 s. The wave was paused 1.8 s later; during 24 s of
 pause the simulation clock stayed at 71.45 s and the card stayed OK. BOTTLENECK appeared at 77.2 s, when

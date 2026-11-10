@@ -130,6 +130,8 @@ presenter above. The scene's buttons now drive these commands; the bootstrap com
 Inspector context menus remain for debugging. They are Editor-only and call the same facade commands.
 Check error retry and reopen behavior. Use a test save/config to reach gates
 3/6 and test purchases/upgrades; never edit a real player's save to balance the game.
+The full loop was verified through the game's own buttons on 2026-11-10; see
+`docs/qa/PrototypeLoopVerification.md`.
 
 The provided defaults still need a gameplay balance pass, including achievable 5-star play
 without Energy. Android file replacement and full Play Mode presentation require validation
