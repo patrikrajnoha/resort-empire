@@ -61,25 +61,37 @@ row that leads with the state in words, so nothing depends on colour alone:
 | --- | --- | --- |
 | OK | `OK · 0 waiting · Worker on duty` / `No Worker` | Normal service |
 | BOTTLENECK | `BOTTLENECK · 4 waiting · NO WORKER` or `SEATS FULL 3/3` | Queue over the threshold and still growing |
-| RECOVERING | `RECOVERING · 3 waiting, shrinking` | Overloaded queue draining, not yet normal |
+| RECOVERING | `RECOVERING · 3 waiting · Worker on duty` / `No Worker` | Overloaded queue draining, not yet normal |
 | SATISFIED | `SATISFIED · all 12 served` | Arrivals closed and every unit served |
 
 `NO WORKER` means moving a Worker helps now; `SEATS FULL` (Worker present, every seat busy) means only
 Energy or a capacity upgrade helps. Occupied seats never count as the waiting queue.
 
-`WaveNeedStatusTracker` derives the states from the waiting queue in simulation time, so pausing never
-raises a warning. Tune it under **Bottleneck detection** on the `WaveNeedsPresenter`:
+`WaveNeedStatusTracker` derives the states from the waiting queue, timed in simulation seconds. A paused
+wave (`WAVE_PAUSED`, or the app in the background) does not advance the simulation clock, so a pause
+neither confirms a warning nor restarts one; the timer continues where it stopped. Tune it under
+**Bottleneck detection** on the `WaveNeedsPresenter`:
 
 | Setting | Default | Rule |
 | --- | --- | --- |
 | `BottleneckQueueThreshold` | 2 | BOTTLENECK needs more than this many waiting |
 | `GrowthDuration` | 4 s | …and the queue must stay above it and be longer than when it crossed, after this long |
-| `RecoveryDrop` | 2 | RECOVERING once the queue is this far below its bottleneck peak |
+| `RecoveryDrop` | 2 | RECOVERING once the queue is this far below its bottleneck peak; before a warning, a drain this size restarts the timer |
 | `RecoveredQueue` | 1 | Warnings clear to OK at or below this; must be below the threshold |
 
-Moving a Worker into a bottleneck shows RECOVERING immediately; removing it shows BOTTLENECK
-immediately. Re-warning from RECOVERING needs a full `RecoveryDrop` band of renewed, sustained growth,
-so the arrival that lands just after a Worker move cannot flip it back. With the demo tuning, Wave 1's
+Short spikes never warn. The growth timer restarts when the queue falls below where the timer started,
+or drains `RecoveryDrop` guests from its high point. So a burst such as 3 → 6 → 4 that is already
+clearing never warns, even if it stays over the threshold for longer than `GrowthDuration`. A one-guest
+dip is service noise and does not restart the timer. A queue swinging between 3 and 5 without net
+growth never warns either.
+
+Moving a Worker into a bottleneck shows RECOVERING immediately. Removing it shows BOTTLENECK
+immediately while more than the threshold are waiting; with a shorter queue the need returns to OK with
+`<Building> has no Worker now and serves slower.`, and the normal growth timer decides from there.
+Re-warning from RECOVERING needs a full `RecoveryDrop` band of renewed, sustained growth, so the arrival
+that lands just after a Worker move cannot flip it back. Because every new warning needs its own growth
+timer, two BOTTLENECK warnings for one need are always at least `GrowthDuration` apart. A new wave id
+discards every timer, peak and status, so nothing carries over from the previous wave. With the demo tuning, Wave 1's
 unstaffed Beach Bar saw-tooths between 1 and 2 waiting without a warning, then turns BOTTLENECK at
 4 waiting (about 77 s).
 
@@ -105,6 +117,12 @@ Need-card navigation was also checked in Play Mode with 3, 4 and 5 needs, using 
 the demo economy (fresh profile, Pool after Wave 3, Bungalows after Wave 6). Every visible card opened
 S3 for its building with that card outlined, locked needs left S3 closed, and S2 returned after each close.
 Moves from the Drinks and Relax cards behaved as described above.
+Bottleneck timing was checked in Play Mode on a fresh profile at 3× speed, reading the S2 cards. Wave 1's
+Beach Bar queue first exceeded the threshold at 69.7 s. The wave was paused 1.8 s later; during 24 s of
+pause the simulation clock stayed at 71.45 s and the card stayed OK. BOTTLENECK appeared at 77.2 s, when
+the queue first grew from 3 to 4. Tapping Drinks and pressing MOVE on Reception showed RECOVERING at
+once, and Beach Bar drained to OK (`Beach Bar is back to normal.`) without warning again. Wave 2 opened
+with every card at OK and no toast.
 
 ## Git LFS
 

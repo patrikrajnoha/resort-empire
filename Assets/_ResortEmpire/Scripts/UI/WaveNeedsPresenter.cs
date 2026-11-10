@@ -287,11 +287,11 @@ namespace ResortEmpire.UI
                 case NeedServiceStatus.BOTTLENECK:
                     return Colored("BOTTLENECK", bottleneckColor) + " · " + waiting + " · "
                         + Colored(CauseFor(need), bottleneckColor);
+                // The queue can still tick up by a guest while recovering, so state the staffing, not a trend.
                 case NeedServiceStatus.RECOVERING:
-                    return Colored("RECOVERING", recoveringColor) + " · " + waiting + ", shrinking";
+                    return Colored("RECOVERING", recoveringColor) + " · " + waiting + " · " + StaffingFor(need);
                 default:
-                    return Colored("OK", okColor) + " · " + waiting + " · "
-                        + (need.IsStaffed ? "Worker on duty" : Colored("No Worker", recoveringColor));
+                    return Colored("OK", okColor) + " · " + waiting + " · " + StaffingFor(need);
             }
         }
 
@@ -300,6 +300,11 @@ namespace ResortEmpire.UI
             return need.Cause == NeedQueueCause.ServiceCapacity
                 ? "SEATS FULL " + need.InService + "/" + need.Capacity
                 : "NO WORKER";
+        }
+
+        private string StaffingFor(NeedStatusSnapshot need)
+        {
+            return need.IsStaffed ? "Worker on duty" : Colored("No Worker", recoveringColor);
         }
 
         private static string Colored(string text, Color color) =>

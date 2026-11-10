@@ -23,7 +23,8 @@ runtime or change save DTOs from UI. All commands return `ResortGameplayCommandR
 
 `WaveNeedStatusTracker.Capture(facade)` turns the live wave into an S2 view model (served/total,
 waiting queue, occupied seats, staffing, `OK`/`BOTTLENECK`/`RECOVERING`/`SATISFIED` and one-shot
-feedback per owned need) without exposing simulation types. Its rules and settings are described in
+feedback per owned need) without exposing simulation types. It times bottlenecks with `SimulationTime`,
+never wall-clock time, so pauses cannot advance detection. Its rules and settings are described in
 `docs/ui/ResortScreens.md`. UI scripts compile into Assembly-CSharp, which does not reference the Waves or Staff
 assemblies, so presentation code must use these Integration types instead of `WaveSnapshot`.
 

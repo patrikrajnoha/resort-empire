@@ -77,6 +77,79 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
+        public void ShortBurstThatIsAlreadyDrainingNeverWarns()
+        {
+            // 3 → 6 in half a second, then clearing. At 4 s it is still above where it started, but shrinking.
+            var spike = new[] { (0d, 3), (0.5d, 6), (1d, 6), (2d, 5), (3d, 5), (4d, 4), (5d, 4), (6d, 3), (7d, 3), (8d, 2), (9d, 1) };
+            foreach (var (time, queue) in spike)
+            {
+                var wave = tracker.Update(1, false, new[] { Drinks(queue) }, time);
+                Assert.That(wave.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.OK), "t=" + time);
+                Assert.That(wave.Feedback, Is.Empty, "t=" + time);
+            }
+        }
+
+        [Test]
+        public void RepeatedShortSpikesNeverWarn()
+        {
+            var spike = new[] { 1, 4, 6, 5, 2, 1 };
+            for (var step = 0; step < 120; step++)
+            {
+                var wave = tracker.Update(1, false, new[] { Drinks(spike[step % spike.Length]) }, step);
+                Assert.That(wave.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.OK), "step " + step);
+                Assert.That(wave.Feedback, Is.Empty, "step " + step);
+            }
+        }
+
+        [TestCase(2f)]
+        [TestCase(4f)]
+        [TestCase(8f)]
+        public void SustainedGrowthWarnsExactlyAfterTheConfiguredDuration(float duration)
+        {
+            tracker = new WaveNeedStatusTracker(new WaveNeedStatusSettings { GrowthDuration = duration });
+            for (var time = 0d; time < duration; time += 0.5d)
+                Assert.That(Step(time, Drinks(3 + (int)time)).Status, Is.EqualTo(NeedServiceStatus.OK), "t=" + time);
+            Assert.That(Step(duration, Drinks(3 + (int)duration)).Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK));
+        }
+
+        [Test]
+        public void SustainedGrowthWithOneGuestDipsStillWarns()
+        {
+            var noisy = new[] { (0d, 3), (1d, 4), (1.5d, 3), (2d, 5), (2.5d, 4), (3d, 5), (3.5d, 6), (3.9d, 5) };
+            foreach (var (time, queue) in noisy)
+                Assert.That(Step(time, Drinks(queue)).Status, Is.EqualTo(NeedServiceStatus.OK), "t=" + time);
+            Assert.That(Step(4d, Drinks(5)).Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK), "A one-guest dip is service noise.");
+        }
+
+        [Test]
+        public void QueueSwingingAboveTheThresholdWithoutNetGrowthNeverWarns()
+        {
+            for (var step = 0; step < 60; step++)
+            {
+                var wave = tracker.Update(1, false, new[] { Drinks(step % 2 == 0 ? 3 : 5) }, step);
+                Assert.That(wave.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.OK), "step " + step);
+                Assert.That(wave.Feedback, Is.Empty, "step " + step);
+            }
+        }
+
+        [Test]
+        public void WarningStatesDoNotFlickerWhileTheQueueOscillates()
+        {
+            ReachBottleneck(staffed: true);
+            var changes = 0;
+            var last = NeedServiceStatus.BOTTLENECK;
+            var pattern = new[] { 6, 5, 6, 5, 6, 4, 5, 4, 5, 6, 5, 4, 5, 6, 5, 4 };
+            for (var step = 0; step < 96; step++)
+            {
+                var status = Step(6d + step * 0.5d, Drinks(pattern[step % pattern.Length], staffed: true)).Status;
+                if (status != last) changes++;
+                last = status;
+            }
+            Assert.That(last, Is.EqualTo(NeedServiceStatus.RECOVERING));
+            Assert.That(changes, Is.EqualTo(1), "One BOTTLENECK → RECOVERING step, then steady.");
+        }
+
+        [Test]
         public void PausedWaveNeverConfirmsABottleneck()
         {
             for (var queue = 3; queue < 12; queue++)
@@ -123,6 +196,25 @@ namespace ResortEmpire.Gameplay.Tests
             var removed = tracker.Update(1, false, new[] { Drinks(5, staffed: false) }, 10.1d);
             Assert.That(removed.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK));
             Assert.That(removed.Feedback.Single().Kind, Is.EqualTo(NeedFeedbackKind.BottleneckMissingWorker));
+        }
+
+        [Test]
+        public void RemovingTheWorkerFromANearlyRecoveredNeedDoesNotFakeABottleneck()
+        {
+            ReachBottleneck(staffed: false);
+            Step(10d, Drinks(4, staffed: true));
+            Assert.That(Step(12d, Drinks(2, staffed: true)).Status, Is.EqualTo(NeedServiceStatus.RECOVERING));
+
+            var removed = tracker.Update(1, false, new[] { Drinks(2, staffed: false) }, 12.5d);
+            Assert.That(removed.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.OK), "2 waiting is not over the threshold.");
+            Assert.That(removed.Feedback.Single().Kind, Is.EqualTo(NeedFeedbackKind.WorkerRemoved), "Not \"back to normal\".");
+
+            // From here the normal growth window decides.
+            Assert.That(Step(13d, Drinks(3)).Status, Is.EqualTo(NeedServiceStatus.OK));
+            Assert.That(Step(16.9d, Drinks(5)).Status, Is.EqualTo(NeedServiceStatus.OK));
+            var grown = tracker.Update(1, false, new[] { Drinks(5) }, 17d);
+            Assert.That(grown.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK));
+            Assert.That(grown.Feedback.Single().Kind, Is.EqualTo(NeedFeedbackKind.BottleneckMissingWorker));
         }
 
         [Test]
@@ -192,6 +284,21 @@ namespace ResortEmpire.Gameplay.Tests
             var next = tracker.Update(2, false, new[] { Drinks(5) }, 100d);
             Assert.That(next.Needs.Single().Status, Is.EqualTo(NeedServiceStatus.OK));
             Assert.That(next.Feedback, Is.Empty);
+        }
+
+        [Test]
+        public void NewWaveDiscardsOpenGrowthWindowsAndSatisfiedNeeds()
+        {
+            tracker.Update(1, false, new[] { Drinks(3), Need(NeedType.Rooms, 0, true) }, 0d);
+            var ended = tracker.Update(1, true, new[] { Drinks(4), new NeedQueueObservation(NeedType.Rooms, 10, 10, 0, 0, 3, true) }, 2d);
+            Assert.That(ended.Needs.Single(n => n.NeedType == NeedType.Rooms).Status, Is.EqualTo(NeedServiceStatus.SATISFIED));
+
+            // Wave 2 at 4 s: had wave 1's window (open since 0 s, starting at 3) survived, 5 would warn now.
+            var next = tracker.Update(2, false, new[] { Drinks(5), Need(NeedType.Rooms, 0, true) }, 4d);
+            Assert.That(next.Needs.Select(n => n.Status), Is.All.EqualTo(NeedServiceStatus.OK));
+            Assert.That(next.Feedback, Is.Empty, "A new wave announces nothing on its first reading.");
+            Assert.That(Step(2, 7.9d, Drinks(6)).Status, Is.EqualTo(NeedServiceStatus.OK), "Wave 2's own window opened at 4 s.");
+            Assert.That(Step(2, 8d, Drinks(6)).Status, Is.EqualTo(NeedServiceStatus.BOTTLENECK));
         }
 
         [Test]
@@ -332,7 +439,12 @@ namespace ResortEmpire.Gameplay.Tests
 
         private NeedStatusSnapshot Step(double time, NeedQueueObservation need)
         {
-            return tracker.Update(1, false, new[] { need }, time).Needs.Single();
+            return Step(1, time, need);
+        }
+
+        private NeedStatusSnapshot Step(int waveId, double time, NeedQueueObservation need)
+        {
+            return tracker.Update(waveId, false, new[] { need }, time).Needs.Single();
         }
 
         private static NeedQueueObservation Drinks(int waiting, bool staffed = false, int served = 0, int total = 20,

@@ -55,7 +55,8 @@ namespace ResortEmpire.Gameplay.Integration
         [Tooltip("Simulation seconds the queue must stay above the threshold and keep growing before BOTTLENECK shows.")]
         [Min(0f)] public float GrowthDuration = 4f;
 
-        [Tooltip("RECOVERING shows once the queue has shrunk this many guests below its bottleneck peak.")]
+        [Tooltip("RECOVERING shows once the queue has shrunk this many guests below its bottleneck peak. Before a warning, "
+            + "a queue that drains this much from its high point is a passing spike and restarts the growth window.")]
         [Min(1)] public int RecoveryDrop = 2;
 
         [Tooltip("At or below this many waiting guests, a warning clears back to OK. Must be below the threshold.")]
@@ -191,9 +192,11 @@ namespace ResortEmpire.Gameplay.Integration
     /// <summary>
     /// Derives S2 need states from the waiting queue only; occupied seats never count.
     /// BOTTLENECK needs a queue above the threshold that keeps growing for GrowthDuration
-    /// simulation seconds, so a pause never raises one. Assigning a Worker to a bottleneck
-    /// shows RECOVERING at once; losing it shows BOTTLENECK at once. All other changes use
-    /// hysteresis bands so queues fluctuating by a guest or two never make warnings flicker.
+    /// simulation seconds, so a pause never raises one and a burst that is already draining
+    /// never confirms. Assigning a Worker to a bottleneck shows RECOVERING at once; losing it
+    /// while the queue is still over the threshold shows BOTTLENECK at once. All other changes
+    /// use hysteresis bands so queues fluctuating by a guest or two never make warnings flicker.
+    /// A new wave id discards every timer, peak and status from the previous wave.
     /// </summary>
     public sealed class WaveNeedStatusTracker
     {
@@ -317,8 +320,10 @@ namespace ResortEmpire.Gameplay.Integration
                 case NeedServiceStatus.RECOVERING:
                     if (queue <= settings.RecoveredQueue)
                         return EnterOk(state);
+                    // Losing the Worker warns at once only if the queue is still over the threshold.
+                    // A short queue goes back to OK and the normal growth window decides from there.
                     if (lost)
-                        return EnterBottleneck(state, queue);
+                        return queue > settings.BottleneckQueueThreshold ? EnterBottleneck(state, queue) : EnterOk(state);
                     // Re-warn only after the queue climbs a full recovery band above its low point and
                     // keeps growing, so the arrival that lands just after a Worker move cannot flip it back.
                     state.LowQueue = Math.Min(state.LowQueue, queue);
@@ -338,7 +343,9 @@ namespace ResortEmpire.Gameplay.Integration
         /// <summary>
         /// The window opens when the queue first exceeds <paramref name="floor"/> and closes once it
         /// falls back to it. Growth is confirmed after GrowthDuration if the queue is now longer than
-        /// when the window opened. Shrinking below that starting length restarts the window.
+        /// when the window opened. The window restarts if the queue shrinks below that starting
+        /// length, or drains RecoveryDrop guests from its high point: a burst that is already
+        /// clearing is a spike, not sustained growth. A one-guest dip is noise and is ignored.
         /// </summary>
         private bool KeepsGrowing(NeedMemory state, int queue, int floor, double time)
         {
@@ -348,11 +355,16 @@ namespace ResortEmpire.Gameplay.Integration
                 return false;
             }
 
-            if (!state.WindowOpen || queue < state.WindowStartQueue)
+            if (!state.WindowOpen || queue < state.WindowStartQueue || queue <= state.WindowPeakQueue - settings.RecoveryDrop)
             {
                 state.WindowOpen = true;
                 state.WindowStart = time;
                 state.WindowStartQueue = queue;
+                state.WindowPeakQueue = queue;
+            }
+            else
+            {
+                state.WindowPeakQueue = Math.Max(state.WindowPeakQueue, queue);
             }
 
             if (settings.GrowthDuration <= 0f)
@@ -394,7 +406,8 @@ namespace ResortEmpire.Gameplay.Integration
                     case NeedServiceStatus.SATISFIED:
                         return NeedFeedbackKind.Satisfied;
                     default:
-                        return NeedFeedbackKind.BackToNormal;
+                        // A warning that clears because its Worker left is not "back to normal".
+                        return lost ? NeedFeedbackKind.WorkerRemoved : NeedFeedbackKind.BackToNormal;
                 }
             }
 
@@ -432,6 +445,7 @@ namespace ResortEmpire.Gameplay.Integration
             public bool WindowOpen;
             public double WindowStart;
             public int WindowStartQueue;
+            public int WindowPeakQueue;
         }
     }
 }
