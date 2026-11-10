@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: b5c1c4a9b1ea3c647bb00c4403ef6196
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1049828266481344188
+    second: WalkablePathLayer_0
+  - first:
+      213: -3431863743796719031
+    second: WalkablePathLayer_1
+  - first:
+      213: -8102430899661164723
+    second: WalkablePathLayer_2
+  - first:
+      213: -7393682958524191818
+    second: WalkablePathLayer_3
+  - first:
+      213: -4741946974046623843
+    second: WalkablePathLayer_4
+  - first:
+      213: -7313547041034080903
+    second: WalkablePathLayer_5
+  - first:
+      213: -1010588515852455776
+    second: WalkablePathLayer_6
+  - first:
+      213: -8244977758942683440
+    second: WalkablePathLayer_7
+  - first:
+      213: -3928944244447620763
+    second: WalkablePathLayer_8
+  - first:
+      213: -4093832141692309965
+    second: WalkablePathLayer_9
+  - first:
+      213: -8383760714584884788
+    second: WalkablePathLayer_10
+  - first:
+      213: 5281307894284323395
+    second: WalkablePathLayer_11
+  - first:
+      213: -2376784961561721787
+    second: WalkablePathLayer_12
+  - first:
+      213: -3076530297828670369
+    second: WalkablePathLayer_13
+  - first:
+      213: -8619424260850772773
+    second: WalkablePathLayer_14
+  - first:
+      213: -3848987028181309543
+    second: WalkablePathLayer_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: WalkablePathLayer_0
+      rect:
+        serializedVersion: 2
+        x: 4963
+        y: 4832
+        width: 308
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbed8c20f3db19e00800000000000000
+      internalID: 1049828266481344188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_1
+      rect:
+        serializedVersion: 2
+        x: 5334
+        y: 5054
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94254799b129f50d0800000000000000
+      internalID: -3431863743796719031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_2
+      rect:
+        serializedVersion: 2
+        x: 5454
+        y: 4974
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4f2c8876026e8f80800000000000000
+      internalID: -8102430899661164723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_3
+      rect:
+        serializedVersion: 2
+        x: 5434
+        y: 4904
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bb6e4bc58c546990800000000000000
+      internalID: -7393682958524191818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_4
+      rect:
+        serializedVersion: 2
+        x: 5274
+        y: 4847
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d97663cd958313eb0800000000000000
+      internalID: -4741946974046623843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_5
+      rect:
+        serializedVersion: 2
+        x: 5309
+        y: 4844
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97ded0b07bf018a90800000000000000
+      internalID: -7313547041034080903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_6
+      rect:
+        serializedVersion: 2
+        x: 1218
+        y: 887
+        width: 5113
+        height: 3603
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a07682691ba9f1f0800000000000000
+      internalID: -1010588515852455776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_7
+      rect:
+        serializedVersion: 2
+        x: 5623
+        y: 4455
+        width: 574
+        height: 331
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0de99397964f39d80800000000000000
+      internalID: -8244977758942683440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_8
+      rect:
+        serializedVersion: 2
+        x: 1039
+        y: 4334
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 561526fa6069979c0800000000000000
+      internalID: -3928944244447620763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_9
+      rect:
+        serializedVersion: 2
+        x: 748
+        y: 4018
+        width: 297
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33e6a507b59cf27c0800000000000000
+      internalID: -4093832141692309965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_10
+      rect:
+        serializedVersion: 2
+        x: 734
+        y: 4010
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc9fa459c06e6ab80800000000000000
+      internalID: -8383760714584884788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_11
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 702
+        width: 625
+        height: 631
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34a884c5c89fa4940800000000000000
+      internalID: 5281307894284323395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_12
+      rect:
+        serializedVersion: 2
+        x: 6100
+        y: 509
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5448f929ba6f30fd0800000000000000
+      internalID: -2376784961561721787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_13
+      rect:
+        serializedVersion: 2
+        x: 6121
+        y: 529
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5402398ef7fd45d0800000000000000
+      internalID: -3076530297828670369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_14
+      rect:
+        serializedVersion: 2
+        x: 6069
+        y: 494
+        width: 31
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd41b9b6d47a16880800000000000000
+      internalID: -8619424260850772773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WalkablePathLayer_15
+      rect:
+        serializedVersion: 2
+        x: 6089
+        y: 504
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 997aa20d0b6a59ac0800000000000000
+      internalID: -3848987028181309543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      WalkablePathLayer_0: 1049828266481344188
+      WalkablePathLayer_1: -3431863743796719031
+      WalkablePathLayer_10: -8383760714584884788
+      WalkablePathLayer_11: 5281307894284323395
+      WalkablePathLayer_12: -2376784961561721787
+      WalkablePathLayer_13: -3076530297828670369
+      WalkablePathLayer_14: -8619424260850772773
+      WalkablePathLayer_15: -3848987028181309543
+      WalkablePathLayer_2: -8102430899661164723
+      WalkablePathLayer_3: -7393682958524191818
+      WalkablePathLayer_4: -4741946974046623843
+      WalkablePathLayer_5: -7313547041034080903
+      WalkablePathLayer_6: -1010588515852455776
+      WalkablePathLayer_7: -8244977758942683440
+      WalkablePathLayer_8: -3928944244447620763
+      WalkablePathLayer_9: -4093832141692309965
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
