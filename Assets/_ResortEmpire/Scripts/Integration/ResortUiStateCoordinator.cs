@@ -3,6 +3,7 @@ using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Progression;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace ResortEmpire.Gameplay.Integration
 {
@@ -48,6 +49,19 @@ namespace ResortEmpire.Gameplay.Integration
         /// <summary>True while S3 is showing; S2 stays active underneath and is visible again once S3 closes.</summary>
         public bool IsWorkerAllocationOpen => workerAllocationWindow != null && workerAllocationWindow.activeInHierarchy;
         public event System.Action WorkerAllocationContextChanged;
+
+        [Header("Wave Needs Collapse")]
+        [SerializeField] private RectTransform waveNeedsSlidingPanel;
+        [SerializeField] private RectTransform waveNeedsToggleGraphic;
+        [SerializeField] private GameObject waveNeedsIslandDim;
+        [SerializeField] private float slideDuration = 0.25f;
+
+        private Vector2 waveNeedsOpenPosition;
+        private Quaternion toggleOpenRotation;
+        private bool originalDimActive;
+        private bool waveNeedsCollapsed;
+        private bool wasWaveVisible;
+        private Coroutine slideCoroutine;
 
         /// <summary>
         /// Temporarily suppresses normal state-driven visibility while a presentation-only
@@ -154,6 +168,15 @@ namespace ResortEmpire.Gameplay.Integration
         private void Awake()
         {
             ResolveSceneReferences();
+
+            if (waveNeedsSlidingPanel != null)
+                waveNeedsOpenPosition = waveNeedsSlidingPanel.anchoredPosition;
+
+            if (waveNeedsToggleGraphic != null)
+                toggleOpenRotation = waveNeedsToggleGraphic.localRotation;
+
+            if (waveNeedsIslandDim != null)
+                originalDimActive = waveNeedsIslandDim.activeSelf;
         }
 
         private void OnEnable()
@@ -247,10 +270,20 @@ namespace ResortEmpire.Gameplay.Integration
             if (homeIslandView != null)
                 homeIslandView.SetActive(true);
 
-            SetActive(waveNeedsPanel, phase == GamePhase.WAVE_INCOMING
-                || phase == GamePhase.WAVE_ACTIVE
-                || phase == GamePhase.WAVE_PAUSED
-                || phase == GamePhase.WAVE_RESOLVING);
+            bool showWavePanel =
+                phase == GamePhase.WAVE_INCOMING ||
+                phase == GamePhase.WAVE_ACTIVE ||
+                phase == GamePhase.WAVE_PAUSED ||
+                phase == GamePhase.WAVE_RESOLVING;
+
+            // Reset when entering a new wave.
+            if (showWavePanel && !wasWaveVisible)
+                ResetWaveNeedsCollapse();
+
+            wasWaveVisible = showWavePanel;
+
+            SetActive(waveNeedsPanel, showWavePanel);
+
             SetActive(waveCompleteWindow, phase == GamePhase.WAVE_COMPLETE
                 && gameplayFacade != null && gameplayFacade.CurrentWaveResult != null);
             SetActive(upgradeSuggestionWindow, phase == GamePhase.UPGRADE);
@@ -319,5 +352,95 @@ namespace ResortEmpire.Gameplay.Integration
 
             return null;
         }
+
+        public void ToggleWaveNeedsPanel()
+        {
+            if (IsPreviewOverrideActive ||
+                waveNeedsPanel == null ||
+                !waveNeedsPanel.activeInHierarchy ||
+                waveNeedsSlidingPanel == null)
+                return;
+
+            waveNeedsCollapsed = !waveNeedsCollapsed;
+
+            if (slideCoroutine != null)
+                StopCoroutine(slideCoroutine);
+
+            float offset = waveNeedsCollapsed
+                ? -waveNeedsSlidingPanel.rect.width
+                : 0f;
+
+            Vector2 targetPosition =
+                waveNeedsOpenPosition + new Vector2(offset, 0f);
+
+            Quaternion targetRotation = toggleOpenRotation *
+                Quaternion.Euler(0f, waveNeedsCollapsed ? 180f : 0f, 0f);
+
+            if (waveNeedsIslandDim != null)
+                waveNeedsIslandDim.SetActive(!waveNeedsCollapsed && originalDimActive);
+
+            slideCoroutine = StartCoroutine(
+                AnimateWaveNeeds(targetPosition, targetRotation)
+            );
+        }
+
+        private IEnumerator AnimateWaveNeeds(
+            Vector2 targetPosition,
+            Quaternion targetRotation)
+        {
+            Vector2 startPosition = waveNeedsSlidingPanel.anchoredPosition;
+
+            Quaternion startRotation = waveNeedsToggleGraphic != null
+                ? waveNeedsToggleGraphic.localRotation
+                : Quaternion.identity;
+
+            float elapsed = 0f;
+            float duration = Mathf.Max(0.01f, slideDuration);
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+
+                float t = Mathf.Clamp01(elapsed / duration);
+                t = t * t * (3f - 2f * t);
+
+                waveNeedsSlidingPanel.anchoredPosition =
+                    Vector2.Lerp(startPosition, targetPosition, t);
+
+                if (waveNeedsToggleGraphic != null)
+                    waveNeedsToggleGraphic.localRotation =
+                        Quaternion.Slerp(startRotation, targetRotation, t);
+
+                yield return null;
+            }
+
+            waveNeedsSlidingPanel.anchoredPosition = targetPosition;
+
+            if (waveNeedsToggleGraphic != null)
+                waveNeedsToggleGraphic.localRotation = targetRotation;
+
+            slideCoroutine = null;
+        }
+
+        private void ResetWaveNeedsCollapse()
+        {
+            if (slideCoroutine != null)
+            {
+                StopCoroutine(slideCoroutine);
+                slideCoroutine = null;
+            }
+
+            waveNeedsCollapsed = false;
+
+            if (waveNeedsSlidingPanel != null)
+                waveNeedsSlidingPanel.anchoredPosition = waveNeedsOpenPosition;
+
+            if (waveNeedsToggleGraphic != null)
+                waveNeedsToggleGraphic.localRotation = toggleOpenRotation;
+
+            if (waveNeedsIslandDim != null)
+                waveNeedsIslandDim.SetActive(originalDimActive);
+        }
+
     }
 }
