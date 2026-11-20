@@ -63,7 +63,14 @@ namespace ResortEmpire.Gameplay.Tests
                 InputSystem.ResetDevice(keyboard);
                 Assert.That(keyboard.numpadPlusKey.wasPressedThisFrame, Is.False);
                 Assert.That(keyboard.numpadMinusKey.wasPressedThisFrame, Is.False);
-                for (var press = 0; press < 8; press++)
+                PressZoomKey(keyboard, Key.NumpadPlus);
+                var firstZoom = TargetZoom();
+                Assert.That(firstZoom, Is.LessThan(4f));
+                InputSystem.Update();
+                controllerType.GetMethod("UpdateKeyboardInput", PrivateInstance).Invoke(controller, null);
+                Assert.That(TargetZoom(), Is.EqualTo(firstZoom), "Holding the key must not continuously zoom.");
+
+                for (var press = 0; press < 7; press++)
                     PressZoomKey(keyboard, Key.NumpadPlus);
                 Assert.That(TargetZoom(), Is.EqualTo(2.5f));
 
@@ -83,10 +90,11 @@ namespace ResortEmpire.Gameplay.Tests
         {
             InputSystem.QueueStateEvent(keyboard, new KeyboardState());
             InputSystem.Update();
+            controllerType.GetMethod("UpdateKeyboardInput", PrivateInstance).Invoke(controller, null);
             InputSystem.QueueStateEvent(keyboard, new KeyboardState(key));
             InputSystem.Update();
             Assert.That(Keyboard.current, Is.SameAs(keyboard));
-            Assert.That(keyboard[key].wasPressedThisFrame, Is.True);
+            Assert.That(keyboard[key].isPressed, Is.True);
             controllerType.GetMethod("UpdateKeyboardInput", PrivateInstance).Invoke(controller, null);
         }
 

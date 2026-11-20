@@ -76,6 +76,8 @@ namespace ResortEmpire
         private float targetZoomValue;
         private float zoomValueVelocity;
         private bool gestureBlocked;
+        private bool zoomInHeld;
+        private bool zoomOutHeld;
         private bool panInputThisFrame;
         private int previousTouchCount;
         private bool singleTouchDragging;
@@ -639,18 +641,29 @@ namespace ResortEmpire
         {
             var keyboard = Keyboard.current;
             if (keyboard == null)
+            {
+                zoomInHeld = false;
+                zoomOutHeld = false;
                 return;
+            }
 
             Vector2 screenCenter = new Vector2(
                 targetCamera.pixelRect.x + targetCamera.pixelRect.width * 0.5f,
                 targetCamera.pixelRect.y + targetCamera.pixelRect.height * 0.5f);
             float step = Mathf.Max(keyboardZoomStep, 1.001f);
+            bool zoomInPressed = keyboard.numpadPlusKey.isPressed || keyboard.equalsKey.isPressed;
+            bool zoomOutPressed = keyboard.numpadMinusKey.isPressed || keyboard.minusKey.isPressed;
 
-            if (keyboard.numpadPlusKey.wasPressedThisFrame || keyboard.equalsKey.wasPressedThisFrame)
+            // The editor can report a held key without reporting a press in the current frame.
+            if (keyboard.numpadPlusKey.wasPressedThisFrame || keyboard.equalsKey.wasPressedThisFrame
+                || (zoomInPressed && !zoomInHeld))
                 ZoomAroundScreenPoint(step, screenCenter);
-
-            if (keyboard.numpadMinusKey.wasPressedThisFrame || keyboard.minusKey.wasPressedThisFrame)
+            if (keyboard.numpadMinusKey.wasPressedThisFrame || keyboard.minusKey.wasPressedThisFrame
+                || (zoomOutPressed && !zoomOutHeld))
                 ZoomAroundScreenPoint(1f / step, screenCenter);
+
+            zoomInHeld = zoomInPressed;
+            zoomOutHeld = zoomOutPressed;
         }
 
         public void PanByScreenDelta(Vector2 screenDelta)
