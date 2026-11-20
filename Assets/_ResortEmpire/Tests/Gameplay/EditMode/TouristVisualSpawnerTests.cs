@@ -31,6 +31,7 @@ namespace ResortEmpire.Gameplay.Tests
         [SetUp]
         public void SetUp()
         {
+            ResortDebugLevelOverride.Clear();
             bootstrapObject = new GameObject("TouristVisualBootstrapTest");
             bootstrap = bootstrapObject.AddComponent<ResortGameplayBootstrap>();
             Assert.That(bootstrap.TryConfigure(new TestDependencies()), Is.True);
@@ -97,6 +98,7 @@ namespace ResortEmpire.Gameplay.Tests
         [TearDown]
         public void TearDown()
         {
+            ResortDebugLevelOverride.Clear();
             typeof(TouristVisualSpawner).GetMethod(
                 "UnbindFromGameplay", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(spawner, null);
             Object.DestroyImmediate(spawnerObject);
@@ -309,6 +311,49 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(waitingGuests, Is.EqualTo(1));
         }
 
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void BarGuestsReachTheAisleBelowTheirOwnStoolBeforeSitting(int level)
+        {
+            spawnPoint.anchoredPosition = new Vector2(240f, 260f);
+            var bar = new GameObject("BeachBarSprite").AddComponent<RectTransform>();
+            bar.SetParent(islandBaseObject.transform, false);
+            bar.anchoredPosition = new Vector2(240f, 120f);
+            bar.sizeDelta = new Vector2(200f, 160f);
+            SetPrivateField(spawner, "barNavigationObstacle", bar);
+
+            if (level > 1)
+            {
+                var stool = CreateDestination($"BarSeatEntry_Lvl{level}_01", new Vector2(240f, 86f));
+                ((IList)GetPrivateField(spawner, "barSeatEntryPoints")).Add(stool);
+            }
+            ResortDebugLevelOverride.SetLevel(level);
+
+            boatArrivalSignal.NotifyArrived();
+            FindPrivateMethod("HandleStateChanged", 2).Invoke(
+                spawner, new object[] { GamePhase.AWAITING_WAVE, GamePhase.WAVE_ACTIVE });
+
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var barRoutine = routines[1];
+            var route = (IList)GetPrivateField(barRoutine, "Route");
+            var aisle = (Vector2)route[route.Count - 2];
+            var stoolPosition = (Vector2)route[route.Count - 1];
+            var barEntrance = (RectTransform)GetPrivateField(spawner, "barSeatPoint");
+
+            Assert.That(aisle.x, Is.EqualTo(stoolPosition.x).Within(0.01f));
+            Assert.That(aisle.y, Is.EqualTo(barEntrance.anchoredPosition.y).Within(0.01f));
+            Assert.That(stoolPosition.y, Is.GreaterThan(aisle.y));
+
+            var obstacle = (IslandNavigationMap.NavigationObstacle)FindPrivateMethod(
+                "BuildNavigationObstacle", 1).Invoke(spawner, new object[] { bar });
+            for (var index = 0; index < route.Count - 2; index++)
+            {
+                Assert.That(obstacle.IntersectsSegment((Vector2)route[index], (Vector2)route[index + 1]),
+                    Is.False, "The walk to the aisle must go around the bar.");
+            }
+        }
+
         [Test]
         public void BarGuestLeavesVisualSeatThroughWalkableAnchorBeforeRestaurantRoute()
         {
@@ -350,7 +395,7 @@ namespace ResortEmpire.Gameplay.Tests
             var route = (IList)GetPrivateField(barRoutine, "Route");
             Assert.That(route.Count, Is.GreaterThan(2));
             Assert.That(Vector2.Distance((Vector2)route[0], new Vector2(4.63f, 95.99f)), Is.LessThan(0.01f));
-            Assert.That(Vector2.Distance((Vector2)route[1], new Vector2(26f, -25f)), Is.LessThan(16f));
+            Assert.That(Vector2.Distance((Vector2)route[1], new Vector2(4.63f, -25f)), Is.LessThan(0.01f));
             var passedReceptionExit = false;
             foreach (Vector2 point in route)
                 passedReceptionExit |= Vector2.Distance(point, new Vector2(-74f, -37f)) < 16f;
@@ -422,6 +467,8 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(secondBarGuest.GetComponent<RectTransform>().localScale.y, Is.EqualTo(1.2f).Within(0.001f));
             Assert.That(firstBarGuest.GetComponent<RectTransform>().localScale.x, Is.LessThan(0f));
             Assert.That(secondBarGuest.GetComponent<RectTransform>().localScale.x, Is.GreaterThan(0f));
+            Assert.That(secondBarGuest.transform.GetSiblingIndex(), Is.LessThan(firstBarGuest.transform.GetSiblingIndex()),
+                "The left stool must draw behind its right neighbor even if the left guest arrives later.");
         }
 
         [Test]
