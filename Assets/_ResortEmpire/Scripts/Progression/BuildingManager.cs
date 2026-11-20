@@ -22,6 +22,7 @@ namespace ResortEmpire.Gameplay.Progression
         public bool IsOwned => Level > 0;
         public bool IsEligible { get; }
         public int Capacity { get; }
+        public int WorkerSlotCount => 1;
         public double ServiceDuration { get; }
         public int PurchaseCost { get; }
         public int? UpgradeCost { get; }
@@ -48,7 +49,7 @@ namespace ResortEmpire.Gameplay.Progression
             {
                 var item = new BuildingStateSnapshot(data, config, completed);
                 states.Add(item);
-                buildings.Add(new BuildingSnapshot(item.BuildingId, item.IsOwned, item.Capacity, item.ServiceDuration, 1));
+                buildings.Add(new BuildingSnapshot(item.BuildingId, item.IsOwned, item.Capacity, item.ServiceDuration, item.WorkerSlotCount));
             }
             Buildings = buildings.AsReadOnly();
             States = states.AsReadOnly();

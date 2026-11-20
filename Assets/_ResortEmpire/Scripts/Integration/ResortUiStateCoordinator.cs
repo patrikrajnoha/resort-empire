@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Progression;
+using ResortEmpire.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -42,6 +43,7 @@ namespace ResortEmpire.Gameplay.Integration
         private int previewOverrideDepth;
 
         public bool IsPreviewOverrideActive => previewOverrideDepth > 0;
+        public bool IsAreaUnlockOpen => areaUnlockWindow != null && areaUnlockWindow.activeInHierarchy;
         /// <summary>Fixed move destination for S3. Null lets S3 use the single vacant building.</summary>
         public BuildingId? WorkerAllocationTarget { get; private set; }
         /// <summary>The service S3 was opened for, if any. It may already be staffed.</summary>
@@ -51,6 +53,7 @@ namespace ResortEmpire.Gameplay.Integration
         public event System.Action WorkerAllocationContextChanged;
 
         [Header("Wave Needs Collapse")]
+        [SerializeField] private ResponsiveEdgePanel waveNeedsEdgePanel;
         [SerializeField] private RectTransform waveNeedsSlidingPanel;
         [SerializeField] private RectTransform waveNeedsToggleGraphic;
         [SerializeField] private GameObject waveNeedsIslandDim;
@@ -169,6 +172,10 @@ namespace ResortEmpire.Gameplay.Integration
         {
             ResolveSceneReferences();
 
+            // Keep the presentation-only panel hidden during the initial frame. The panel is
+            // activated by ApplyPhase only after the gameplay phase says that a wave exists.
+            SetActive(waveNeedsPanel, false);
+
             if (waveNeedsSlidingPanel != null)
                 waveNeedsOpenPosition = waveNeedsSlidingPanel.anchoredPosition;
 
@@ -209,6 +216,8 @@ namespace ResortEmpire.Gameplay.Integration
                 homeIslandView = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/HomeIslandView");
             if (waveNeedsPanel == null)
                 waveNeedsPanel = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/WaveNeedsPanel");
+            if (waveNeedsEdgePanel == null && waveNeedsPanel != null)
+                waveNeedsEdgePanel = waveNeedsPanel.GetComponent<ResponsiveEdgePanel>();
             if (upgradeSuggestionWindow == null)
                 upgradeSuggestionWindow = FindSceneObject("GameUI/SafeArea/HomeIslandViewCanvas/UpgradeSuggestionPanel");
             if (areaUnlockWindow == null)
@@ -355,6 +364,14 @@ namespace ResortEmpire.Gameplay.Integration
 
         public void ToggleWaveNeedsPanel()
         {
+            if (waveNeedsEdgePanel != null)
+            {
+                if (IsPreviewOverrideActive || waveNeedsPanel == null || !waveNeedsPanel.activeInHierarchy)
+                    return;
+                waveNeedsEdgePanel.Toggle();
+                return;
+            }
+
             if (IsPreviewOverrideActive ||
                 waveNeedsPanel == null ||
                 !waveNeedsPanel.activeInHierarchy ||
@@ -424,6 +441,12 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void ResetWaveNeedsCollapse()
         {
+            if (waveNeedsEdgePanel != null)
+            {
+                waveNeedsEdgePanel.CloseImmediate();
+                return;
+            }
+
             if (slideCoroutine != null)
             {
                 StopCoroutine(slideCoroutine);

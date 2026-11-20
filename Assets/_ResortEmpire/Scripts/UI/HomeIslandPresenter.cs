@@ -98,6 +98,7 @@ namespace ResortEmpire.UI
             SetText(statusText, StatusFor(phase, forecast));
             if (startWaveButton != null)
                 startWaveButton.gameObject.SetActive(gameplay.IsConfigured && phase == GamePhase.AWAITING_WAVE && forecast.HasWave);
+            RefreshWaveStartAvailability();
             if (forecast.HasWave) SetText(startWaveText, "START WAVE " + forecast.WaveId);
 
             if (poolWorkerMarker != null)
@@ -146,10 +147,19 @@ namespace ResortEmpire.UI
 
         private void StartWave()
         {
+            // Also guard programmatic onClick invocations while the modal owns input.
+            if (navigation != null && navigation.IsAreaUnlockOpen) return;
             var command = gameplay.TryStartWave();
             if (command.Succeeded) return;
             Debug.LogWarning(command.Message);
             CommandFailed.Invoke(command.Message);
+        }
+
+        public void RefreshWaveStartAvailability()
+        {
+            if (navigation == null) navigation = FindAnyObjectByType<ResortUiStateCoordinator>();
+            if (startWaveButton != null)
+                startWaveButton.interactable = navigation == null || !navigation.IsAreaUnlockOpen;
         }
 
         private void OpenWorkerAllocation()
