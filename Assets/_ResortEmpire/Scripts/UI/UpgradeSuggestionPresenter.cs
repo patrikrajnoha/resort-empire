@@ -97,6 +97,8 @@ namespace ResortEmpire.UI
             var cost = building.UpgradeCost.Value;
             var affordable = gameplay.Resources.Coins >= cost;
             SetText(buildingName, ResortUiText.BuildingName(building.BuildingId));
+            var artwork = GetComponent<UpgradeSuggestionArt>();
+            var serviceIcon = artwork != null ? artwork.IconFor(building.NeedType) : null;
             foreach (var icon in needIcons)
             {
                 if (icon.Need != building.NeedType || buildingIcon == null) continue;
@@ -104,9 +106,15 @@ namespace ResortEmpire.UI
                 buildingIcon.preserveAspect = true;
                 buildingIcon.color = icon.Tint ? iconTint : Color.white;
             }
+            if (serviceIcon != null && buildingIcon != null)
+            {
+                buildingIcon.sprite = serviceIcon;
+                buildingIcon.preserveAspect = true;
+                buildingIcon.color = Color.white;
+            }
             SetText(description, affordable ? "More seats shorten the queue!" : "Earn more Coins to upgrade.");
             SetText(capacityLabel, ResortUiText.NeedName(building.NeedType) + " Capacity");
-            SetText(capacityValue, building.Capacity + " -> <color=#00C896>" + building.NextCapacity.Value + "</color>");
+            SetText(capacityValue, building.Capacity + " -> <color=#087E68>" + building.NextCapacity.Value + "</color>");
             SetText(costValue, ResortUiText.Number(cost));
             if (costValue != null) costValue.color = affordable ? affordableCost : unaffordableCost;
             if (upgradeButton != null) upgradeButton.interactable = affordable;
