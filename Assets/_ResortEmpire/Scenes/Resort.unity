@@ -6743,6 +6743,8 @@ MonoBehaviour:
   maxPerspectiveDistance: 30
   enableMouseFallback: 1
   mouseScrollSensitivity: 1.25
+  enableKeyboardFallback: 1
+  keyboardZoomStep: 1.15
   gameplayBootstrap: {fileID: 1995275501}
   activeWaveCameraOffset: {x: 2.8, y: 0}
   activeWaveOrthographicSize: 4.5
