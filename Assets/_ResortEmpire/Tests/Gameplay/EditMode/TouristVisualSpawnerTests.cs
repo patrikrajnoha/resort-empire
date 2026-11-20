@@ -358,7 +358,7 @@ namespace ResortEmpire.Gameplay.Tests
         public void BarGuestLeavesVisualSeatThroughWalkableAnchorBeforeRestaurantRoute()
         {
             var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
-                "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png");
+                "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable.png");
             Assert.That(realMap, Is.Not.Null);
             SetPrivateField(spawner, "navigationMapTexture", realMap);
             spawnPoint.anchoredPosition = new Vector2(102f, -311f);
@@ -498,7 +498,7 @@ namespace ResortEmpire.Gameplay.Tests
         public void BarGuestDisappearsAtReceptionAndReappearsOnInnerPath()
         {
             var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
-                "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png");
+                "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable.png");
             Assert.That(realMap, Is.Not.Null);
             SetPrivateField(spawner, "navigationMapTexture", realMap);
             spawnPoint.anchoredPosition = new Vector2(102f, -311f);
@@ -547,7 +547,7 @@ namespace ResortEmpire.Gameplay.Tests
         public void RestaurantGuestUsesReceptionPortalAndAllConfiguredTouristsRemainActive()
         {
             var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
-                "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png");
+                "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable.png");
             Assert.That(realMap, Is.Not.Null);
             SetPrivateField(spawner, "navigationMapTexture", realMap);
             spawnPoint.anchoredPosition = new Vector2(102f, -311f);

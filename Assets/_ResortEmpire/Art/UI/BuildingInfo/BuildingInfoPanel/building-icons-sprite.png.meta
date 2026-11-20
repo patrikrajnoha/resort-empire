@@ -1,0 +1,406 @@
+fileFormatVersion: 2
+guid: 6da748545f7eaba48a71c9f66cc2868a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1699772100293183925
+    second: building-icons-sprite_0
+  - first:
+      213: -4540364965750224556
+    second: building-icons-sprite_1
+  - first:
+      213: -3179730112997219750
+    second: building-icons-sprite_2
+  - first:
+      213: -4030797252518546812
+    second: building-icons-sprite_3
+  - first:
+      213: 7564281575133607841
+    second: building-icons-sprite_4
+  - first:
+      213: 6696184220998770481
+    second: building-icons-sprite_5
+  - first:
+      213: 5331532841782003405
+    second: building-icons-sprite_6
+  - first:
+      213: 2450978178914489166
+    second: building-icons-sprite_7
+  - first:
+      213: 1238526740001751005
+    second: building-icons-sprite_8
+  - first:
+      213: -6765283969465365538
+    second: building-icons-sprite_9
+  - first:
+      213: -8990423268771081635
+    second: building-icons-sprite_10
+  - first:
+      213: -3630904990679589670
+    second: building-icons-sprite_11
+  - first:
+      213: 1351502661472752164
+    second: building-icons-sprite_12
+  - first:
+      213: 3412929023883667453
+    second: building-icons-sprite_13
+  - first:
+      213: 4977102469712644894
+    second: building-icons-sprite_14
+  - first:
+      213: -8909289268389316502
+    second: building-icons-sprite_15
+  - first:
+      213: 4274121841912199522
+    second: building-icons-sprite_16
+  - first:
+      213: -8641722211815230346
+    second: building-icons-sprite_17
+  - first:
+      213: -2917852044373471014
+    second: building-icons-sprite_18
+  - first:
+      213: 2002280910658333324
+    second: building-icons-sprite_19
+  - first:
+      213: -3947275881026693613
+    second: building-icons-sprite_20
+  - first:
+      213: 8101124372530214306
+    second: building-icons-sprite_21
+  - first:
+      213: -4775582035309297120
+    second: building-icons-sprite_22
+  - first:
+      213: 7609940090465059054
+    second: building-icons-sprite_23
+  - first:
+      213: -900609482920826119
+    second: building-icons-sprite_24
+  - first:
+      213: 7578843587018332714
+    second: building-icons-sprite_25
+  - first:
+      213: -2795200574707392112
+    second: building-icons-sprite_26
+  - first:
+      213: 1774437813544271732
+    second: building-icons-sprite_27
+  - first:
+      213: 1911434114943329970
+    second: building-icons-sprite_28
+  - first:
+      213: 2025532653925311727
+    second: building-icons-sprite_29
+  - first:
+      213: 3247570499705161868
+    second: building-icons-sprite_30
+  - first:
+      213: -5124840758216347876
+    second: building-icons-sprite_31
+  - first:
+      213: -8166484227519582885
+    second: building-icons-sprite_32
+  - first:
+      213: -7546207728354545742
+    second: building-icons-sprite_33
+  - first:
+      213: -588301919393335916
+    second: building-icons-sprite_34
+  - first:
+      213: -2050786167824776489
+    second: building-icons-sprite_35
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: building-icons-sprite_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 89
+        width: 323
+        height: 506
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b9481d28bdc69710800000000000000
+      internalID: 1699772100293183925
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: building-icons-sprite_1
+      rect:
+        serializedVersion: 2
+        x: 1131
+        y: 149
+        width: 333
+        height: 443
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45944d99e126df0c0800000000000000
+      internalID: -4540364965750224556
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: building-icons-sprite_2
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 135
+        width: 397
+        height: 441
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5220352f445fd3d0800000000000000
+      internalID: -3179730112997219750
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: building-icons-sprite_3
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 127
+        width: 366
+        height: 458
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 482f202414bbf08c0800000000000000
+      internalID: -4030797252518546812
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: building-icons-sprite_7
+      rect:
+        serializedVersion: 2
+        x: 1816
+        y: 168
+        width: 347
+        height: 343
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e439e6afaaf930220800000000000000
+      internalID: 2450978178914489166
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: building-icons-sprite_19
+      rect:
+        serializedVersion: 2
+        x: 1482
+        y: 170
+        width: 326
+        height: 361
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ae55431e789cb10800000000000000
+      internalID: 2002280910658333324
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID: 4ac314f31cc5dce448c62c50cdba5861
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      building-icons-sprite_0: 1699772100293183925
+      building-icons-sprite_1: -4540364965750224556
+      building-icons-sprite_10: -8990423268771081635
+      building-icons-sprite_11: -3630904990679589670
+      building-icons-sprite_12: 1351502661472752164
+      building-icons-sprite_13: 3412929023883667453
+      building-icons-sprite_14: 4977102469712644894
+      building-icons-sprite_15: -8909289268389316502
+      building-icons-sprite_16: 4274121841912199522
+      building-icons-sprite_17: -8641722211815230346
+      building-icons-sprite_18: -2917852044373471014
+      building-icons-sprite_19: 2002280910658333324
+      building-icons-sprite_2: -3179730112997219750
+      building-icons-sprite_20: -3947275881026693613
+      building-icons-sprite_21: 8101124372530214306
+      building-icons-sprite_22: -4775582035309297120
+      building-icons-sprite_23: 7609940090465059054
+      building-icons-sprite_24: -900609482920826119
+      building-icons-sprite_25: 7578843587018332714
+      building-icons-sprite_26: -2795200574707392112
+      building-icons-sprite_27: 1774437813544271732
+      building-icons-sprite_28: 1911434114943329970
+      building-icons-sprite_29: 2025532653925311727
+      building-icons-sprite_3: -4030797252518546812
+      building-icons-sprite_30: 3247570499705161868
+      building-icons-sprite_31: -5124840758216347876
+      building-icons-sprite_32: -8166484227519582885
+      building-icons-sprite_33: -7546207728354545742
+      building-icons-sprite_34: -588301919393335916
+      building-icons-sprite_35: -2050786167824776489
+      building-icons-sprite_4: 7564281575133607841
+      building-icons-sprite_5: 6696184220998770481
+      building-icons-sprite_6: 5331532841782003405
+      building-icons-sprite_7: 2450978178914489166
+      building-icons-sprite_8: 1238526740001751005
+      building-icons-sprite_9: -6765283969465365538
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

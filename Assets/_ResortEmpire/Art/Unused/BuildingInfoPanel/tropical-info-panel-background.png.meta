@@ -1,0 +1,1066 @@
+fileFormatVersion: 2
+guid: e979aaf9f3c5e1f428298cf55371d561
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3150016954486062860
+    second: tropical-info-panel-background_0
+  - first:
+      213: -1246320247418642836
+    second: tropical-info-panel-background_1
+  - first:
+      213: 2913406545918208011
+    second: tropical-info-panel-background_2
+  - first:
+      213: 5916818012627460056
+    second: tropical-info-panel-background_3
+  - first:
+      213: 6498625587070220221
+    second: tropical-info-panel-background_4
+  - first:
+      213: -6127829349081165575
+    second: tropical-info-panel-background_5
+  - first:
+      213: -8631050139782428693
+    second: tropical-info-panel-background_6
+  - first:
+      213: 6699119376215439376
+    second: tropical-info-panel-background_7
+  - first:
+      213: 2804955286663144504
+    second: tropical-info-panel-background_8
+  - first:
+      213: -6319972924352783879
+    second: tropical-info-panel-background_9
+  - first:
+      213: 4648335136419808688
+    second: tropical-info-panel-background_10
+  - first:
+      213: 8302365669298491771
+    second: tropical-info-panel-background_11
+  - first:
+      213: -5461204625552641746
+    second: tropical-info-panel-background_12
+  - first:
+      213: -4743033810482279682
+    second: tropical-info-panel-background_13
+  - first:
+      213: 1626803880620762886
+    second: tropical-info-panel-background_14
+  - first:
+      213: -262847180141662985
+    second: tropical-info-panel-background_15
+  - first:
+      213: -5002086100852815281
+    second: tropical-info-panel-background_16
+  - first:
+      213: -3234375840189554316
+    second: tropical-info-panel-background_17
+  - first:
+      213: 202410324476085879
+    second: tropical-info-panel-background_18
+  - first:
+      213: 2269342487841634561
+    second: tropical-info-panel-background_19
+  - first:
+      213: 2308285313176343210
+    second: tropical-info-panel-background_20
+  - first:
+      213: 3534879549296393430
+    second: tropical-info-panel-background_21
+  - first:
+      213: 4776622278830486727
+    second: tropical-info-panel-background_22
+  - first:
+      213: 2477641493350552388
+    second: tropical-info-panel-background_23
+  - first:
+      213: 4895912801865341491
+    second: tropical-info-panel-background_24
+  - first:
+      213: -6005037337477032720
+    second: tropical-info-panel-background_25
+  - first:
+      213: -1325839267123094971
+    second: tropical-info-panel-background_26
+  - first:
+      213: -899780589502483239
+    second: tropical-info-panel-background_27
+  - first:
+      213: 5991734425605322262
+    second: tropical-info-panel-background_28
+  - first:
+      213: -3074650535780740350
+    second: tropical-info-panel-background_29
+  - first:
+      213: 3692298204101098004
+    second: tropical-info-panel-background_30
+  - first:
+      213: 1973514731525863617
+    second: tropical-info-panel-background_31
+  - first:
+      213: -1221570703711547798
+    second: tropical-info-panel-background_32
+  - first:
+      213: -7630681013857047358
+    second: tropical-info-panel-background_33
+  - first:
+      213: 1664991044261756084
+    second: tropical-info-panel-background_34
+  - first:
+      213: 8355562209856114933
+    second: tropical-info-panel-background_35
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tropical-info-panel-background_0
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 0
+        width: 1523
+        height: 1000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0f79980bbb17bb20800000000000000
+      internalID: 3150016954486062860
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 974
+        width: 47
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6e1c38965e24bee0800000000000000
+      internalID: -1246320247418642836
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_2
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 983
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b08a0cf41df7e6820800000000000000
+      internalID: 2913406545918208011
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_3
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 988
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dfda4342a2cc1250800000000000000
+      internalID: 5916818012627460056
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_4
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 981
+        width: 32
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db7b59d4a81cf2a50800000000000000
+      internalID: 6498625587070220221
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_5
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 984
+        width: 30
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0ddc37ca395faa0800000000000000
+      internalID: -6127829349081165575
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_6
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 953
+        width: 35
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be7ceab80a9583880800000000000000
+      internalID: -8631050139782428693
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_7
+      rect:
+        serializedVersion: 2
+        x: 999
+        y: 991
+        width: 43
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 018f147449d08fc50800000000000000
+      internalID: 6699119376215439376
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_8
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 949
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8342960d8f33de620800000000000000
+      internalID: 2804955286663144504
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_9
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 963
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f99dd52c12fa48a0800000000000000
+      internalID: -6319972924352783879
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_10
+      rect:
+        serializedVersion: 2
+        x: 1403
+        y: 965
+        width: 21
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b5054bbd24328040800000000000000
+      internalID: 4648335136419808688
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_11
+      rect:
+        serializedVersion: 2
+        x: 1451
+        y: 948
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b715fe1a69de73370800000000000000
+      internalID: 8302365669298491771
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_12
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 65
+        width: 62
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e21f638e357e534b0800000000000000
+      internalID: -5461204625552641746
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_13
+      rect:
+        serializedVersion: 2
+        x: 1227
+        y: 89
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efa498801eb5d2eb0800000000000000
+      internalID: -4743033810482279682
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_14
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 77
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 607a0af9281939610800000000000000
+      internalID: 1626803880620762886
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_15
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 65
+        width: 23
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fc617dd1ed2a5cf0800000000000000
+      internalID: -262847180141662985
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_16
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 67
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4acfb68135059ab0800000000000000
+      internalID: -5002086100852815281
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_17
+      rect:
+        serializedVersion: 2
+        x: 1249
+        y: 79
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 471656f4f403d13d0800000000000000
+      internalID: -3234375840189554316
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_18
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 34
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 776c4412e1b1fc200800000000000000
+      internalID: 202410324476085879
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_19
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 49
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 109708d18f25e7f10800000000000000
+      internalID: 2269342487841634561
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_20
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 33
+        width: 42
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa29024334da80020800000000000000
+      internalID: 2308285313176343210
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_21
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 29
+        width: 25
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dcba93b83a6e0130800000000000000
+      internalID: 3534879549296393430
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_22
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 49
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c478eba7a8f94240800000000000000
+      internalID: 4776622278830486727
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_23
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 50
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4439de3afc9526220800000000000000
+      internalID: 2477641493350552388
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_24
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 27
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a987ee0c6c1f340800000000000000
+      internalID: 4895912801865341491
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_25
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 31
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f459bc8b52d9aca0800000000000000
+      internalID: -6005037337477032720
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_26
+      rect:
+        serializedVersion: 2
+        x: 1338
+        y: 39
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54a1ddd063ca99de0800000000000000
+      internalID: -1325839267123094971
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_27
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 17
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d4b9e232565383f0800000000000000
+      internalID: -899780589502483239
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_28
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 17
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6163faae6bae62350800000000000000
+      internalID: 5991734425605322262
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_29
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 23
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 203135eb0a5a455d0800000000000000
+      internalID: -3074650535780740350
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_30
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 17
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41a324c67adad3330800000000000000
+      internalID: 3692298204101098004
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_31
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 27
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c879933135536b10800000000000000
+      internalID: 1973514731525863617
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_32
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 15
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6ecf39caeb1c0fe0800000000000000
+      internalID: -1221570703711547798
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_33
+      rect:
+        serializedVersion: 2
+        x: 1413
+        y: 7
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ccabb60c006a1690800000000000000
+      internalID: -7630681013857047358
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_34
+      rect:
+        serializedVersion: 2
+        x: 1425
+        y: 15
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bcbd63888c3b1710800000000000000
+      internalID: 1664991044261756084
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tropical-info-panel-background_35
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 0
+        width: 17
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f0d6296f8be4f370800000000000000
+      internalID: 8355562209856114933
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tropical-info-panel-background_0: 3150016954486062860
+      tropical-info-panel-background_1: -1246320247418642836
+      tropical-info-panel-background_10: 4648335136419808688
+      tropical-info-panel-background_11: 8302365669298491771
+      tropical-info-panel-background_12: -5461204625552641746
+      tropical-info-panel-background_13: -4743033810482279682
+      tropical-info-panel-background_14: 1626803880620762886
+      tropical-info-panel-background_15: -262847180141662985
+      tropical-info-panel-background_16: -5002086100852815281
+      tropical-info-panel-background_17: -3234375840189554316
+      tropical-info-panel-background_18: 202410324476085879
+      tropical-info-panel-background_19: 2269342487841634561
+      tropical-info-panel-background_2: 2913406545918208011
+      tropical-info-panel-background_20: 2308285313176343210
+      tropical-info-panel-background_21: 3534879549296393430
+      tropical-info-panel-background_22: 4776622278830486727
+      tropical-info-panel-background_23: 2477641493350552388
+      tropical-info-panel-background_24: 4895912801865341491
+      tropical-info-panel-background_25: -6005037337477032720
+      tropical-info-panel-background_26: -1325839267123094971
+      tropical-info-panel-background_27: -899780589502483239
+      tropical-info-panel-background_28: 5991734425605322262
+      tropical-info-panel-background_29: -3074650535780740350
+      tropical-info-panel-background_3: 5916818012627460056
+      tropical-info-panel-background_30: 3692298204101098004
+      tropical-info-panel-background_31: 1973514731525863617
+      tropical-info-panel-background_32: -1221570703711547798
+      tropical-info-panel-background_33: -7630681013857047358
+      tropical-info-panel-background_34: 1664991044261756084
+      tropical-info-panel-background_35: 8355562209856114933
+      tropical-info-panel-background_4: 6498625587070220221
+      tropical-info-panel-background_5: -6127829349081165575
+      tropical-info-panel-background_6: -8631050139782428693
+      tropical-info-panel-background_7: 6699119376215439376
+      tropical-info-panel-background_8: 2804955286663144504
+      tropical-info-panel-background_9: -6319972924352783879
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

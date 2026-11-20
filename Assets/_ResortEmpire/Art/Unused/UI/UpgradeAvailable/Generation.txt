@@ -1,0 +1,14 @@
+Built-in image_gen tool, transparent_background=true.
+The service atlas is retained; individual icons are equal 512x512 cell crops.
+The gold coin icon is shared with the AI-generated WaveComplete kit.
+Panel and icons are consumed by UpgradeSuggestionPanel.prefab.
+
+Service atlas prompt:
+Use case: stylized-concept. ONE production sprite atlas for a friendly tropical resort tycoon mobile game. Transparent background, 1536x1024, exact three columns and two rows of 512x512 cells, every icon centered in its own cell, generous empty padding, no overlaps. Top row: 1 golden room key with a small cream hotel tag; 2 crossed fork and spoon with teal handles; 3 refreshing tropical orange drink in a glass with teal straw and small leaf. Bottom row: 4 turquoise pool water with a cream pool ladder; 5 cream tropical bungalow with honey thatched roof and one tiny teal palm leaf; 6 upgrade emblem: golden upward arrow with a small wooden builder hammer and two teal palm fronds. Polished softly beveled casual game illustrations, honey gold, cream ivory, warm brown fine edges, sea turquoise, smooth clean simple shapes, restrained soft highlights matching premium resort game UI. Front view, readable at 48 pixels. No text, no numbers, no letters, no backgrounds, no checkerboard, no drop shadow outside the icons. These are individual Canvas UI Image assets, not a screen mockup.
+
+Panel prompt:
+Use case: stylized-concept. Production UI background sprite for a tropical resort tycoon game, a single EMPTY rounded rectangular modal panel viewed perfectly front-on. Landscape 1536x1024 canvas with actual transparency surrounding the panel, panel fills 92 percent of canvas, centered. Smooth creamy ivory interior, thin warm sandy golden beveled border, a narrow darker honey brown outer rim, softly rounded large corners, minimal gentle soft shading around perimeter, interior completely flat empty pale cream and very spacious for UI labels and cards. Subtle teal leaf ornament ONLY at the top left and top right corners, each ornament tiny and within the border. Friendly polished casual game UI, same warm resort aesthetic as golden rating stars and teal action buttons. This is an empty reusable panel sprite to be sliced for Unity uGUI, no text, no lettering, no icons, no objects in interior, no buttons, no illustrations, no screen composition, no background or checkerboard, no perspective.
+
+Reapply layout using Resort Empire > UI > Apply Upgrade Available Style.
+The UpgradeSuggestionArt prefab component supplies all five icons to the live presenter.
+Capacity, affordability, upgrade commands and Later retain the existing gameplay binding.
