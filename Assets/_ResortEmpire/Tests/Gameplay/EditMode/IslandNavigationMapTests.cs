@@ -9,9 +9,9 @@ namespace ResortEmpire.Gameplay.Tests
     public sealed class IslandNavigationMapTests
     {
         private const string MapPath =
-            "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable.png";
+            "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable.png";
         private const string WalkablePathLayerPath =
-            "Assets/_ResortEmpire/Art/Island/Navigation/island-walkable-path-layer.png";
+            "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable-path-layer.png";
         private static readonly Rect IslandBounds = new Rect(-724f, -543f, 1448f, 1086f);
 
         [Test]

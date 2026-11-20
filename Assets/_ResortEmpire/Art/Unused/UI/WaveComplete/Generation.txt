@@ -1,0 +1,12 @@
+Generated using the built-in image_gen tool, transparent_background=true.
+The original atlas is retained alongside its six equal 512 x 512 cell crops.
+Unity imports the crops as Sprite (2D and UI), without mipmaps.
+
+Prompt:
+Use case: stylized-concept. Create ONE production game UI sprite atlas for a warm tropical resort tycoon mobile game. Transparent background. Exact 3 columns by 2 rows equal square cells on a 1536x1024 canvas, each object isolated centered inside its own cell with generous padding, no overlap. Row 1: a chunky softly beveled golden five-point rating star; a matching empty unfilled cream star with muted sandy gold border; a small golden coin stack with embossed star. Row 2: a turquoise lightning energy bolt; a tropical resort achievement emblem with golden star and two tiny teal palm fronds; one small curled golden paper confetti strip. Style: polished friendly casual game UI, creamy ivory, honey gold, sea turquoise, restrained soft shading, smooth simple readable silhouettes, warm brown fine edges, front view, no dramatic shadows, no lettering, no words, no numbers, no backgrounds or checkerboard. These are UI Image sprites, not a mockup.
+
+Consumer: Assets/_ResortEmpire/Prefabs/UI/WaveComplete.prefab
+Reapply styling: Resort Empire > UI > Apply Wave Complete Style.
+Animation: WaveCompleteCelebration, 64 reusable Canvas Images, unscaled time.
+Stars reveal at 0.30 seconds, followed by 0.28 second intervals.
+Only the earned rating is filled. Closing resets animation and particle visibility.

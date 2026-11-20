@@ -1,0 +1,1118 @@
+fileFormatVersion: 2
+guid: 9a3dbf66de5168347935d72b430147ed
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6421118902888529027
+    second: unlock-icons-atlas_0
+  - first:
+      213: -8422149727016540841
+    second: unlock-icons-atlas_1
+  - first:
+      213: 8964669175513915010
+    second: unlock-icons-atlas_2
+  - first:
+      213: 6598248553020759883
+    second: unlock-icons-atlas_3
+  - first:
+      213: 5063064729796858345
+    second: unlock-icons-atlas_4
+  - first:
+      213: -1283828921303135515
+    second: unlock-icons-atlas_5
+  - first:
+      213: 1280440594817452504
+    second: unlock-icons-atlas_6
+  - first:
+      213: 6867540352997841500
+    second: unlock-icons-atlas_7
+  - first:
+      213: 928688384456830848
+    second: unlock-icons-atlas_8
+  - first:
+      213: 5746658377465119125
+    second: unlock-icons-atlas_9
+  - first:
+      213: 9187334604709730769
+    second: unlock-icons-atlas_10
+  - first:
+      213: 7263183126923007050
+    second: unlock-icons-atlas_11
+  - first:
+      213: 1240490182748883420
+    second: unlock-icons-atlas_12
+  - first:
+      213: -8245388601188667011
+    second: unlock-icons-atlas_13
+  - first:
+      213: 7782087155228687212
+    second: unlock-icons-atlas_14
+  - first:
+      213: 6342561769279616212
+    second: unlock-icons-atlas_15
+  - first:
+      213: 6019567291749788922
+    second: unlock-icons-atlas_16
+  - first:
+      213: 632691829921349194
+    second: unlock-icons-atlas_17
+  - first:
+      213: -5727688653034601167
+    second: unlock-icons-atlas_18
+  - first:
+      213: -1178597965019261247
+    second: unlock-icons-atlas_19
+  - first:
+      213: -858124398365389997
+    second: unlock-icons-atlas_20
+  - first:
+      213: 3150461943975998853
+    second: unlock-icons-atlas_21
+  - first:
+      213: -9163946308560224884
+    second: unlock-icons-atlas_22
+  - first:
+      213: -3236834244433750886
+    second: unlock-icons-atlas_23
+  - first:
+      213: 6831026301664770320
+    second: unlock-icons-atlas_24
+  - first:
+      213: 6591842224780173363
+    second: unlock-icons-atlas_25
+  - first:
+      213: -4896307479079324738
+    second: unlock-icons-atlas_26
+  - first:
+      213: -248544881998031035
+    second: unlock-icons-atlas_27
+  - first:
+      213: -791995164933020569
+    second: unlock-icons-atlas_28
+  - first:
+      213: 2345202495383181271
+    second: unlock-icons-atlas_29
+  - first:
+      213: 7496493286604238097
+    second: unlock-icons-atlas_30
+  - first:
+      213: 4396003552558423186
+    second: unlock-icons-atlas_31
+  - first:
+      213: -2093542726391613451
+    second: unlock-icons-atlas_32
+  - first:
+      213: -5682743199207079530
+    second: unlock-icons-atlas_33
+  - first:
+      213: -7591954019850111361
+    second: unlock-icons-atlas_34
+  - first:
+      213: 9096517386143463203
+    second: unlock-icons-atlas_35
+  - first:
+      213: -3483394225057237073
+    second: unlock-icons-atlas_36
+  - first:
+      213: 296321124312923181
+    second: unlock-icons-atlas_37
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: unlock-icons-atlas_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 439
+        width: 493
+        height: 577
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7388ccd06a93e6a0800000000000000
+      internalID: -6421118902888529027
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_1
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 471
+        width: 513
+        height: 531
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 755a60c12738e1b80800000000000000
+      internalID: -8422149727016540841
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_2
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 977
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28e96674e17e86c70800000000000000
+      internalID: 8964669175513915010
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_3
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 975
+        width: 27
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4f99869910b19b50800000000000000
+      internalID: 6598248553020759883
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_4
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 959
+        width: 37
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e1d956eb8e934640800000000000000
+      internalID: 5063064729796858345
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_5
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 959
+        width: 53
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ea8a59e56cee2ee0800000000000000
+      internalID: -1283828921303135515
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_6
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 935
+        width: 57
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d9851adfe905c110800000000000000
+      internalID: 1280440594817452504
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_7
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 973
+        width: 21
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5ad815b0976e4f50800000000000000
+      internalID: 6867540352997841500
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_8
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 937
+        width: 77
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08fa49e4a2d53ec00800000000000000
+      internalID: 928688384456830848
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_9
+      rect:
+        serializedVersion: 2
+        x: 1264
+        y: 983
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 591c452e85b30cf40800000000000000
+      internalID: 5746658377465119125
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_10
+      rect:
+        serializedVersion: 2
+        x: 1360
+        y: 947
+        width: 117
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d9906a7528ff7f70800000000000000
+      internalID: 9187334604709730769
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_11
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 982
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a445bda62920cc460800000000000000
+      internalID: 7263183126923007050
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_12
+      rect:
+        serializedVersion: 2
+        x: 1470
+        y: 965
+        width: 35
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd94b12bf3b173110800000000000000
+      internalID: 1240490182748883420
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_13
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 973
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d71381fc0ce729d80800000000000000
+      internalID: -8245388601188667011
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_14
+      rect:
+        serializedVersion: 2
+        x: 1150
+        y: 949
+        width: 67
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6b398259078ffb60800000000000000
+      internalID: 7782087155228687212
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_15
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 949
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d472e7235e450850800000000000000
+      internalID: 6342561769279616212
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_16
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 919
+        width: 31
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afc6e4e0f8cc98350800000000000000
+      internalID: 6019567291749788922
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_17
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 959
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4ef0cefdd5c7c800800000000000000
+      internalID: 632691829921349194
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_18
+      rect:
+        serializedVersion: 2
+        x: 1478
+        y: 943
+        width: 31
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13546d344892380b0800000000000000
+      internalID: -5727688653034601167
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_19
+      rect:
+        serializedVersion: 2
+        x: 1462
+        y: 935
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c657023567c4afe0800000000000000
+      internalID: -1178597965019261247
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_20
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 863
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35bc55ef7645714f0800000000000000
+      internalID: -858124398365389997
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_21
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 865
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58573193270b8bb20800000000000000
+      internalID: 3150461943975998853
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_22
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 487
+        width: 497
+        height: 444
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8df381926f13d080800000000000000
+      internalID: -9163946308560224884
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_23
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 851
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a94d4b777647413d0800000000000000
+      internalID: -3236834244433750886
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_24
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 825
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0193412aa3eacce50800000000000000
+      internalID: 6831026301664770320
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_25
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 728
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 330617f049dea7b50800000000000000
+      internalID: 6591842224780173363
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_26
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 463
+        width: 75
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb3736e1a42dc0cb0800000000000000
+      internalID: -4896307479079324738
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_27
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 501
+        width: 47
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54714c52fbdfc8cf0800000000000000
+      internalID: -248544881998031035
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_28
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 497
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 764275af7944205f0800000000000000
+      internalID: -791995164933020569
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_29
+      rect:
+        serializedVersion: 2
+        x: 1054
+        y: 503
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d79caf7e35db8020800000000000000
+      internalID: 2345202495383181271
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_30
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 497
+        width: 13
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11d65211de4e80860800000000000000
+      internalID: 7496493286604238097
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_31
+      rect:
+        serializedVersion: 2
+        x: 763
+        y: 483
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c9995a0fdb10d30800000000000000
+      internalID: 4396003552558423186
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_32
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 483
+        width: 29
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f7335f7bfd32f2e0800000000000000
+      internalID: -2093542726391613451
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_33
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 476
+        width: 15
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 691ce753b27d221b0800000000000000
+      internalID: -5682743199207079530
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_34
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 33
+        width: 533
+        height: 467
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f763cb7fa06f3a690800000000000000
+      internalID: -7591954019850111361
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_35
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 19
+        width: 455
+        height: 444
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 327fe360e525d3e70800000000000000
+      internalID: 9096517386143463203
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_36
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 37
+        width: 497
+        height: 429
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa7f0da786f78afc0800000000000000
+      internalID: -3483394225057237073
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: unlock-icons-atlas_37
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 448
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2cbd1a1e7ebc1400800000000000000
+      internalID: 296321124312923181
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      unlock-icons-atlas_0: -6421118902888529027
+      unlock-icons-atlas_1: -8422149727016540841
+      unlock-icons-atlas_10: 9187334604709730769
+      unlock-icons-atlas_11: 7263183126923007050
+      unlock-icons-atlas_12: 1240490182748883420
+      unlock-icons-atlas_13: -8245388601188667011
+      unlock-icons-atlas_14: 7782087155228687212
+      unlock-icons-atlas_15: 6342561769279616212
+      unlock-icons-atlas_16: 6019567291749788922
+      unlock-icons-atlas_17: 632691829921349194
+      unlock-icons-atlas_18: -5727688653034601167
+      unlock-icons-atlas_19: -1178597965019261247
+      unlock-icons-atlas_2: 8964669175513915010
+      unlock-icons-atlas_20: -858124398365389997
+      unlock-icons-atlas_21: 3150461943975998853
+      unlock-icons-atlas_22: -9163946308560224884
+      unlock-icons-atlas_23: -3236834244433750886
+      unlock-icons-atlas_24: 6831026301664770320
+      unlock-icons-atlas_25: 6591842224780173363
+      unlock-icons-atlas_26: -4896307479079324738
+      unlock-icons-atlas_27: -248544881998031035
+      unlock-icons-atlas_28: -791995164933020569
+      unlock-icons-atlas_29: 2345202495383181271
+      unlock-icons-atlas_3: 6598248553020759883
+      unlock-icons-atlas_30: 7496493286604238097
+      unlock-icons-atlas_31: 4396003552558423186
+      unlock-icons-atlas_32: -2093542726391613451
+      unlock-icons-atlas_33: -5682743199207079530
+      unlock-icons-atlas_34: -7591954019850111361
+      unlock-icons-atlas_35: 9096517386143463203
+      unlock-icons-atlas_36: -3483394225057237073
+      unlock-icons-atlas_37: 296321124312923181
+      unlock-icons-atlas_4: 5063064729796858345
+      unlock-icons-atlas_5: -1283828921303135515
+      unlock-icons-atlas_6: 1280440594817452504
+      unlock-icons-atlas_7: 6867540352997841500
+      unlock-icons-atlas_8: 928688384456830848
+      unlock-icons-atlas_9: 5746658377465119125
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

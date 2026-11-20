@@ -1,0 +1,2132 @@
+fileFormatVersion: 2
+guid: db515e5f3e88bdc488b87c682c803464
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5591788699981026535
+    second: celebration-atlas_0
+  - first:
+      213: 1757152367566399413
+    second: celebration-atlas_1
+  - first:
+      213: 6414114871323228418
+    second: celebration-atlas_2
+  - first:
+      213: -4139640021104510632
+    second: celebration-atlas_3
+  - first:
+      213: -2299263293812290624
+    second: celebration-atlas_4
+  - first:
+      213: 3421329211345584839
+    second: celebration-atlas_5
+  - first:
+      213: -2012030534786382537
+    second: celebration-atlas_6
+  - first:
+      213: -2465736962162516773
+    second: celebration-atlas_7
+  - first:
+      213: 4908831001733560964
+    second: celebration-atlas_8
+  - first:
+      213: -4981314794537022307
+    second: celebration-atlas_9
+  - first:
+      213: 2812506942435421073
+    second: celebration-atlas_10
+  - first:
+      213: -1287099772588003452
+    second: celebration-atlas_11
+  - first:
+      213: 6571503629033633097
+    second: celebration-atlas_12
+  - first:
+      213: 5724456565936257723
+    second: celebration-atlas_13
+  - first:
+      213: -8930189212529243062
+    second: celebration-atlas_14
+  - first:
+      213: -713317585487075712
+    second: celebration-atlas_15
+  - first:
+      213: 3676774568095801259
+    second: celebration-atlas_16
+  - first:
+      213: 3871918023629330511
+    second: celebration-atlas_17
+  - first:
+      213: 6436932003579865950
+    second: celebration-atlas_18
+  - first:
+      213: 395275984371180088
+    second: celebration-atlas_19
+  - first:
+      213: 544990945221645164
+    second: celebration-atlas_20
+  - first:
+      213: 7860855473792634646
+    second: celebration-atlas_21
+  - first:
+      213: -8708799882958452293
+    second: celebration-atlas_22
+  - first:
+      213: 2900564400464603282
+    second: celebration-atlas_23
+  - first:
+      213: -2124829004033451645
+    second: celebration-atlas_24
+  - first:
+      213: -3170098768069049904
+    second: celebration-atlas_25
+  - first:
+      213: 2484642744041905360
+    second: celebration-atlas_26
+  - first:
+      213: -1786475139753469844
+    second: celebration-atlas_27
+  - first:
+      213: -3343250043339120303
+    second: celebration-atlas_28
+  - first:
+      213: -4797184667164430331
+    second: celebration-atlas_29
+  - first:
+      213: -4454861161433449088
+    second: celebration-atlas_30
+  - first:
+      213: 1498275342458322232
+    second: celebration-atlas_31
+  - first:
+      213: 3381781813805453201
+    second: celebration-atlas_32
+  - first:
+      213: -8863608257382119146
+    second: celebration-atlas_33
+  - first:
+      213: 8146546323181384672
+    second: celebration-atlas_34
+  - first:
+      213: -2586417008918732245
+    second: celebration-atlas_35
+  - first:
+      213: 4715168052627383568
+    second: celebration-atlas_36
+  - first:
+      213: 2615386559703791166
+    second: celebration-atlas_37
+  - first:
+      213: -4418174910087121176
+    second: celebration-atlas_38
+  - first:
+      213: 1835585604658327409
+    second: celebration-atlas_39
+  - first:
+      213: 5489002016169415926
+    second: celebration-atlas_40
+  - first:
+      213: -3085390039748702604
+    second: celebration-atlas_41
+  - first:
+      213: 4166505678387845978
+    second: celebration-atlas_42
+  - first:
+      213: 907682138684379714
+    second: celebration-atlas_43
+  - first:
+      213: 3207753392571806758
+    second: celebration-atlas_44
+  - first:
+      213: -4461695428814802821
+    second: celebration-atlas_45
+  - first:
+      213: -3769221085995139270
+    second: celebration-atlas_46
+  - first:
+      213: -3021401446486721119
+    second: celebration-atlas_47
+  - first:
+      213: 468477939666366129
+    second: celebration-atlas_48
+  - first:
+      213: -5806459645776592209
+    second: celebration-atlas_49
+  - first:
+      213: 617742859378461470
+    second: celebration-atlas_50
+  - first:
+      213: -7134929854070876921
+    second: celebration-atlas_51
+  - first:
+      213: 1851190162880603268
+    second: celebration-atlas_52
+  - first:
+      213: -6840807129074950020
+    second: celebration-atlas_53
+  - first:
+      213: -2230726210128765222
+    second: celebration-atlas_54
+  - first:
+      213: 4809132906402656628
+    second: celebration-atlas_55
+  - first:
+      213: -7962021612868632911
+    second: celebration-atlas_56
+  - first:
+      213: -5749449290478322813
+    second: celebration-atlas_57
+  - first:
+      213: -8918024184674907267
+    second: celebration-atlas_58
+  - first:
+      213: -4676526744511863151
+    second: celebration-atlas_59
+  - first:
+      213: -1162475538829372896
+    second: celebration-atlas_60
+  - first:
+      213: 7991756076745355390
+    second: celebration-atlas_61
+  - first:
+      213: -6552737100971088514
+    second: celebration-atlas_62
+  - first:
+      213: -4947392026281674114
+    second: celebration-atlas_63
+  - first:
+      213: -4283565001793109860
+    second: celebration-atlas_64
+  - first:
+      213: 8775718115672534881
+    second: celebration-atlas_65
+  - first:
+      213: -6955433406521692198
+    second: celebration-atlas_66
+  - first:
+      213: -109093757192554711
+    second: celebration-atlas_67
+  - first:
+      213: -5145955059149719709
+    second: celebration-atlas_68
+  - first:
+      213: 1745704136655943851
+    second: celebration-atlas_69
+  - first:
+      213: -7933147547773502258
+    second: celebration-atlas_70
+  - first:
+      213: 4947613547174164354
+    second: celebration-atlas_71
+  - first:
+      213: 9099507829302180664
+    second: celebration-atlas_72
+  - first:
+      213: 4054499057405004640
+    second: celebration-atlas_73
+  - first:
+      213: -5427508814476986058
+    second: celebration-atlas_74
+  - first:
+      213: -7812541879198443678
+    second: celebration-atlas_75
+  - first:
+      213: 8868373567569341782
+    second: celebration-atlas_76
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: celebration-atlas_0
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 323
+        width: 487
+        height: 680
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e4996132360a9d40800000000000000
+      internalID: 5591788699981026535
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_1
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 983
+        width: 37
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b7280db4c8a26810800000000000000
+      internalID: 1757152367566399413
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_2
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 960
+        width: 51
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20975c5fd73830950800000000000000
+      internalID: 6414114871323228418
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_3
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 985
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8593314655b0d86c0800000000000000
+      internalID: -4139640021104510632
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_4
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 959
+        width: 19
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cb493f57306710e0800000000000000
+      internalID: -2299263293812290624
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_5
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 983
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c2cbed6ac00b7f20800000000000000
+      internalID: 3421329211345584839
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_6
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 975
+        width: 25
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73581d883e4d314e0800000000000000
+      internalID: -2012030534786382537
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_7
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 957
+        width: 29
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdc90c40c41f7cdd0800000000000000
+      internalID: -2465736962162516773
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_8
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 983
+        width: 53
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48af0c8b9cbaf1440800000000000000
+      internalID: 4908831001733560964
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_9
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 993
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9c09352690dedab0800000000000000
+      internalID: -4981314794537022307
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_10
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 991
+        width: 27
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19bee20b928080720800000000000000
+      internalID: 2812506942435421073
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_11
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 989
+        width: 37
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48fe760839d432ee0800000000000000
+      internalID: -1287099772588003452
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_12
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 946
+        width: 77
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9457db8bbbba23b50800000000000000
+      internalID: 6571503629033633097
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_13
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 983
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba78c0daea517f40800000000000000
+      internalID: 5724456565936257723
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_14
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 959
+        width: 97
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4c4b22b938911480800000000000000
+      internalID: -8930189212529243062
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_15
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 925
+        width: 85
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 086e0017f69c916f0800000000000000
+      internalID: -713317585487075712
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_16
+      rect:
+        serializedVersion: 2
+        x: 1120
+        y: 962
+        width: 81
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: baf5a824df6860330800000000000000
+      internalID: 3676774568095801259
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_17
+      rect:
+        serializedVersion: 2
+        x: 1225
+        y: 963
+        width: 86
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f48dbdd9de0dbb530800000000000000
+      internalID: 3871918023629330511
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_18
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 961
+        width: 93
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5ba8bc8d83945950800000000000000
+      internalID: 6436932003579865950
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_19
+      rect:
+        serializedVersion: 2
+        x: 1418
+        y: 927
+        width: 97
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 832efacd96d4c7500800000000000000
+      internalID: 395275984371180088
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_20
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 969
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c639dbf8062309700800000000000000
+      internalID: 544990945221645164
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_21
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 963
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61f4812a76e571d60800000000000000
+      internalID: 7860855473792634646
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_22
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 971
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb94c4cc5a0242780800000000000000
+      internalID: -8708799882958452293
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_23
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 939
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29826d154ffd04820800000000000000
+      internalID: 2900564400464603282
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_24
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 937
+        width: 27
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 389932657471382e0800000000000000
+      internalID: -2124829004033451645
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_25
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 838
+        width: 92
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d1475267fb8104d0800000000000000
+      internalID: -3170098768069049904
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_26
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 481
+        width: 459
+        height: 484
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0dc9e5859693b7220800000000000000
+      internalID: 2484642744041905360
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_27
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 951
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c689de6535a2537e0800000000000000
+      internalID: -1786475139753469844
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_28
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 955
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15166738cc36a91d0800000000000000
+      internalID: -3343250043339120303
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_29
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 925
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 500b6b736f9fc6db0800000000000000
+      internalID: -4797184667164430331
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_30
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 15
+        width: 495
+        height: 931
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08d331560672d22c0800000000000000
+      internalID: -4454861161433449088
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_31
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 887
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83d74fa5c71fac410800000000000000
+      internalID: 1498275342458322232
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_32
+      rect:
+        serializedVersion: 2
+        x: 954
+        y: 829
+        width: 71
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19f00c764a08eee20800000000000000
+      internalID: 3381781813805453201
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_33
+      rect:
+        serializedVersion: 2
+        x: 1453
+        y: 901
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 619058650432ef480800000000000000
+      internalID: -8863608257382119146
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_34
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 853
+        width: 53
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e3bd7bf7b85e0170800000000000000
+      internalID: 8146546323181384672
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_35
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 903
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b22ee5e0f633b1cd0800000000000000
+      internalID: -2586417008918732245
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_36
+      rect:
+        serializedVersion: 2
+        x: 1492
+        y: 910
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0152021ac54af6140800000000000000
+      internalID: 4715168052627383568
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_37
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 875
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e36b9791838bb4420800000000000000
+      internalID: 2615386559703791166
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_38
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 885
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e6b6b8e35d7fa2c0800000000000000
+      internalID: -4418174910087121176
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_39
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 886
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17fea70d16f497910800000000000000
+      internalID: 1835585604658327409
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_40
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 873
+        width: 31
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f45e21704adc2c40800000000000000
+      internalID: 5489002016169415926
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_41
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 671
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47e004f1b1e7e25d0800000000000000
+      internalID: -3085390039748702604
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_42
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 661
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5b94f2e6d662d930800000000000000
+      internalID: 4166505678387845978
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_43
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 681
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 242df35981cb89c00800000000000000
+      internalID: 907682138684379714
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_44
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 697
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 624fb4317ba348c20800000000000000
+      internalID: 3207753392571806758
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_45
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 677
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b70728585afd412c0800000000000000
+      internalID: -4461695428814802821
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_46
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 680
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3ff859746901bbc0800000000000000
+      internalID: -3769221085995139270
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_47
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 663
+        width: 45
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1adbe4a7463d116d0800000000000000
+      internalID: -3021401446486721119
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_48
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 639
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1beabea343e508600800000000000000
+      internalID: 468477939666366129
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_49
+      rect:
+        serializedVersion: 2
+        x: 978
+        y: 621
+        width: 35
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa288d257bf4b6fa0800000000000000
+      internalID: -5806459645776592209
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_50
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 591
+        width: 23
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1b89cf8bd9a29800800000000000000
+      internalID: 617742859378461470
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_51
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 599
+        width: 17
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70596c6a913abfc90800000000000000
+      internalID: -7134929854070876921
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_52
+      rect:
+        serializedVersion: 2
+        x: 988
+        y: 575
+        width: 23
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 484223625afb0b910800000000000000
+      internalID: 1851190162880603268
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_53
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 549
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c70278609229011a0800000000000000
+      internalID: -6840807129074950020
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_54
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 525
+        width: 29
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ade1f1ea45eda01e0800000000000000
+      internalID: -2230726210128765222
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_55
+      rect:
+        serializedVersion: 2
+        x: 958
+        y: 537
+        width: 33
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 471b5c306e87db240800000000000000
+      internalID: 4809132906402656628
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_56
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 485
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1be7bf61787318190800000000000000
+      internalID: -7962021612868632911
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_57
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 497
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38bfaea055ad530b0800000000000000
+      internalID: -5749449290478322813
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_58
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 497
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7b0c16f040dc3480800000000000000
+      internalID: -8918024184674907267
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_59
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 503
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196a1c204b3a91fb0800000000000000
+      internalID: -4676526744511863151
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_60
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 479
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0229eff08ae0edfe0800000000000000
+      internalID: -1162475538829372896
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_61
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 0
+        width: 579
+        height: 488
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e70f9f54fcb68ee60800000000000000
+      internalID: 7991756076745355390
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_62
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 481
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e75681613500015a0800000000000000
+      internalID: -6552737100971088514
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_63
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 23
+        width: 310
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7a71ec1a25575bb0800000000000000
+      internalID: -4947392026281674114
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_64
+      rect:
+        serializedVersion: 2
+        x: 1434
+        y: 451
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9083df7358bd84c0800000000000000
+      internalID: -4283565001793109860
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_65
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 445
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16f2f95612d99c970800000000000000
+      internalID: 8775718115672534881
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_66
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 363
+        width: 21
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adfa3611b26597f90800000000000000
+      internalID: -6955433406521692198
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_67
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 397
+        width: 17
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 927335b4ecb6c7ef0800000000000000
+      internalID: -109093757192554711
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_68
+      rect:
+        serializedVersion: 2
+        x: 1192
+        y: 81
+        width: 203
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 367b14d5325e598b0800000000000000
+      internalID: -5145955059149719709
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_69
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 365
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba8be44c9acf93810800000000000000
+      internalID: 1745704136655943851
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_70
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 327
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eccf230465cc7e190800000000000000
+      internalID: -7933147547773502258
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_71
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 237
+        width: 33
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 287f93dbe4479a440800000000000000
+      internalID: 4947613547174164354
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_72
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 243
+        width: 16
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83b3174d822f74e70800000000000000
+      internalID: 9099507829302180664
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_73
+      rect:
+        serializedVersion: 2
+        x: 1392
+        y: 93
+        width: 43
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06b08ca3969744830800000000000000
+      internalID: 4054499057405004640
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_74
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3
+        width: 67
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6393cc94d7d9da4b0800000000000000
+      internalID: -5427508814476986058
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_75
+      rect:
+        serializedVersion: 2
+        x: 1366
+        y: 63
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2679381bd86449390800000000000000
+      internalID: -7812541879198443678
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: celebration-atlas_76
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 67
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData:
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65d2f66e5cac21b70800000000000000
+      internalID: 8868373567569341782
+      vertices: []
+      indices:
+      edges: []
+      weights: []
+    outline: []
+    customData:
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices:
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      celebration-atlas_0: 5591788699981026535
+      celebration-atlas_1: 1757152367566399413
+      celebration-atlas_10: 2812506942435421073
+      celebration-atlas_11: -1287099772588003452
+      celebration-atlas_12: 6571503629033633097
+      celebration-atlas_13: 5724456565936257723
+      celebration-atlas_14: -8930189212529243062
+      celebration-atlas_15: -713317585487075712
+      celebration-atlas_16: 3676774568095801259
+      celebration-atlas_17: 3871918023629330511
+      celebration-atlas_18: 6436932003579865950
+      celebration-atlas_19: 395275984371180088
+      celebration-atlas_2: 6414114871323228418
+      celebration-atlas_20: 544990945221645164
+      celebration-atlas_21: 7860855473792634646
+      celebration-atlas_22: -8708799882958452293
+      celebration-atlas_23: 2900564400464603282
+      celebration-atlas_24: -2124829004033451645
+      celebration-atlas_25: -3170098768069049904
+      celebration-atlas_26: 2484642744041905360
+      celebration-atlas_27: -1786475139753469844
+      celebration-atlas_28: -3343250043339120303
+      celebration-atlas_29: -4797184667164430331
+      celebration-atlas_3: -4139640021104510632
+      celebration-atlas_30: -4454861161433449088
+      celebration-atlas_31: 1498275342458322232
+      celebration-atlas_32: 3381781813805453201
+      celebration-atlas_33: -8863608257382119146
+      celebration-atlas_34: 8146546323181384672
+      celebration-atlas_35: -2586417008918732245
+      celebration-atlas_36: 4715168052627383568
+      celebration-atlas_37: 2615386559703791166
+      celebration-atlas_38: -4418174910087121176
+      celebration-atlas_39: 1835585604658327409
+      celebration-atlas_4: -2299263293812290624
+      celebration-atlas_40: 5489002016169415926
+      celebration-atlas_41: -3085390039748702604
+      celebration-atlas_42: 4166505678387845978
+      celebration-atlas_43: 907682138684379714
+      celebration-atlas_44: 3207753392571806758
+      celebration-atlas_45: -4461695428814802821
+      celebration-atlas_46: -3769221085995139270
+      celebration-atlas_47: -3021401446486721119
+      celebration-atlas_48: 468477939666366129
+      celebration-atlas_49: -5806459645776592209
+      celebration-atlas_5: 3421329211345584839
+      celebration-atlas_50: 617742859378461470
+      celebration-atlas_51: -7134929854070876921
+      celebration-atlas_52: 1851190162880603268
+      celebration-atlas_53: -6840807129074950020
+      celebration-atlas_54: -2230726210128765222
+      celebration-atlas_55: 4809132906402656628
+      celebration-atlas_56: -7962021612868632911
+      celebration-atlas_57: -5749449290478322813
+      celebration-atlas_58: -8918024184674907267
+      celebration-atlas_59: -4676526744511863151
+      celebration-atlas_6: -2012030534786382537
+      celebration-atlas_60: -1162475538829372896
+      celebration-atlas_61: 7991756076745355390
+      celebration-atlas_62: -6552737100971088514
+      celebration-atlas_63: -4947392026281674114
+      celebration-atlas_64: -4283565001793109860
+      celebration-atlas_65: 8775718115672534881
+      celebration-atlas_66: -6955433406521692198
+      celebration-atlas_67: -109093757192554711
+      celebration-atlas_68: -5145955059149719709
+      celebration-atlas_69: 1745704136655943851
+      celebration-atlas_7: -2465736962162516773
+      celebration-atlas_70: -7933147547773502258
+      celebration-atlas_71: 4947613547174164354
+      celebration-atlas_72: 9099507829302180664
+      celebration-atlas_73: 4054499057405004640
+      celebration-atlas_74: -5427508814476986058
+      celebration-atlas_75: -7812541879198443678
+      celebration-atlas_76: 8868373567569341782
+      celebration-atlas_8: 4908831001733560964
+      celebration-atlas_9: -4981314794537022307
+  mipmapLimitGroupName:
+  pSDRemoveMatte: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:
