@@ -63,6 +63,20 @@ namespace ResortEmpire.Gameplay.Integration
             new Vector2(99.20f, 123.70f)
         };
 
+        // Level 2 was visually tuned with the authored static guests. Keep
+        // those exact overlay-local positions for live guests as well; the
+        // marker points are entry/contact points and are not the sprite
+        // centres for this bar art.
+        private static readonly Vector2[] LevelTwoVisualSeatPositions =
+        {
+            new Vector2(-33.5f, 102.8f),
+            new Vector2(-13.8f, 89.9f),
+            new Vector2(13.7f, 76.6f),
+            new Vector2(47.2f, 70.4f),
+            new Vector2(84.2f, 70.4f),
+            new Vector2(119.4f, 80.0f)
+        };
+
         // Guests face inward so adjacent guests can visually interact.
         private static readonly float[] BarSeatFacingDirections =
         {
@@ -75,6 +89,10 @@ namespace ResortEmpire.Gameplay.Integration
         private const float WalkingTouristScale = 1.2f;
         private const float SeatedTouristScale = WalkingTouristScale;
         private const float SeatedTouristVerticalOffset = 0f;
+        private const float LevelTwoBarSeatFallbackOffset = 32f;
+        // Level 3 markers sit on the stool tops. Raise the centered sprite
+        // by roughly half its rendered height to meet the seat surface.
+        private const float LevelThreeBarSeatOffset = 27f;
         // The authored Restaurant route passes through the narrow, visible
         // gap between the palm and the support posts. These are intentionally
         // separate: a uniform large margin closes the gap and sends tourists
@@ -183,6 +201,7 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void OnEnable()
         {
+            ResortDebugLevelOverride.Changed += HandleDebugLevelChanged;
             BindToGameplay();
             SynchronizeImmediately();
         }
@@ -197,6 +216,7 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void OnDisable()
         {
+            ResortDebugLevelOverride.Changed -= HandleDebugLevelChanged;
             UnbindFromGameplay();
             DeactivateTourists();
             navigationMap = null;
@@ -421,6 +441,68 @@ namespace ResortEmpire.Gameplay.Integration
                     || boatArrivalSignal != null && boatArrivalSignal.HasArrived));
         }
 
+        private void HandleDebugLevelChanged(int? _)
+        {
+            RefreshBarSeatAssignments();
+        }
+
+        private void RefreshBarSeatAssignments()
+        {
+            if (touristRoutines.Count == 0)
+                return;
+
+            for (var index = 0; index < touristRoutines.Count; index++)
+            {
+                var routine = touristRoutines[index];
+                if (routine == null || routine.Activity != TouristActivity.SitAtDestination)
+                    continue;
+
+                ReleaseBarSeat(routine);
+            }
+
+            for (var index = 0; index < touristRoutines.Count; index++)
+            {
+                var routine = touristRoutines[index];
+                if (routine == null || routine.Completed || !routine.AtDestination
+                    || routine.Activity != TouristActivity.SitAtDestination
+                    || routine.Tourist.transform.parent != barSeatOverlay)
+                {
+                    continue;
+                }
+
+                if (TryReserveBarSeat(routine))
+                    PlaceRoutineAtBarSeat(routine);
+            }
+
+            // Routes are tied to the old stool layout. If a guest is on the last
+            // leg, return them along that same line before changing seats.
+            for (var index = 0; index < touristRoutines.Count; index++)
+            {
+                var routine = touristRoutines[index];
+                if (routine == null || routine.Completed
+                    || routine.Activity != TouristActivity.SitAtDestination || routine.BarSeatIndex >= 0)
+                {
+                    continue;
+                }
+
+                ResumeBarApproach(routine);
+            }
+        }
+
+        private void ResumeBarApproach(TouristRoutineState routine)
+        {
+            Vector2 position = touristContainer.InverseTransformPoint(routine.Tourist.transform.position);
+            var approach = GetBarApproachPosition(position);
+            var fromStool = routine.Tourist.transform.parent == barSeatOverlay
+                || (!routine.AtDestination && routine.RouteIndex == routine.Route.Count - 1);
+            var navigationStart = fromStool && position.y > approach.y ? approach : position;
+            if (!PrepareRoutine(routine, position, routine.StartDelayRemaining, navigationStart))
+            {
+                CompleteRoutine(routine);
+                SetTouristActive(routine.Tourist, false);
+            }
+        }
+
         private void HandleBoatArrived()
         {
             if (gameplayFacade != null && IsWavePhase(gameplayFacade.CurrentPhase))
@@ -492,7 +574,16 @@ namespace ResortEmpire.Gameplay.Integration
                     }
                     else
                     {
-                        navigationMap = new IslandNavigationMap(navigationMapTexture, islandBase.rect);
+                        var barObstacles = new List<IslandNavigationMap.NavigationObstacle>(1);
+                        AddNavigationObstacle(barObstacles, barNavigationObstacle);
+                        navigationMap = new IslandNavigationMap(
+                            navigationMapTexture,
+                            islandBase.rect,
+                            false,
+                            navigationMapTexture.width,
+                            navigationMapTexture.height,
+                            barObstacles,
+                            null);
                         restaurantRouteMap = null;
                     }
                 }
@@ -665,7 +756,9 @@ namespace ResortEmpire.Gameplay.Integration
                 center + horizontal * halfWidth + vertical * halfHeight,
                 center - horizontal * halfWidth + vertical * halfHeight
             };
-            var preserveProtectedArea = !hardObstacle;
+            // The bar's aisle is outside the footprint. The only path into
+            // the footprint should be the explicit final leg to a stool.
+            var preserveProtectedArea = !hardObstacle && source != barNavigationObstacle;
             return new IslandNavigationMap.NavigationObstacle(
                 expandedCorners,
                 preserveProtectedArea);
@@ -720,12 +813,7 @@ namespace ResortEmpire.Gameplay.Integration
                         && routine.WaitingForBarSeat)
                     {
                         if (TryReserveBarSeat(routine))
-                        {
-                            routine.WaitingForBarSeat = false;
-                            routine.DwellRemaining = seatedDwellSeconds;
-                            routine.TalkingAnimationTime = 0f;
-                            PlaceRoutineAtBarSeat(routine);
-                        }
+                            ResumeBarApproach(routine);
 
                         continue;
                     }
@@ -766,9 +854,14 @@ namespace ResortEmpire.Gameplay.Integration
             var hasBarSeat = destinationIndex != 1 || TryReserveBarSeat(routine);
             routine.WaitingForBarSeat = destinationIndex == 1 && !hasBarSeat;
             var entryPoint = GetEntryPoint(destinationIndex);
-            var destination = entryPoint == null
-                ? GetDestinationPosition(destinationIndex, routine.BarSeatIndex)
-                : GetPointPosition(entryPoint);
+            var barSeat = destinationIndex == 1 && hasBarSeat
+                ? (Vector2?)GetBarSeatPosition(routine.BarSeatIndex)
+                : null;
+            var destination = barSeat.HasValue
+                ? GetBarApproachPosition(barSeat.Value)
+                : entryPoint == null
+                    ? GetDestinationPosition(destinationIndex)
+                    : GetPointPosition(entryPoint);
             var baseStart = islandBase.InverseTransformPoint(
                 touristContainer.TransformPoint(navigationStartPosition));
             var baseDestination = islandBase.InverseTransformPoint(touristContainer.TransformPoint(destination));
@@ -799,29 +892,25 @@ namespace ResortEmpire.Gameplay.Integration
                     return false;
                 }
             }
+            // Leave the stool straight down before joining the walkable aisle.
+            if (Vector2.Distance(startPosition, navigationStartPosition) > 1f)
+            {
+                routine.Route.Add(startPosition);
+                routine.Route.Add(navigationStartPosition);
+                if (routine.PortalEntryRouteIndex >= 0)
+                    routine.PortalEntryRouteIndex += 2;
+                if (routine.PortalExitRouteIndex >= 0)
+                    routine.PortalExitRouteIndex += 2;
+            }
+
             for (var index = 0; index < baseRoute.Count; index++)
                 routine.Route.Add(touristContainer.InverseTransformPoint(islandBase.TransformPoint(baseRoute[index])));
 
-            // A seated guest is rendered on a bar stool inside the building art.
-            // Leave from the configured walkable bar anchor, but preserve the
-            // visible seat position as a short, explicit exit segment.
-            if (Vector2.Distance(startPosition, navigationStartPosition) > 1f)
-            {
-                routine.Route.Insert(0, startPosition);
-                if (routine.PortalEntryRouteIndex >= 0)
-                    routine.PortalEntryRouteIndex++;
-                if (routine.PortalExitRouteIndex >= 0)
-                    routine.PortalExitRouteIndex++;
-            }
-
-            // The navigation texture snaps to cell centres. Keep the configured
-            // entrance marker as the final point so the building guest reaches
-            // the authored door position before hiding.
-            if (routine.Route.Count > 0
-                && Vector2.Distance(routine.Route[routine.Route.Count - 1], destination) > 1f)
-            {
+            // Use the exact entrance or aisle point after the snapped navigation path.
+            if (barSeat.HasValue || Vector2.Distance(routine.Route[routine.Route.Count - 1], destination) > 1f)
                 routine.Route.Add(destination);
-            }
+            if (barSeat.HasValue)
+                routine.Route.Add(barSeat.Value);
 
             routine.RouteIndex = 0;
             routine.AtDestination = false;
@@ -850,11 +939,6 @@ namespace ResortEmpire.Gameplay.Integration
         private bool TryFindWalkableRoute(Vector2 start, Vector2 destination, List<Vector2> result)
         {
             return navigationMap.TryFindPathToNearestReachable(start, destination, result);
-        }
-
-        private bool TryFindBarSeatRoute(Vector2 start, Vector2 destination, List<Vector2> result)
-        {
-            return navigationMap.TryFindPathToNearestReachableInStartRegion(start, destination, result);
         }
 
         private bool TryBuildRestaurantRouteViaReceptionExit(
@@ -976,11 +1060,9 @@ namespace ResortEmpire.Gameplay.Integration
             List<Vector2> result,
             int destinationIndex)
         {
-            return GetEntryPoint(destinationIndex) != null
+            return GetEntryPoint(destinationIndex) != null || destinationIndex == 1
                 ? TryFindWalkableRoute(start, destination, result)
-                : destinationIndex == 1
-                    ? TryFindBarSeatRoute(start, destination, result)
-                    : navigationMap.TryFindPath(start, destination, result);
+                : navigationMap.TryFindPath(start, destination, result);
         }
 
         private void MoveAlongRoutine(TouristRoutineState routine, float deltaTime)
@@ -1094,7 +1176,7 @@ namespace ResortEmpire.Gameplay.Integration
             var departurePosition = GetDeparturePosition(routine);
             var navigationDeparturePosition = departurePosition;
             if (routine.RoutineIndex == 1 && barSeatPoint != null)
-                navigationDeparturePosition = GetPointPosition(barSeatPoint);
+                navigationDeparturePosition = GetBarApproachPosition(departurePosition);
 
             if (routine.RoutineIndex == 1)
                 ReleaseBarSeat(routine);
@@ -1140,9 +1222,22 @@ namespace ResortEmpire.Gameplay.Integration
             }
 
             var seatWorldPosition = touristContainer.TransformPoint(seatPosition);
-            routine.Tourist.transform.SetParent(barSeatOverlay, false);
+            var tourist = routine.Tourist.transform;
+            tourist.SetParent(barSeatOverlay, false);
             routine.PathPosition = barSeatOverlay.InverseTransformPoint(seatWorldPosition);
             SetTouristPosition(routine);
+
+            // Canvas siblings drawn later appear in front. Keep stools ordered
+            // from left to right regardless of which guest sat down first.
+            tourist.SetAsLastSibling();
+            for (var index = 0; index < barSeatOverlay.childCount - 1; index++)
+            {
+                if (barSeatOverlay.GetChild(index).localPosition.x <= routine.PathPosition.x)
+                    continue;
+
+                tourist.SetSiblingIndex(index);
+                break;
+            }
         }
 
         private void PlaceRoutineAtBarSeat(TouristRoutineState routine)
@@ -1190,34 +1285,46 @@ namespace ResortEmpire.Gameplay.Integration
             return receptionEntryPoint;
         }
 
-        private Vector2 GetDestinationPosition(int destinationIndex, int barSeatIndex)
+        private Vector2 GetDestinationPosition(int destinationIndex)
         {
-            RectTransform point = destinationIndex == 0
+            var point = destinationIndex == 0
                 ? receptionPoint
                 : destinationIndex == 1
                     ? barSeatPoint
                     : restaurantPoint;
+            return GetPointPosition(point);
+        }
 
-            var destination = GetPointPosition(point);
-
-            if (destinationIndex == 1)
-                return barSeatIndex >= 0
-                    ? GetBarSeatPosition(barSeatIndex)
-                    : destination;
-
-            return destination;
+        private Vector2 GetBarApproachPosition(Vector2 seatPosition)
+        {
+            return new Vector2(seatPosition.x, GetPointPosition(barSeatPoint).y);
         }
 
         private Vector2 GetBarSeatPosition(int barSeatIndex)
         {
+            var level = GetBarLevel();
             var entryIndex = GetBarSeatEntryIndex(barSeatIndex);
             // Preserve the authored level-1 seating that was already aligned
             // with the artwork. Later levels use their explicit scene markers.
-            if (GetBarLevel() > 1 && entryIndex >= 0)
-                return GetPointPosition(barSeatEntryPoints[entryIndex]);
+            if (level == 2 && entryIndex >= 0 && barSeatOverlay != null)
+            {
+                var overlaySeatPosition = LevelTwoVisualSeatPositions[
+                    barSeatIndex % LevelTwoVisualSeatPositions.Length];
+                return touristContainer.InverseTransformPoint(
+                    barSeatOverlay.TransformPoint(overlaySeatPosition));
+            }
+
+            if (level > 1 && entryIndex >= 0)
+                return GetUpgradedBarSeatPosition(barSeatEntryPoints[entryIndex], level);
 
             return GetPointPosition(barSeatPoint)
                 + BarSeatVisualOffsets[barSeatIndex % BarSeatVisualOffsets.Length];
+        }
+
+        private Vector2 GetUpgradedBarSeatPosition(RectTransform marker, int level)
+        {
+            var offset = level == 2 ? LevelTwoBarSeatFallbackOffset : LevelThreeBarSeatOffset;
+            return GetPointPosition(marker) + Vector2.up * offset;
         }
 
         private int GetBarSeatEntryIndex(int barSeatIndex)
@@ -1432,10 +1539,16 @@ namespace ResortEmpire.Gameplay.Integration
             if (receptionVisual == null || receptionVisual.parent != touristContainer.parent)
                 return;
 
+            var currentIndex = touristContainer.GetSiblingIndex();
             var targetIndex = foreground
                 ? touristContainer.parent.childCount - 1
                 : Mathf.Max(0, receptionVisual.GetSiblingIndex() - 1);
-            if (touristContainer.GetSiblingIndex() != targetIndex)
+            if (foreground && barSeatOverlay != null && barSeatOverlay.parent == touristContainer.parent)
+            {
+                var seatIndex = barSeatOverlay.GetSiblingIndex();
+                targetIndex = currentIndex < seatIndex ? seatIndex - 1 : seatIndex;
+            }
+            if (currentIndex != targetIndex)
                 touristContainer.SetSiblingIndex(targetIndex);
         }
 
