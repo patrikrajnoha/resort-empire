@@ -494,6 +494,117 @@ namespace ResortEmpire.Gameplay.Tests
             }
         }
 
+        [TestCase(1, 766)]
+        [TestCase(2, 820)]
+        [TestCase(3, 881)]
+        public void RestaurantGuestsClimbAndDescendTheStairsForTheCurrentSprite(int level, int landingPixelY)
+        {
+            const string root = "Assets/_ResortEmpire/";
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(root + "Prefabs/Buildings/Restaurant.prefab");
+            var restaurant = Object.Instantiate(prefab, islandBaseObject.transform, false);
+            var stairs = restaurant.GetComponentInChildren<RestaurantStairRoutes>();
+            var restaurantImage = stairs.GetComponent<Image>();
+            var restaurantApproach = (RectTransform)GetPrivateField(spawner, "restaurantPoint");
+            restaurantApproach.anchoredPosition = new Vector2(480f, -100f);
+            touristPrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(40f, 48f);
+            SetPrivateField(spawner, "restaurantStairRoutes", stairs);
+            SetPrivateField(spawner, "touristCount", 6);
+
+            var setWaveVisibility = FindPrivateMethod("SetWaveVisibility", 1);
+            var move = FindPrivateMethod("MoveAlongRoutine", 2);
+            var advance = FindPrivateMethod("AdvanceRoutine", 1);
+
+            // Start and clean up a wave at the prefab's initial level. The next
+            // wave must use the sprite now shown by the same restaurant instance.
+            setWaveVisibility.Invoke(spawner, new object[] { true });
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            Assert.That(routines.Count, Is.EqualTo(6));
+            var pooledGuest = (GameObject)GetPrivateField(routines[2], "Tourist");
+            setWaveVisibility.Invoke(spawner, new object[] { false });
+            Assert.That(pooledGuest.activeSelf, Is.False);
+            if (level > 1)
+            {
+                restaurantImage.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
+                    root + $"Art/UI/HomeIsland/Buildings/Starting/restaurant-level-0{level}.png");
+                Assert.That(restaurantImage.sprite, Is.Not.Null);
+            }
+            setWaveVisibility.Invoke(spawner, new object[] { true });
+            Assert.That(routines.Count, Is.EqualTo(6));
+            Assert.That(GetPrivateField(routines[2], "Tourist"), Is.SameAs(pooledGuest));
+
+            foreach (var index in new[] { 2, 5 })
+            {
+                var routine = routines[index];
+                var tourist = (GameObject)GetPrivateField(routine, "Tourist");
+                var rect = tourist.GetComponent<RectTransform>();
+                var route = (List<Vector2>)GetPrivateField(routine, "Route");
+                var stairStart = (int)GetPrivateField(routine, "StairStartIndex");
+                Assert.That(stairStart, Is.GreaterThan(0));
+                Assert.That(route[stairStart - 1], Is.EqualTo(restaurantApproach.anchoredPosition));
+                var ascent = route.GetRange(stairStart, route.Count - stairStart);
+                Assert.That(ascent.Count, Is.GreaterThan(2));
+                for (var step = 1; step < ascent.Count; step++)
+                {
+                    Assert.That(ascent[step].y, Is.GreaterThan(ascent[step - 1].y));
+                    Assert.That(ascent[step].x, Is.LessThan(ascent[step - 1].x));
+                }
+
+                SetPrivateField(routine, "StartDelayRemaining", 0f);
+                for (var frame = 0; frame < 400 && tourist.activeSelf; frame++)
+                {
+                    var before = (Vector2)GetPrivateField(routine, "PathPosition");
+                    var routeIndex = (int)GetPrivateField(routine, "RouteIndex");
+                    move.Invoke(spawner, new[] { routine, (object)0.05f });
+                    if (routeIndex < stairStart)
+                        continue;
+
+                    var after = (Vector2)GetPrivateField(routine, "PathPosition");
+                    Assert.That(Vector2.Distance(before, after), Is.LessThanOrEqualTo(5.25f));
+                    Assert.That(tourist.transform.parent, Is.SameAs(stairs.transform));
+                    if (routeIndex < route.Count - 1)
+                        Assert.That(tourist.activeSelf, Is.True);
+                }
+
+                Assert.That(GetPrivateField(routine, "AtDestination"), Is.EqualTo(true));
+                Assert.That(GetPrivateField(routine, "DwellRemaining"),
+                    Is.EqualTo(GetPrivateField(spawner, "insideDwellSeconds")));
+                Assert.That(tourist.activeSelf, Is.False);
+                var top = ascent[ascent.Count - 1];
+                var foot = rect.TransformPoint(new Vector3(0f, rect.rect.yMin, 0f));
+                var localFoot = restaurantImage.rectTransform.InverseTransformPoint(foot);
+                var spriteRect = restaurantImage.rectTransform.rect;
+                var footPixelY = (spriteRect.yMax - localFoot.y) / spriteRect.height * restaurantImage.sprite.rect.height;
+                Assert.That(footPixelY, Is.EqualTo(landingPixelY).Within(0.01f));
+
+                advance.Invoke(spawner, new[] { routine });
+                Assert.That(tourist.activeSelf, Is.True);
+                Assert.That(rect.localScale.x, Is.GreaterThan(0f));
+                var departure = (Vector2)containerObject.transform.InverseTransformPoint(rect.position);
+                Assert.That(Vector2.Distance(departure, top), Is.LessThan(0.001f));
+                Assert.That(GetPrivateField(routine, "RoutineIndex"), Is.EqualTo(0));
+                for (var step = 0; step < ascent.Count - 1; step++)
+                    Assert.That(route[step], Is.EqualTo(ascent[ascent.Count - 2 - step]));
+                Assert.That(route[ascent.Count - 1], Is.EqualTo(restaurantApproach.anchoredPosition));
+                Assert.That(route.Count, Is.GreaterThan(ascent.Count));
+
+                for (var frame = 0; frame < 150 && rect.parent == stairs.transform; frame++)
+                {
+                    var before = (Vector2)GetPrivateField(routine, "PathPosition");
+                    move.Invoke(spawner, new[] { routine, (object)0.05f });
+                    var after = (Vector2)GetPrivateField(routine, "PathPosition");
+                    Assert.That(Vector2.Distance(before, after), Is.LessThanOrEqualTo(5.25f));
+                    Assert.That(tourist.activeSelf, Is.True);
+                }
+                Assert.That(rect.parent, Is.SameAs(containerObject.transform));
+            }
+
+            setWaveVisibility.Invoke(spawner, new object[] { false });
+            Assert.That(spawner.ActiveTouristCount, Is.Zero);
+            Assert.That(routines, Is.Empty);
+            foreach (var tourist in (IList)GetPrivateField(spawner, "pooledTourists"))
+                Assert.That(((GameObject)tourist).activeSelf, Is.False);
+        }
+
         [Test]
         public void BarGuestDisappearsAtReceptionAndReappearsOnInnerPath()
         {
