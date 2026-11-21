@@ -543,11 +543,7 @@ namespace ResortEmpire.Gameplay.Tests
             var restaurant = Object.Instantiate(prefab, islandBaseObject.transform, false);
             var stairs = restaurant.GetComponentInChildren<RestaurantStairRoutes>();
             var restaurantImage = stairs.GetComponent<Image>();
-            var dining = restaurant.GetComponentInChildren<RestaurantDiningVisual>(true);
-            Assert.That(dining.gameObject.activeSelf, Is.False);
-            var portrait = (Image)GetPrivateField(dining, "portrait");
-            var cue = (Image)GetPrivateField(dining, "mealCue");
-            Assert.That(portrait.GetComponentInParent<RectMask2D>(true), Is.Not.Null);
+            Assert.That(restaurant.GetComponentsInChildren<RestaurantDiningVisual>(), Is.Empty);
             var touristSprites = AssetDatabase.LoadAllAssetRepresentationsAtPath(
                     root + "Art/Shared/WorldAndUI/Characters/Tourists/tourists-atlas.png")
                 .OfType<Sprite>()
@@ -564,7 +560,6 @@ namespace ResortEmpire.Gameplay.Tests
             var move = FindPrivateMethod("MoveAlongRoutine", 2);
             var advance = FindPrivateMethod("AdvanceRoutine", 1);
             var tickDining = typeof(RestaurantDiningVisual).GetMethod("Advance", BindingFlags.Instance | BindingFlags.NonPublic);
-            var showDiner = typeof(RestaurantDiningVisual).GetMethod("Show", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Start and clean up a wave at the prefab's initial level. The next
             // wave must use the sprite now shown by the same restaurant instance.
@@ -628,16 +623,16 @@ namespace ResortEmpire.Gameplay.Tests
                 var footPixelY = (spriteRect.yMax - localFoot.y) / spriteRect.height * restaurantImage.sprite.rect.height;
                 Assert.That(footPixelY, Is.EqualTo(landingPixelY).Within(0.01f));
 
-                Assert.That(dining.gameObject.activeInHierarchy, Is.True);
+                var dining = restaurant.GetComponentsInChildren<RestaurantDiningVisual>().Single();
+                var portrait = (Image)GetPrivateField(dining, "portrait");
+                var cue = (Image)GetPrivateField(dining, "mealCue");
+                Assert.That(portrait.GetComponentInParent<RectMask2D>(true), Is.Not.Null);
                 Assert.That(portrait.sprite, Is.SameAs(tourist.GetComponent<Image>().sprite));
                 Assert.That(cue.gameObject.activeSelf, Is.True);
                 var seat = restaurantImage.rectTransform.InverseTransformPoint(dining.transform.position);
                 var seatPixelY = (spriteRect.yMax - seat.y) / spriteRect.height * restaurantImage.sprite.rect.height;
                 Assert.That(seatPixelY, Is.EqualTo(diningSeatPixelY).Within(0.01f));
 
-                var otherTourist = (GameObject)GetPrivateField(routines[index == 2 ? 5 : 2], "Tourist");
-                showDiner.Invoke(dining, new object[] { otherTourist, Vector3.zero });
-                Assert.That(portrait.sprite, Is.SameAs(tourist.GetComponent<Image>().sprite));
                 var portraitHeight = portrait.rectTransform.anchoredPosition.y;
                 tickDining.Invoke(dining, new object[] { 0.7f });
                 Assert.That(portrait.rectTransform.anchoredPosition.y, Is.LessThan(portraitHeight));
@@ -672,6 +667,57 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(routines, Is.Empty);
             foreach (var tourist in (IList)GetPrivateField(spawner, "pooledTourists"))
                 Assert.That(((GameObject)tourist).activeSelf, Is.False);
+        }
+
+        [TestCase(1, 2)]
+        [TestCase(2, 4)]
+        [TestCase(3, 5)]
+        public void RestaurantFillsDistinctTablesAndReusesVacatedPlaces(int level, int tableCount)
+        {
+            const string root = "Assets/_ResortEmpire/";
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(root + "Prefabs/Buildings/Restaurant.prefab");
+            var restaurant = Object.Instantiate(prefab, islandBaseObject.transform, false);
+            var stairs = restaurant.GetComponentInChildren<RestaurantStairRoutes>();
+            if (level > 1)
+                stairs.GetComponent<Image>().sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
+                    root + $"Art/UI/HomeIsland/Buildings/Starting/restaurant-level-0{level}.png");
+
+            var sprites = AssetDatabase.LoadAllAssetRepresentationsAtPath(
+                    root + "Art/Shared/WorldAndUI/Characters/Tourists/tourists-atlas.png")
+                .OfType<Sprite>()
+                .Take(tableCount + 1)
+                .ToArray();
+            var guests = sprites.Select(sprite =>
+            {
+                var guest = Object.Instantiate(touristPrefab, containerObject.transform, false);
+                guest.GetComponent<Image>().sprite = sprite;
+                return guest;
+            }).ToArray();
+            Assert.That(guests.Length, Is.EqualTo(tableCount + 1));
+            const BindingFlags methods = BindingFlags.Instance | BindingFlags.NonPublic;
+            var show = typeof(RestaurantStairRoutes).GetMethod("ShowDiner", methods);
+            var release = typeof(RestaurantStairRoutes).GetMethod("ReleaseDiner", methods);
+            var clear = typeof(RestaurantStairRoutes).GetMethod("ClearDining", methods);
+
+            foreach (var guest in guests)
+            {
+                show.Invoke(stairs, new object[] { guest });
+                show.Invoke(stairs, new object[] { guest });
+            }
+
+            var occupied = restaurant.GetComponentsInChildren<RestaurantDiningVisual>();
+            Assert.That(occupied, Has.Length.EqualTo(tableCount));
+            Assert.That(occupied.Select(seat => seat.transform.position).Distinct().Count(), Is.EqualTo(tableCount));
+            var portraits = occupied.Select(seat => (Image)GetPrivateField(seat, "portrait")).ToArray();
+            Assert.That(portraits.Select(image => image.sprite), Is.EquivalentTo(sprites.Take(tableCount)));
+            var freedSeat = occupied.Single(seat => ReferenceEquals(GetPrivateField(seat, "guest"), guests[0]));
+            release.Invoke(stairs, new object[] { guests[0] });
+            Assert.That(restaurant.GetComponentsInChildren<RestaurantDiningVisual>(), Has.Length.EqualTo(tableCount - 1));
+            show.Invoke(stairs, new object[] { guests[tableCount] });
+            Assert.That(GetPrivateField(freedSeat, "guest"), Is.SameAs(guests[tableCount]));
+            Assert.That(restaurant.GetComponentsInChildren<RestaurantDiningVisual>(true), Has.Length.EqualTo(tableCount + 1));
+            clear.Invoke(stairs, null);
+            Assert.That(restaurant.GetComponentsInChildren<RestaurantDiningVisual>(), Is.Empty);
         }
 
         [Test]

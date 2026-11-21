@@ -10,19 +10,27 @@ namespace ResortEmpire.Gameplay.Integration
     public sealed class RestaurantStairRoutes : MonoBehaviour
     {
         [Serializable]
+        private struct DiningTable
+        {
+            [Tooltip("Bottom edge of the seated guest, normalized within the sprite.")]
+            public Vector2 Seat;
+            public float Scale;
+        }
+
+        [Serializable]
         private struct StairRoute
         {
             public Sprite Sprite;
             [Tooltip("Foot positions from the bottom of the exterior stairs to the landing, normalized within the sprite.")]
             public Vector2[] Waypoints;
-            [Tooltip("Bottom edge of the seated guest at the right table, normalized within the sprite.")]
-            public Vector2 DiningSeat;
+            [Tooltip("Visible dining tables in the order that guests fill them.")]
+            public DiningTable[] DiningTables;
         }
 
         [SerializeField] private StairRoute[] routes;
-        [SerializeField] private RestaurantDiningVisual diningVisual;
+        [SerializeField] private RestaurantDiningVisual diningSeatTemplate;
 
-        internal RestaurantDiningVisual DiningVisual => diningVisual;
+        private readonly List<RestaurantDiningVisual> diningSeats = new List<RestaurantDiningVisual>();
 
         internal bool TryGetWaypoints(Transform coordinateSpace, List<Vector2> waypoints)
         {
@@ -38,14 +46,51 @@ namespace ResortEmpire.Gameplay.Integration
             return true;
         }
 
-        internal bool TryGetDiningSeat(out Vector3 worldPosition)
+        internal void ShowDiner(GameObject tourist)
         {
-            worldPosition = default;
-            if (!TryGetLayout(out var route, out var rect) || route.DiningSeat == Vector2.zero)
-                return false;
+            if (diningSeatTemplate == null)
+                return;
 
-            worldPosition = transform.TransformPoint(Rect.NormalizedToPoint(rect, route.DiningSeat));
-            return true;
+            foreach (var seat in diningSeats)
+                if (seat.Guest == tourist)
+                    return;
+
+            if (!TryGetLayout(out var route, out var rect) || route.DiningTables == null)
+                return;
+
+            for (var index = 0; index < route.DiningTables.Length; index++)
+            {
+                if (index == diningSeats.Count)
+                    diningSeats.Add(Instantiate(diningSeatTemplate, diningSeatTemplate.transform.parent, false));
+
+                var seat = diningSeats[index];
+                if (seat.IsOccupied)
+                    continue;
+
+                var table = route.DiningTables[index];
+                var position = transform.TransformPoint(Rect.NormalizedToPoint(rect, table.Seat));
+                seat.Show(tourist, position, table.Scale);
+                return;
+            }
+        }
+
+        internal void AdvanceDining(float deltaTime)
+        {
+            foreach (var seat in diningSeats)
+                seat.Advance(deltaTime);
+        }
+
+        internal void ReleaseDiner(GameObject tourist)
+        {
+            foreach (var seat in diningSeats)
+                seat.Release(tourist);
+        }
+
+        internal void ClearDining()
+        {
+            foreach (var seat in diningSeats)
+                if (seat != null)
+                    seat.Clear();
         }
 
         private bool TryGetLayout(out StairRoute activeRoute, out Rect rect)

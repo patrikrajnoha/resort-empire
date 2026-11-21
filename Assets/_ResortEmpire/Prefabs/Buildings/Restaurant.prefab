@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7820236898853619197}
   - component: {fileID: 773881859184528395}
   m_Layer: 0
-  m_Name: RestaurantDiningSeat
+  m_Name: RestaurantDiningSeatTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +201,11 @@ MonoBehaviour:
     - {x: 0.8580542, y: 0.32057416}
     - {x: 0.83253586, y: 0.35645932}
     - {x: 0.8118022, y: 0.3891547}
-    DiningSeat: {x: 0.6259968, y: 0.4449761}
+    DiningTables:
+    - Seat: {x: 0.6259968, y: 0.4449761}
+      Scale: 1
+    - Seat: {x: 0.3014354, y: 0.45374802}
+      Scale: 0.93
   - Sprite: {fileID: 21300000, guid: caf8bfe3da34bbf42a2e31857f4aa65f, type: 3}
     Waypoints:
     - {x: 0.94896334, y: 0.1275917}
@@ -211,7 +215,15 @@ MonoBehaviour:
     - {x: 0.8644338, y: 0.2830941}
     - {x: 0.84051037, y: 0.32216907}
     - {x: 0.8277512, y: 0.3460925}
-    DiningSeat: {x: 0.6905901, y: 0.40111643}
+    DiningTables:
+    - Seat: {x: 0.6905901, y: 0.40111643}
+      Scale: 1
+    - Seat: {x: 0.21132377, y: 0.4417863}
+      Scale: 0.94
+    - Seat: {x: 0.4090909, y: 0.40430623}
+      Scale: 0.93
+    - Seat: {x: 0.30622008, y: 0.54066986}
+      Scale: 0.67
   - Sprite: {fileID: 21300000, guid: 199f88c4544df4d44827740d10a0d164, type: 3}
     Waypoints:
     - {x: 0.9497608, y: 0.068580545}
@@ -221,8 +233,18 @@ MonoBehaviour:
     - {x: 0.8748006, y: 0.22647528}
     - {x: 0.8548644, y: 0.261563}
     - {x: 0.85087717, y: 0.29744816}
-    DiningSeat: {x: 0.6969697, y: 0.36124402}
-  diningVisual: {fileID: 773881859184528395}
+    DiningTables:
+    - Seat: {x: 0.6969697, y: 0.36124402}
+      Scale: 1
+    - Seat: {x: 0.2185008, y: 0.42264754}
+      Scale: 0.94
+    - Seat: {x: 0.47767144, y: 0.35007975}
+      Scale: 0.92
+    - Seat: {x: 0.23046252, y: 0.6985646}
+      Scale: 0.85
+    - Seat: {x: 0.3692185, y: 0.4617225}
+      Scale: 0.72
+  diningSeatTemplate: {fileID: 773881859184528395}
 --- !u!1 &6697906691300926590
 GameObject:
   m_ObjectHideFlags: 0

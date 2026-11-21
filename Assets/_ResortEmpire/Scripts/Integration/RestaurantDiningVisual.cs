@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ResortEmpire.Gameplay.Integration
 {
-    /// <summary>Shows one guest at the visible table during an existing restaurant visit.</summary>
+    /// <summary>Shows one guest at a visible table during an existing restaurant visit.</summary>
     [DisallowMultipleComponent]
     public sealed class RestaurantDiningVisual : MonoBehaviour
     {
@@ -19,8 +19,9 @@ namespace ResortEmpire.Gameplay.Integration
         private float elapsed;
 
         internal bool IsOccupied => guest != null;
+        internal GameObject Guest => guest;
 
-        internal void Show(GameObject tourist, Vector3 worldPosition)
+        internal void Show(GameObject tourist, Vector3 worldPosition, float scale)
         {
             var touristImage = tourist.GetComponent<Image>();
             if (IsOccupied || portrait == null || touristImage == null || touristImage.sprite == null)
@@ -30,6 +31,7 @@ namespace ResortEmpire.Gameplay.Integration
             portraitOrigin = portrait.rectTransform.anchoredPosition;
             portrait.sprite = touristImage.sprite;
             transform.position = worldPosition;
+            transform.localScale = Vector3.one * scale;
             elapsed = 0f;
             gameObject.SetActive(true);
             if (mealCue != null)
