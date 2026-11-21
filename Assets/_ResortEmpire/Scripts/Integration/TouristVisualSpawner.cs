@@ -145,6 +145,9 @@ namespace ResortEmpire.Gameplay.Integration
         [SerializeField]
         private RestaurantStairRoutes restaurantStairRoutes;
 
+        [SerializeField]
+        private TouristEntranceSmoke entranceSmoke;
+
         private RectTransform receptionEntryPoint;
         private readonly List<RectTransform> receptionLevelEntryPoints = new List<RectTransform>();
 
@@ -791,6 +794,8 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void DeactivateTourists()
         {
+            if (entranceSmoke != null)
+                entranceSmoke.Clear();
             for (var index = 0; index < pooledTourists.Count; index++)
             {
                 if (pooledTourists[index] != null)
@@ -807,6 +812,8 @@ namespace ResortEmpire.Gameplay.Integration
                 return;
 
             var deltaTime = Time.unscaledDeltaTime;
+            if (entranceSmoke != null)
+                entranceSmoke.Advance(deltaTime);
             for (var index = 0; index < touristRoutines.Count; index++)
             {
                 var routine = touristRoutines[index];
@@ -1166,9 +1173,9 @@ namespace ResortEmpire.Gameplay.Integration
             routine.RouteIndex++;
             if (routine.RouteIndex == routine.PortalExitRouteIndex)
             {
+                HideAtBuildingEntrance(routine);
                 routine.PathPosition = routine.Route[routine.PortalExitRouteIndex];
                 SetTouristPosition(routine);
-                SetTouristActive(routine.Tourist, false);
                 routine.RouteIndex++;
                 routine.PortalDelayRemaining = 0.8f;
                 return;
@@ -1198,7 +1205,7 @@ namespace ResortEmpire.Gameplay.Integration
                     SetTouristPosition(routine);
                 }
 
-                SetTouristActive(routine.Tourist, false);
+                HideAtBuildingEntrance(routine);
                 return;
             }
 
@@ -1213,6 +1220,19 @@ namespace ResortEmpire.Gameplay.Integration
 
                 PlaceRoutineAtBarSeat(routine);
             }
+        }
+
+        private void HideAtBuildingEntrance(TouristRoutineState routine)
+        {
+            var tourist = routine.Tourist;
+            if (entranceSmoke != null && tourist.activeInHierarchy)
+            {
+                var rect = tourist.GetComponent<RectTransform>();
+                var origin = new Vector3(rect.rect.center.x, rect.rect.yMin + rect.rect.height * 0.23f, 0f);
+                entranceSmoke.PlayAt(rect.TransformPoint(origin));
+            }
+
+            SetTouristActive(tourist, false);
         }
 
         private void AnimateBarConversation(TouristRoutineState routine, float deltaTime)

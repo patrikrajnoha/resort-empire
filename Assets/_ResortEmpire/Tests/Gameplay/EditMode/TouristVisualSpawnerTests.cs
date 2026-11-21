@@ -494,6 +494,43 @@ namespace ResortEmpire.Gameplay.Tests
             }
         }
 
+        [Test]
+        public void BuildingEntrySmokeStartsAtEachEntranceAndReusesFinishedPuffs()
+        {
+            var smoke = ConfigureEntranceSmoke();
+            var setWaveVisibility = FindPrivateMethod("SetWaveVisibility", 1);
+            setWaveVisibility.Invoke(spawner, new object[] { true });
+            var routines = (IList)GetPrivateField(spawner, "touristRoutines");
+            var enter = FindPrivateMethod("EnterDestination", 1);
+
+            enter.Invoke(spawner, new[] { routines[0] });
+            enter.Invoke(spawner, new[] { routines[1] });
+            enter.Invoke(spawner, new[] { routines[2] });
+            enter.Invoke(spawner, new[] { routines[2] });
+
+            var images = smoke.GetComponentsInChildren<Image>();
+            Assert.That(images, Has.Length.EqualTo(6));
+            Assert.That(images[1].rectTransform.anchoredPosition.x, Is.EqualTo(receptionEntryPoint.anchoredPosition.x));
+            Assert.That(images[4].rectTransform.anchoredPosition.x, Is.EqualTo(restaurantEntryPoint.anchoredPosition.x));
+            foreach (var image in images)
+                Assert.That(image.raycastTarget, Is.False);
+
+            var tick = typeof(TouristEntranceSmoke).GetMethod("Advance", BindingFlags.Instance | BindingFlags.NonPublic);
+            var initialOpacity = images[1].color.a;
+            var initialSize = images[1].rectTransform.sizeDelta;
+            tick.Invoke(smoke, new object[] { 0.2f });
+            Assert.That(images[1].color.a, Is.LessThan(initialOpacity));
+            Assert.That(images[1].rectTransform.sizeDelta.x, Is.GreaterThan(initialSize.x));
+            tick.Invoke(smoke, new object[] { 0.5f });
+            Assert.That(smoke.GetComponentsInChildren<Image>(), Is.Empty);
+
+            enter.Invoke(spawner, new[] { routines[3] });
+            Assert.That(smoke.GetComponentsInChildren<Image>(), Has.Length.EqualTo(3));
+            Assert.That(smoke.transform.childCount, Is.EqualTo(6));
+            setWaveVisibility.Invoke(spawner, new object[] { false });
+            Assert.That(smoke.GetComponentsInChildren<Image>(), Is.Empty);
+        }
+
         [TestCase(1, 766)]
         [TestCase(2, 820)]
         [TestCase(3, 881)]
@@ -608,6 +645,7 @@ namespace ResortEmpire.Gameplay.Tests
         [Test]
         public void BarGuestDisappearsAtReceptionAndReappearsOnInnerPath()
         {
+            var smoke = ConfigureEntranceSmoke();
             var realMap = AssetDatabase.LoadAssetAtPath<Texture2D>(
                 "Assets/_ResortEmpire/Art/Shared/WorldAndUI/Island/Navigation/island-walkable.png");
             Assert.That(realMap, Is.Not.Null);
@@ -644,12 +682,18 @@ namespace ResortEmpire.Gameplay.Tests
                 "MoveAlongRoutine", BindingFlags.Instance | BindingFlags.NonPublic);
             move.Invoke(spawner, new[] { barRoutine, (object)0.1f });
             Assert.That(tourist.activeSelf, Is.False);
+            var portalSmoke = smoke.GetComponentsInChildren<Image>();
+            Assert.That(portalSmoke, Has.Length.EqualTo(3));
+            Assert.That(portalSmoke[1].rectTransform.anchoredPosition.x,
+                Is.EqualTo(((Vector2)route[portalEntry]).x).Within(0.01f),
+                "Smoke belongs at the visible entrance before the guest is moved to the portal exit.");
             Assert.That(tourist.GetComponent<RectTransform>().anchoredPosition,
                 Is.EqualTo((Vector2)route[portalExit]),
                 "A hidden tourist must be positioned at the portal exit before reactivation.");
 
             move.Invoke(spawner, new[] { barRoutine, (object)1f });
             Assert.That(tourist.activeSelf, Is.True);
+            Assert.That(smoke.GetComponentsInChildren<Image>(), Has.Length.EqualTo(3));
             Assert.That(tourist.GetComponent<RectTransform>().anchoredPosition,
                 Is.EqualTo((Vector2)route[portalExit]));
         }
@@ -703,6 +747,18 @@ namespace ResortEmpire.Gameplay.Tests
             rect.SetParent(containerObject.transform, false);
             rect.anchoredPosition = position;
             return rect;
+        }
+
+        private TouristEntranceSmoke ConfigureEntranceSmoke()
+        {
+            var overlay = CreateDestination("TouristEntranceEffects", Vector2.zero);
+            var smoke = overlay.gameObject.AddComponent<TouristEntranceSmoke>();
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
+                "Assets/_ResortEmpire/Art/Shared/UI/VFX/tourist-entrance-smoke.png");
+            Assert.That(sprite, Is.Not.Null);
+            SetPrivateField(smoke, "puffSprite", sprite);
+            SetPrivateField(spawner, "entranceSmoke", smoke);
+            return smoke;
         }
 
         private static object GetPrivateField(object target, string fieldName)
