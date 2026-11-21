@@ -23,6 +23,7 @@ namespace ResortEmpire.Gameplay.Integration
         {
             public GameObject Tourist;
             public readonly List<Vector2> Route = new List<Vector2>(8);
+            public readonly List<Vector2> RestaurantStairs = new List<Vector2>();
             public int RoutineIndex;
             public int RouteIndex;
             public bool AtDestination;
@@ -40,6 +41,11 @@ namespace ResortEmpire.Gameplay.Integration
             public bool HideFromStartUntilPortalExit;
             public int BarSeatIndex = -1;
             public bool WaitingForBarSeat;
+            public int StairStartIndex;
+            public int StairEndIndex;
+
+            public bool IsOnRestaurantStairRoute =>
+                RouteIndex >= StairStartIndex && RouteIndex < StairEndIndex;
         }
 
         private static readonly Vector2[] SpawnSpreadOffsets =
@@ -135,6 +141,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         [SerializeField]
         private RectTransform restaurantPoint;
+
+        [SerializeField]
+        private RestaurantStairRoutes restaurantStairRoutes;
 
         private RectTransform receptionEntryPoint;
         private readonly List<RectTransform> receptionLevelEntryPoints = new List<RectTransform>();
@@ -843,9 +852,12 @@ namespace ResortEmpire.Gameplay.Integration
             TouristRoutineState routine,
             Vector2 startPosition,
             float startDelay,
-            Vector2 navigationStartPosition)
+            Vector2 navigationStartPosition,
+            bool leavingRestaurantStairs = false)
         {
             routine.Route.Clear();
+            routine.StairStartIndex = 0;
+            routine.StairEndIndex = 0;
             routine.PortalEntryRouteIndex = -1;
             routine.PortalExitRouteIndex = -1;
             routine.HideFromStartUntilPortalExit = false;
@@ -857,11 +869,14 @@ namespace ResortEmpire.Gameplay.Integration
             var barSeat = destinationIndex == 1 && hasBarSeat
                 ? (Vector2?)GetBarSeatPosition(routine.BarSeatIndex)
                 : null;
-            var destination = barSeat.HasValue
-                ? GetBarApproachPosition(barSeat.Value)
-                : entryPoint == null
-                    ? GetDestinationPosition(destinationIndex)
-                    : GetPointPosition(entryPoint);
+            var hasRestaurantStairs = destinationIndex == 2 && LoadRestaurantStairs(routine);
+            var destination = hasRestaurantStairs
+                ? GetPointPosition(restaurantPoint)
+                : barSeat.HasValue
+                    ? GetBarApproachPosition(barSeat.Value)
+                    : entryPoint == null
+                        ? GetDestinationPosition(destinationIndex)
+                        : GetPointPosition(entryPoint);
             var baseStart = islandBase.InverseTransformPoint(
                 touristContainer.TransformPoint(navigationStartPosition));
             var baseDestination = islandBase.InverseTransformPoint(touristContainer.TransformPoint(destination));
@@ -892,25 +907,41 @@ namespace ResortEmpire.Gameplay.Integration
                     return false;
                 }
             }
-            // Leave the stool straight down before joining the walkable aisle.
-            if (Vector2.Distance(startPosition, navigationStartPosition) > 1f)
+            if (leavingRestaurantStairs)
             {
+                // The same pooled tourist starts at the landing where it was hidden.
+                for (var index = routine.RestaurantStairs.Count - 2; index >= 0; index--)
+                    routine.Route.Add(routine.RestaurantStairs[index]);
+                routine.Route.Add(navigationStartPosition);
+                routine.StairEndIndex = routine.Route.Count;
+            }
+            else if (Vector2.Distance(startPosition, navigationStartPosition) > 1f)
+            {
+                // Leave the stool straight down before joining the walkable aisle.
                 routine.Route.Add(startPosition);
                 routine.Route.Add(navigationStartPosition);
-                if (routine.PortalEntryRouteIndex >= 0)
-                    routine.PortalEntryRouteIndex += 2;
-                if (routine.PortalExitRouteIndex >= 0)
-                    routine.PortalExitRouteIndex += 2;
             }
+
+            if (routine.PortalEntryRouteIndex >= 0)
+                routine.PortalEntryRouteIndex += routine.Route.Count;
+            if (routine.PortalExitRouteIndex >= 0)
+                routine.PortalExitRouteIndex += routine.Route.Count;
 
             for (var index = 0; index < baseRoute.Count; index++)
                 routine.Route.Add(touristContainer.InverseTransformPoint(islandBase.TransformPoint(baseRoute[index])));
 
             // Use the exact entrance or aisle point after the snapped navigation path.
-            if (barSeat.HasValue || Vector2.Distance(routine.Route[routine.Route.Count - 1], destination) > 1f)
+            if (hasRestaurantStairs || barSeat.HasValue
+                || Vector2.Distance(routine.Route[routine.Route.Count - 1], destination) > 1f)
                 routine.Route.Add(destination);
             if (barSeat.HasValue)
                 routine.Route.Add(barSeat.Value);
+            if (hasRestaurantStairs)
+            {
+                routine.StairStartIndex = routine.Route.Count;
+                routine.Route.AddRange(routine.RestaurantStairs);
+                routine.StairEndIndex = routine.Route.Count;
+            }
 
             routine.RouteIndex = 0;
             routine.AtDestination = false;
@@ -927,7 +958,30 @@ namespace ResortEmpire.Gameplay.Integration
             routine.Tourist.transform.SetAsLastSibling();
             SetWalkingTouristScale(routine.Tourist);
             SetTouristPosition(routine);
+            if (leavingRestaurantStairs)
+            {
+                var touristRect = routine.Tourist.GetComponent<RectTransform>();
+                SetHorizontalFacing(touristRect, routine.Route[0].x - startPosition.x);
+                SetRestaurantStairLayer(touristRect, true);
+                SetWalkingPosition(touristRect, startPosition, true);
+            }
             SetTouristActive(routine.Tourist, !routine.HideFromStartUntilPortalExit);
+            return true;
+        }
+
+        private bool LoadRestaurantStairs(TouristRoutineState routine)
+        {
+            routine.RestaurantStairs.Clear();
+            if (restaurantStairRoutes == null
+                || !restaurantStairRoutes.TryGetWaypoints(touristContainer, routine.RestaurantStairs))
+                return false;
+
+            // Navigation positions use the tourist image's pivot. The stair markers
+            // describe where the tourist's feet touch the artwork.
+            var touristRect = routine.Tourist.GetComponent<RectTransform>();
+            var footOffset = Vector2.up * (-touristRect.rect.yMin * WalkingTouristScale);
+            for (var index = 0; index < routine.RestaurantStairs.Count; index++)
+                routine.RestaurantStairs[index] += footOffset;
             return true;
         }
 
@@ -1090,6 +1144,8 @@ namespace ResortEmpire.Gameplay.Integration
             if (rectTransform == null)
                 return;
 
+            var onRestaurantStairs = routine.IsOnRestaurantStairRoute;
+            SetRestaurantStairLayer(rectTransform, onRestaurantStairs);
             var target = routine.Route[Mathf.Clamp(routine.RouteIndex, 0, routine.Route.Count - 1)];
             var current = routine.PathPosition;
             var next = Vector2.MoveTowards(current, target, walkSpeed * deltaTime);
@@ -1099,14 +1155,14 @@ namespace ResortEmpire.Gameplay.Integration
             bool reachedTarget = Vector2.Distance(next, target) <= 0.75f;
 
             var renderedPosition = next;
-            renderedPosition.y += Mathf.Sin((Time.unscaledTime + routine.RoutineIndex) * idleBobSpeed) * idleBobHeight;
-
-            rectTransform.anchoredPosition = renderedPosition;
+            var bob = Mathf.Sin((Time.unscaledTime + routine.RoutineIndex) * idleBobSpeed) * idleBobHeight;
+            renderedPosition.y += onRestaurantStairs ? Mathf.Abs(bob) * 0.25f : bob;
+            SetWalkingPosition(rectTransform, renderedPosition, onRestaurantStairs);
             if (!reachedTarget)
                 return;
 
             routine.PathPosition = target;
-            rectTransform.anchoredPosition = target;
+            SetWalkingPosition(rectTransform, target, onRestaurantStairs);
             routine.RouteIndex++;
             if (routine.RouteIndex == routine.PortalExitRouteIndex)
             {
@@ -1133,7 +1189,9 @@ namespace ResortEmpire.Gameplay.Integration
 
             if (routine.Activity == TouristActivity.HideInside)
             {
-                var entryPoint = GetEntryPoint(routine.RoutineIndex);
+                var entryPoint = routine.RoutineIndex == 2 && routine.RestaurantStairs.Count > 0
+                    ? null
+                    : GetEntryPoint(routine.RoutineIndex);
                 if (entryPoint != null)
                 {
                     routine.PathPosition = GetPointPosition(entryPoint);
@@ -1175,6 +1233,9 @@ namespace ResortEmpire.Gameplay.Integration
         {
             var departurePosition = GetDeparturePosition(routine);
             var navigationDeparturePosition = departurePosition;
+            var leavingRestaurantStairs = routine.RoutineIndex == 2 && routine.RestaurantStairs.Count > 0;
+            if (leavingRestaurantStairs)
+                navigationDeparturePosition = GetPointPosition(restaurantPoint);
             if (routine.RoutineIndex == 1 && barSeatPoint != null)
                 navigationDeparturePosition = GetBarApproachPosition(departurePosition);
 
@@ -1182,7 +1243,7 @@ namespace ResortEmpire.Gameplay.Integration
                 ReleaseBarSeat(routine);
             routine.Tourist.transform.SetParent(touristContainer, false);
             routine.RoutineIndex = (routine.RoutineIndex + 1) % 3;
-            if (!PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition))
+            if (!PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition, leavingRestaurantStairs))
             {
                 routine.AtDestination = false;
                 routine.Completed = true;
@@ -1197,6 +1258,9 @@ namespace ResortEmpire.Gameplay.Integration
 
             if (routine.RoutineIndex == 2)
             {
+                if (routine.RestaurantStairs.Count > 0)
+                    return routine.RestaurantStairs[routine.RestaurantStairs.Count - 1];
+
                 // Restaurant guests are hidden at the entrance while inside.
                 // Reappearing at the visual restaurant point would place the
                 // NPC inside the building and make its exit cross the artwork
@@ -1518,7 +1582,7 @@ namespace ResortEmpire.Gameplay.Integration
             {
                 var routine = touristRoutines[index];
                 if (routine == null || routine.Completed || routine.AtDestination
-                    || routine.RoutineIndex == 1)
+                    || routine.RoutineIndex == 1 || routine.IsOnRestaurantStairRoute)
                 {
                     continue;
                 }
@@ -1528,6 +1592,41 @@ namespace ResortEmpire.Gameplay.Integration
             }
 
             return false;
+        }
+
+        private void SetRestaurantStairLayer(RectTransform tourist, bool foreground)
+        {
+            if (restaurantStairRoutes == null)
+                return;
+
+            var stairLayer = restaurantStairRoutes.transform;
+            if (foreground && tourist.parent != stairLayer)
+                tourist.SetParent(stairLayer, true);
+            else if (!foreground && tourist.parent == stairLayer)
+                tourist.SetParent(touristContainer, true);
+        }
+
+        private void SetWalkingPosition(RectTransform tourist, Vector2 position, bool onRestaurantStairs)
+        {
+            if (!onRestaurantStairs)
+            {
+                tourist.anchoredPosition = position;
+                return;
+            }
+
+            tourist.position = touristContainer.TransformPoint(position);
+
+            // Draw the guest farther down the stairs in front when two guests pass.
+            var layer = tourist.parent;
+            var current = tourist.GetSiblingIndex();
+            var index = current;
+            var height = tourist.localPosition.y;
+            while (index > 0 && layer.GetChild(index - 1).localPosition.y < height)
+                index--;
+            while (index < layer.childCount - 1 && layer.GetChild(index + 1).localPosition.y > height)
+                index++;
+            if (index != current)
+                tourist.SetSiblingIndex(index);
         }
 
         private void SetTouristEntryRenderLayer(bool foreground)

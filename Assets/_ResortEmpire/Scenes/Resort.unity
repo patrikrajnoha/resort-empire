@@ -15988,6 +15988,7 @@ MonoBehaviour:
   barSeatPoint: {fileID: 3100000031}
   barSeatOverlay: {fileID: 1943521883}
   restaurantPoint: {fileID: 3100000033}
+  restaurantStairRoutes: {fileID: 936698351274257530}
   touristPrefab: {fileID: 6377718088575244305, guid: 666639eb3f355d443a21676ad6f88c28, type: 3}
   touristSprites:
   - {fileID: -3819529541047142902, guid: 71f2273f7a1b44c418e9fa67f3dedda3, type: 3}
@@ -16273,6 +16274,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7224019723247449053, guid: f0c0968b4fec5f94992fb611c7cf58e4, type: 3}
   m_PrefabInstance: {fileID: 936698351274257525}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &936698351274257530 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7927524546507464714, guid: f0c0968b4fec5f94992fb611c7cf58e4, type: 3}
+  m_PrefabInstance: {fileID: 936698351274257525}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f557055e7111ea498546ffb97cb837d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.RestaurantStairRoutes
 --- !u!1001 &2003599915899978087
 PrefabInstance:
   m_ObjectHideFlags: 0
