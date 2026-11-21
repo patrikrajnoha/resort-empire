@@ -1,5 +1,108 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1375501723795933654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7820236898853619197}
+  - component: {fileID: 773881859184528395}
+  m_Layer: 0
+  m_Name: RestaurantDiningSeatTemplate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &7820236898853619197
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375501723795933654}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7841540034871187160}
+  - {fileID: 152905217132774245}
+  m_Father: {fileID: 2019955062023689053}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &773881859184528395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375501723795933654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8090537ab5aa52f42be74ec961dbf528, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.RestaurantDiningVisual
+  portrait: {fileID: 5130695004970247089}
+  mealCue: {fileID: 6947208548634533342}
+--- !u!1 &3928026692270289207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7841540034871187160}
+  - component: {fileID: 2384481045114892732}
+  m_Layer: 0
+  m_Name: Head and Shoulders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7841540034871187160
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928026692270289207}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7843614517297702318}
+  m_Father: {fileID: 7820236898853619197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 23.5, y: 20}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &2384481045114892732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928026692270289207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &5212487792682703899
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,6 +114,7 @@ GameObject:
   - component: {fileID: 6864872552343907285}
   - component: {fileID: 951509979892755888}
   - component: {fileID: 8640820182547613191}
+  - component: {fileID: 7927524546507464714}
   m_Layer: 0
   m_Name: RestaurantSprite
   m_TagString: Untagged
@@ -75,6 +179,78 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7927524546507464714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212487792682703899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f557055e7111ea498546ffb97cb837d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.RestaurantStairRoutes
+  routes:
+  - Sprite: {fileID: 21300000, guid: 4e0296955a106744cbd6c2ce271c7f36, type: 3}
+    Waypoints:
+    - {x: 0.9401914, y: 0.16108453}
+    - {x: 0.92264754, y: 0.20733653}
+    - {x: 0.9035088, y: 0.24641149}
+    - {x: 0.8811802, y: 0.284689}
+    - {x: 0.8580542, y: 0.32057416}
+    - {x: 0.83253586, y: 0.35645932}
+    - {x: 0.8118022, y: 0.3891547}
+    DiningTables:
+    - Seat: {x: 0.6259968, y: 0.4449761}
+      Scale: 1
+    - Seat: {x: 0.4186603, y: 0.4138756}
+      Scale: 0.92
+      FaceLeft: 1
+    - Seat: {x: 0.7089314, y: 0.4202552}
+      Scale: 0.92
+      FaceLeft: 1
+    - Seat: {x: 0.3014354, y: 0.45374802}
+      Scale: 0.93
+  - Sprite: {fileID: 21300000, guid: caf8bfe3da34bbf42a2e31857f4aa65f, type: 3}
+    Waypoints:
+    - {x: 0.94896334, y: 0.1275917}
+    - {x: 0.9338118, y: 0.17065391}
+    - {x: 0.9130781, y: 0.20893142}
+    - {x: 0.8883573, y: 0.24880382}
+    - {x: 0.8644338, y: 0.2830941}
+    - {x: 0.84051037, y: 0.32216907}
+    - {x: 0.8277512, y: 0.3460925}
+    DiningTables:
+    - Seat: {x: 0.6905901, y: 0.40111643}
+      Scale: 1
+    - Seat: {x: 0.21132377, y: 0.4417863}
+      Scale: 0.94
+    - Seat: {x: 0.4090909, y: 0.40430623}
+      Scale: 0.93
+    - Seat: {x: 0.30622008, y: 0.54066986}
+      Scale: 0.67
+  - Sprite: {fileID: 21300000, guid: 199f88c4544df4d44827740d10a0d164, type: 3}
+    Waypoints:
+    - {x: 0.9497608, y: 0.068580545}
+    - {x: 0.93460923, y: 0.10845295}
+    - {x: 0.91626793, y: 0.1475279}
+    - {x: 0.8979266, y: 0.18819776}
+    - {x: 0.8748006, y: 0.22647528}
+    - {x: 0.8548644, y: 0.261563}
+    - {x: 0.85087717, y: 0.29744816}
+    DiningTables:
+    - Seat: {x: 0.6969697, y: 0.36124402}
+      Scale: 1
+    - Seat: {x: 0.2185008, y: 0.42264754}
+      Scale: 0.94
+    - Seat: {x: 0.47767144, y: 0.35007975}
+      Scale: 0.92
+    - Seat: {x: 0.23046252, y: 0.6985646}
+      Scale: 0.85
+    - Seat: {x: 0.3692185, y: 0.4617225}
+      Scale: 0.72
+  diningSeatTemplate: {fileID: 773881859184528395}
 --- !u!1 &6697906691300926590
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,5 +372,156 @@ Transform:
   m_Children:
   - {fileID: 5724505168940975063}
   - {fileID: 6864872552343907285}
+  - {fileID: 7820236898853619197}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8781847263596744286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152905217132774245}
+  - component: {fileID: 2107983729746932864}
+  - component: {fileID: 6947208548634533342}
+  m_Layer: 0
+  m_Name: Meal Cue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &152905217132774245
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781847263596744286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7820236898853619197}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 14, y: 15}
+  m_SizeDelta: {x: 12, y: 12}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2107983729746932864
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781847263596744286}
+  m_CullTransparentMesh: 1
+--- !u!114 &6947208548634533342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781847263596744286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 88293efa84e72ed4ba19dbf30c006fdb, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8821105270908285826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7843614517297702318}
+  - component: {fileID: 1009417301318636942}
+  - component: {fileID: 5130695004970247089}
+  m_Layer: 0
+  m_Name: Guest Portrait
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7843614517297702318
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821105270908285826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7841540034871187160}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 18}
+  m_SizeDelta: {x: 21, y: 25}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!222 &1009417301318636942
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821105270908285826}
+  m_CullTransparentMesh: 1
+--- !u!114 &5130695004970247089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821105270908285826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
