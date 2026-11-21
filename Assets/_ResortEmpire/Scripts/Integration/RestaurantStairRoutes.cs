@@ -15,13 +15,43 @@ namespace ResortEmpire.Gameplay.Integration
             public Sprite Sprite;
             [Tooltip("Foot positions from the bottom of the exterior stairs to the landing, normalized within the sprite.")]
             public Vector2[] Waypoints;
+            [Tooltip("Bottom edge of the seated guest at the right table, normalized within the sprite.")]
+            public Vector2 DiningSeat;
         }
 
         [SerializeField] private StairRoute[] routes;
+        [SerializeField] private RestaurantDiningVisual diningVisual;
+
+        internal RestaurantDiningVisual DiningVisual => diningVisual;
 
         internal bool TryGetWaypoints(Transform coordinateSpace, List<Vector2> waypoints)
         {
             waypoints.Clear();
+            if (!TryGetLayout(out var route, out var rect) || route.Waypoints == null || route.Waypoints.Length < 3)
+                return false;
+
+            foreach (var waypoint in route.Waypoints)
+            {
+                var localPoint = Rect.NormalizedToPoint(rect, waypoint);
+                waypoints.Add(coordinateSpace.InverseTransformPoint(transform.TransformPoint(localPoint)));
+            }
+            return true;
+        }
+
+        internal bool TryGetDiningSeat(out Vector3 worldPosition)
+        {
+            worldPosition = default;
+            if (!TryGetLayout(out var route, out var rect) || route.DiningSeat == Vector2.zero)
+                return false;
+
+            worldPosition = transform.TransformPoint(Rect.NormalizedToPoint(rect, route.DiningSeat));
+            return true;
+        }
+
+        private bool TryGetLayout(out StairRoute activeRoute, out Rect rect)
+        {
+            activeRoute = default;
+            rect = default;
             var image = GetComponent<Image>();
             var sprite = image.overrideSprite;
             if (sprite == null || routes == null)
@@ -29,10 +59,10 @@ namespace ResortEmpire.Gameplay.Integration
 
             foreach (var route in routes)
             {
-                if (route.Sprite != sprite || route.Waypoints == null || route.Waypoints.Length < 3)
+                if (route.Sprite != sprite)
                     continue;
 
-                var rect = image.GetPixelAdjustedRect();
+                rect = image.GetPixelAdjustedRect();
                 if (image.preserveAspect)
                 {
                     var size = sprite.rect.size;
@@ -42,11 +72,7 @@ namespace ResortEmpire.Gameplay.Integration
                     rect.size = fittedSize;
                 }
 
-                foreach (var waypoint in route.Waypoints)
-                {
-                    var localPoint = Rect.NormalizedToPoint(rect, waypoint);
-                    waypoints.Add(coordinateSpace.InverseTransformPoint(transform.TransformPoint(localPoint)));
-                }
+                activeRoute = route;
                 return true;
             }
 

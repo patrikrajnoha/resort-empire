@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using ResortEmpire.Gameplay;
@@ -531,25 +532,39 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(smoke.GetComponentsInChildren<Image>(), Is.Empty);
         }
 
-        [TestCase(1, 766)]
-        [TestCase(2, 820)]
-        [TestCase(3, 881)]
-        public void RestaurantGuestsClimbAndDescendTheStairsForTheCurrentSprite(int level, int landingPixelY)
+        [TestCase(1, 766, 696)]
+        [TestCase(2, 820, 751)]
+        [TestCase(3, 881, 801)]
+        public void RestaurantGuestsVisitTheTableBetweenClimbingAndDescendingTheStairs(
+            int level, int landingPixelY, int diningSeatPixelY)
         {
             const string root = "Assets/_ResortEmpire/";
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(root + "Prefabs/Buildings/Restaurant.prefab");
             var restaurant = Object.Instantiate(prefab, islandBaseObject.transform, false);
             var stairs = restaurant.GetComponentInChildren<RestaurantStairRoutes>();
             var restaurantImage = stairs.GetComponent<Image>();
+            var dining = restaurant.GetComponentInChildren<RestaurantDiningVisual>(true);
+            Assert.That(dining.gameObject.activeSelf, Is.False);
+            var portrait = (Image)GetPrivateField(dining, "portrait");
+            var cue = (Image)GetPrivateField(dining, "mealCue");
+            Assert.That(portrait.GetComponentInParent<RectMask2D>(true), Is.Not.Null);
+            var touristSprites = AssetDatabase.LoadAllAssetRepresentationsAtPath(
+                    root + "Art/Shared/WorldAndUI/Characters/Tourists/tourists-atlas.png")
+                .OfType<Sprite>()
+                .ToArray();
+            Assert.That(touristSprites.Length, Is.GreaterThan(3));
             var restaurantApproach = (RectTransform)GetPrivateField(spawner, "restaurantPoint");
             restaurantApproach.anchoredPosition = new Vector2(480f, -100f);
             touristPrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(40f, 48f);
             SetPrivateField(spawner, "restaurantStairRoutes", stairs);
             SetPrivateField(spawner, "touristCount", 6);
+            SetPrivateField(spawner, "touristSprites", touristSprites);
 
             var setWaveVisibility = FindPrivateMethod("SetWaveVisibility", 1);
             var move = FindPrivateMethod("MoveAlongRoutine", 2);
             var advance = FindPrivateMethod("AdvanceRoutine", 1);
+            var tickDining = typeof(RestaurantDiningVisual).GetMethod("Advance", BindingFlags.Instance | BindingFlags.NonPublic);
+            var showDiner = typeof(RestaurantDiningVisual).GetMethod("Show", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Start and clean up a wave at the prefab's initial level. The next
             // wave must use the sprite now shown by the same restaurant instance.
@@ -613,7 +628,24 @@ namespace ResortEmpire.Gameplay.Tests
                 var footPixelY = (spriteRect.yMax - localFoot.y) / spriteRect.height * restaurantImage.sprite.rect.height;
                 Assert.That(footPixelY, Is.EqualTo(landingPixelY).Within(0.01f));
 
+                Assert.That(dining.gameObject.activeInHierarchy, Is.True);
+                Assert.That(portrait.sprite, Is.SameAs(tourist.GetComponent<Image>().sprite));
+                Assert.That(cue.gameObject.activeSelf, Is.True);
+                var seat = restaurantImage.rectTransform.InverseTransformPoint(dining.transform.position);
+                var seatPixelY = (spriteRect.yMax - seat.y) / spriteRect.height * restaurantImage.sprite.rect.height;
+                Assert.That(seatPixelY, Is.EqualTo(diningSeatPixelY).Within(0.01f));
+
+                var otherTourist = (GameObject)GetPrivateField(routines[index == 2 ? 5 : 2], "Tourist");
+                showDiner.Invoke(dining, new object[] { otherTourist, Vector3.zero });
+                Assert.That(portrait.sprite, Is.SameAs(tourist.GetComponent<Image>().sprite));
+                var portraitHeight = portrait.rectTransform.anchoredPosition.y;
+                tickDining.Invoke(dining, new object[] { 0.7f });
+                Assert.That(portrait.rectTransform.anchoredPosition.y, Is.LessThan(portraitHeight));
+                tickDining.Invoke(dining, new object[] { 0.3f });
+                Assert.That(cue.gameObject.activeSelf, Is.False);
+
                 advance.Invoke(spawner, new[] { routine });
+                Assert.That(dining.gameObject.activeSelf, Is.False);
                 Assert.That(tourist.activeSelf, Is.True);
                 Assert.That(rect.localScale.x, Is.GreaterThan(0f));
                 var departure = (Vector2)containerObject.transform.InverseTransformPoint(rect.position);

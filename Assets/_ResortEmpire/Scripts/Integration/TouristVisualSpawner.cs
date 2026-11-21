@@ -202,6 +202,9 @@ namespace ResortEmpire.Gameplay.Integration
         private IslandNavigationMap navigationMap;
         private IslandNavigationMap restaurantRouteMap;
 
+        private RestaurantDiningVisual RestaurantDining =>
+            restaurantStairRoutes != null ? restaurantStairRoutes.DiningVisual : null;
+
         /// <summary>Number of tourist visuals assigned to the current wave.</summary>
         public int ActiveTouristCount { get; private set; }
 
@@ -796,6 +799,9 @@ namespace ResortEmpire.Gameplay.Integration
         {
             if (entranceSmoke != null)
                 entranceSmoke.Clear();
+            var dining = RestaurantDining;
+            if (dining != null)
+                dining.Clear();
             for (var index = 0; index < pooledTourists.Count; index++)
             {
                 if (pooledTourists[index] != null)
@@ -814,6 +820,9 @@ namespace ResortEmpire.Gameplay.Integration
             var deltaTime = Time.unscaledDeltaTime;
             if (entranceSmoke != null)
                 entranceSmoke.Advance(deltaTime);
+            var dining = RestaurantDining;
+            if (dining != null)
+                dining.Advance(deltaTime);
             for (var index = 0; index < touristRoutines.Count; index++)
             {
                 var routine = touristRoutines[index];
@@ -841,6 +850,8 @@ namespace ResortEmpire.Gameplay.Integration
                     routine.DwellRemaining -= deltaTime;
                     if (routine.DwellRemaining <= 0f)
                         AdvanceRoutine(routine);
+                    else if (routine.RoutineIndex == 2 && routine.DwellRemaining >= 0.6f)
+                        TryShowRestaurantDiner(routine);
                     continue;
                 }
 
@@ -1206,6 +1217,8 @@ namespace ResortEmpire.Gameplay.Integration
                 }
 
                 HideAtBuildingEntrance(routine);
+                if (routine.RoutineIndex == 2)
+                    TryShowRestaurantDiner(routine);
                 return;
             }
 
@@ -1220,6 +1233,13 @@ namespace ResortEmpire.Gameplay.Integration
 
                 PlaceRoutineAtBarSeat(routine);
             }
+        }
+
+        private void TryShowRestaurantDiner(TouristRoutineState routine)
+        {
+            var dining = RestaurantDining;
+            if (dining != null && !dining.IsOccupied && restaurantStairRoutes.TryGetDiningSeat(out var seat))
+                dining.Show(routine.Tourist, seat);
         }
 
         private void HideAtBuildingEntrance(TouristRoutineState routine)
@@ -1261,6 +1281,12 @@ namespace ResortEmpire.Gameplay.Integration
 
             if (routine.RoutineIndex == 1)
                 ReleaseBarSeat(routine);
+            if (routine.RoutineIndex == 2)
+            {
+                var dining = RestaurantDining;
+                if (dining != null)
+                    dining.Release(routine.Tourist);
+            }
             routine.Tourist.transform.SetParent(touristContainer, false);
             routine.RoutineIndex = (routine.RoutineIndex + 1) % 3;
             if (!PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition, leavingRestaurantStairs))
