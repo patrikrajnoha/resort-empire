@@ -204,6 +204,12 @@ MonoBehaviour:
     DiningTables:
     - Seat: {x: 0.6259968, y: 0.4449761}
       Scale: 1
+    - Seat: {x: 0.4186603, y: 0.4138756}
+      Scale: 0.92
+      FaceLeft: 1
+    - Seat: {x: 0.7089314, y: 0.4202552}
+      Scale: 0.92
+      FaceLeft: 1
     - Seat: {x: 0.3014354, y: 0.45374802}
       Scale: 0.93
   - Sprite: {fileID: 21300000, guid: caf8bfe3da34bbf42a2e31857f4aa65f, type: 3}

@@ -631,7 +631,8 @@ namespace ResortEmpire.Gameplay.Tests
                 Assert.That(cue.gameObject.activeSelf, Is.True);
                 var seat = restaurantImage.rectTransform.InverseTransformPoint(dining.transform.position);
                 var seatPixelY = (spriteRect.yMax - seat.y) / spriteRect.height * restaurantImage.sprite.rect.height;
-                Assert.That(seatPixelY, Is.EqualTo(diningSeatPixelY).Within(0.01f));
+                if (index == 2)
+                    Assert.That(seatPixelY, Is.EqualTo(diningSeatPixelY).Within(0.01f));
 
                 var portraitHeight = portrait.rectTransform.anchoredPosition.y;
                 tickDining.Invoke(dining, new object[] { 0.7f });
@@ -669,7 +670,7 @@ namespace ResortEmpire.Gameplay.Tests
                 Assert.That(((GameObject)tourist).activeSelf, Is.False);
         }
 
-        [TestCase(1, 2)]
+        [TestCase(1, 4)]
         [TestCase(2, 4)]
         [TestCase(3, 5)]
         public void RestaurantFillsDistinctTablesAndReusesVacatedPlaces(int level, int tableCount)
@@ -710,6 +711,7 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(occupied.Select(seat => seat.transform.position).Distinct().Count(), Is.EqualTo(tableCount));
             var portraits = occupied.Select(seat => (Image)GetPrivateField(seat, "portrait")).ToArray();
             Assert.That(portraits.Select(image => image.sprite), Is.EquivalentTo(sprites.Take(tableCount)));
+            Assert.That(portraits.Count(image => image.rectTransform.localScale.x < 0f), Is.EqualTo(level == 1 ? 2 : 0));
             var freedSeat = occupied.Single(seat => ReferenceEquals(GetPrivateField(seat, "guest"), guests[0]));
             release.Invoke(stairs, new object[] { guests[0] });
             Assert.That(restaurant.GetComponentsInChildren<RestaurantDiningVisual>(), Has.Length.EqualTo(tableCount - 1));

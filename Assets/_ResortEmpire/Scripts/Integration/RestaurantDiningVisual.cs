@@ -16,12 +16,13 @@ namespace ResortEmpire.Gameplay.Integration
 
         private GameObject guest;
         private Vector2 portraitOrigin;
+        private float facing;
         private float elapsed;
 
         internal bool IsOccupied => guest != null;
         internal GameObject Guest => guest;
 
-        internal void Show(GameObject tourist, Vector3 worldPosition, float scale)
+        internal void Show(GameObject tourist, Vector3 worldPosition, float scale, bool faceLeft)
         {
             var touristImage = tourist.GetComponent<Image>();
             if (IsOccupied || portrait == null || touristImage == null || touristImage.sprite == null)
@@ -30,12 +31,19 @@ namespace ResortEmpire.Gameplay.Integration
             guest = tourist;
             portraitOrigin = portrait.rectTransform.anchoredPosition;
             portrait.sprite = touristImage.sprite;
+            facing = faceLeft ? -1f : 1f;
+            var portraitScale = portrait.rectTransform.localScale;
+            portraitScale.x = Mathf.Abs(portraitScale.x) * facing;
+            portrait.rectTransform.localScale = portraitScale;
             transform.position = worldPosition;
             transform.localScale = Vector3.one * scale;
             elapsed = 0f;
             gameObject.SetActive(true);
             if (mealCue != null)
             {
+                var cuePosition = mealCue.rectTransform.anchoredPosition;
+                cuePosition.x = Mathf.Abs(cuePosition.x) * facing;
+                mealCue.rectTransform.anchoredPosition = cuePosition;
                 mealCue.color = Color.white;
                 mealCue.gameObject.SetActive(true);
             }
@@ -49,7 +57,7 @@ namespace ResortEmpire.Gameplay.Integration
             elapsed += deltaTime;
             var bite = Mathf.Clamp01(Mathf.Repeat(elapsed + 0.85f, BiteInterval) / BiteDuration);
             var nod = Mathf.Sin(bite * Mathf.PI);
-            portrait.rectTransform.anchoredPosition = portraitOrigin + new Vector2(nod * 0.5f, -nod * 1.15f);
+            portrait.rectTransform.anchoredPosition = portraitOrigin + new Vector2(nod * 0.5f * facing, -nod * 1.15f);
             if (mealCue != null && mealCue.gameObject.activeSelf)
             {
                 var opacity = Mathf.Clamp01((MealCueDuration - elapsed) / 0.28f);

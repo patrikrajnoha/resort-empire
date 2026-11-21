@@ -15,6 +15,7 @@ namespace ResortEmpire.Gameplay.Integration
             [Tooltip("Bottom edge of the seated guest, normalized within the sprite.")]
             public Vector2 Seat;
             public float Scale;
+            public bool FaceLeft;
         }
 
         [Serializable]
@@ -23,7 +24,7 @@ namespace ResortEmpire.Gameplay.Integration
             public Sprite Sprite;
             [Tooltip("Foot positions from the bottom of the exterior stairs to the landing, normalized within the sprite.")]
             public Vector2[] Waypoints;
-            [Tooltip("Visible dining tables in the order that guests fill them.")]
+            [Tooltip("Visible seats at the dining tables.")]
             public DiningTable[] DiningTables;
         }
 
@@ -31,6 +32,7 @@ namespace ResortEmpire.Gameplay.Integration
         [SerializeField] private RestaurantDiningVisual diningSeatTemplate;
 
         private readonly List<RestaurantDiningVisual> diningSeats = new List<RestaurantDiningVisual>();
+        private int nextDiningSeat;
 
         internal bool TryGetWaypoints(Transform coordinateSpace, List<Vector2> waypoints)
         {
@@ -58,9 +60,11 @@ namespace ResortEmpire.Gameplay.Integration
             if (!TryGetLayout(out var route, out var rect) || route.DiningTables == null)
                 return;
 
-            for (var index = 0; index < route.DiningTables.Length; index++)
+            var seatCount = route.DiningTables.Length;
+            for (var offset = 0; offset < seatCount; offset++)
             {
-                if (index == diningSeats.Count)
+                var index = (nextDiningSeat + offset) % seatCount;
+                while (index >= diningSeats.Count)
                     diningSeats.Add(Instantiate(diningSeatTemplate, diningSeatTemplate.transform.parent, false));
 
                 var seat = diningSeats[index];
@@ -69,7 +73,9 @@ namespace ResortEmpire.Gameplay.Integration
 
                 var table = route.DiningTables[index];
                 var position = transform.TransformPoint(Rect.NormalizedToPoint(rect, table.Seat));
-                seat.Show(tourist, position, table.Scale);
+                seat.Show(tourist, position, table.Scale, table.FaceLeft);
+                if (seat.IsOccupied)
+                    nextDiningSeat = (index + 1) % seatCount;
                 return;
             }
         }
