@@ -11864,9 +11864,9 @@ MonoBehaviour:
     Images:
     - {fileID: 4280407748004495121}
     LevelSprites:
+    - {fileID: 21300000, guid: 140bdd4e9a1751643aa13c8fc4697f1d, type: 3}
     - {fileID: 2691542762508016377, guid: 16c3e9969d21a2944af0bc71def2c604, type: 3}
-    - {fileID: 2691542762508016377, guid: 16c3e9969d21a2944af0bc71def2c604, type: 3}
-    - {fileID: 2691542762508016377, guid: 16c3e9969d21a2944af0bc71def2c604, type: 3}
+    - {fileID: 21300000, guid: 1e709afa7bb8ca9449456bc835a73911, type: 3}
     PlotSprite: {fileID: -1232651308783453092, guid: eebe088cad70ee940a04b7cd387e6a55, type: 3}
 --- !u!114 &1582132212
 MonoBehaviour:
