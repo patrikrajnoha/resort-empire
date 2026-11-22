@@ -265,6 +265,7 @@ namespace ResortEmpire
 
         private void Update()
         {
+            if (ResortEmpire.Gameplay.Integration.DebugModalState.BlocksInput) return;
             if (targetCamera == null || boundsSource == null)
                 return;
 

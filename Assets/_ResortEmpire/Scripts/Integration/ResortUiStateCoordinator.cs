@@ -44,6 +44,11 @@ namespace ResortEmpire.Gameplay.Integration
 
         public bool IsPreviewOverrideActive => previewOverrideDepth > 0;
         public bool IsAreaUnlockOpen => areaUnlockWindow != null && areaUnlockWindow.activeInHierarchy;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        internal bool IsDebugHotkeyBlocked => IsPreviewOverrideActive || IsAreaUnlockOpen || IsWorkerAllocationOpen
+            || (waveCompleteWindow != null && waveCompleteWindow.activeInHierarchy)
+            || (upgradeSuggestionWindow != null && upgradeSuggestionWindow.activeInHierarchy);
+#endif
         /// <summary>Fixed move destination for S3. Null lets S3 use the single vacant building.</summary>
         public BuildingId? WorkerAllocationTarget { get; private set; }
         /// <summary>The service S3 was opened for, if any. It may already be staffed.</summary>
@@ -279,11 +284,11 @@ namespace ResortEmpire.Gameplay.Integration
             if (homeIslandView != null)
                 homeIslandView.SetActive(true);
 
-            bool showWavePanel =
+            bool showWavePanel = gameplayBootstrap?.IsAwaitingWaveResume != true && (
                 phase == GamePhase.WAVE_INCOMING ||
                 phase == GamePhase.WAVE_ACTIVE ||
                 phase == GamePhase.WAVE_PAUSED ||
-                phase == GamePhase.WAVE_RESOLVING;
+                phase == GamePhase.WAVE_RESOLVING);
 
             // Reset when entering a new wave.
             if (showWavePanel && !wasWaveVisible)

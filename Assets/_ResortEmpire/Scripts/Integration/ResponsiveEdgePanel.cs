@@ -161,6 +161,7 @@ namespace ResortEmpire.UI
 
         private void Update()
         {
+            if (ResortEmpire.Gameplay.Integration.DebugModalState.BlocksInput) { globalSwipeTracking = false; return; }
             PollReliableCloseSwipe();
 
             if (!Application.isPlaying || !Input.GetKeyDown(KeyCode.Escape))

@@ -1,4 +1,3 @@
-using System.IO;
 using ResortEmpire.Gameplay.Progression;
 using UnityEngine;
 
@@ -11,6 +10,6 @@ namespace ResortEmpire.Gameplay.Integration
         public ProgressionConfig ProgressionConfig => configuration == null
             ? throw new System.InvalidOperationException("Assign the economy configuration asset.") : configuration.CreateRuntimeConfig();
         public IProgressionPersistence CreatePersistence() =>
-            new JsonFileProgressionPersistence(Path.Combine(Application.persistentDataPath, "resort-progress-v1.json"));
+            SaveSlotStorage.CreateActivePersistence(Application.persistentDataPath);
     }
 }

@@ -6,6 +6,9 @@ using ResortEmpire.Gameplay.Staff;
 using ResortEmpire.Gameplay.Waves;
 using ResortEmpire.Gameplay.Progression;
 using UnityEngine;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+using UnityEngine.SceneManagement;
+#endif
 
 namespace ResortEmpire.Gameplay.Integration
 {
@@ -32,13 +35,20 @@ namespace ResortEmpire.Gameplay.Integration
         private WorkerManager workerManager;
         private WaveManager waveManager;
         private IWaveDefinitionProvider waveDefinitionProvider;
+        private ProgressionConfig progressionConfig;
         private string configurationDiagnostic;
         private bool runtimeInitialized;
         private ResortProgressionRuntime progression;
+        private IProgressionPersistence progressionPersistence;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private bool restarting;
+        private int debugSimulationSpeed = 1;
+#endif
         private bool applicationSuspended;
         private bool pausedByApplication;
 
         public bool IsConfigured => waveManager != null && workerManager != null;
+        public bool IsAwaitingWaveResume { get; private set; }
         public string ConfigurationDiagnostic => configurationDiagnostic;
         public GamePhase CurrentPhase => gameState == null ? GamePhase.AWAITING_WAVE : gameState.CurrentState;
         public double SimulationTime => simulationClock == null ? 0d : simulationClock.CurrentTime;
@@ -53,6 +63,7 @@ namespace ResortEmpire.Gameplay.Integration
         public string PersistenceDiagnostic => progression?.PersistenceDiagnostic;
         public int CompletedWaves => progression?.ClaimedWaves ?? 0;
         public int TotalWaves => progression?.TotalWaves ?? 0;
+        public ProgressionConfig ProgressionConfiguration => progressionConfig?.Copy();
         public int EnergyBoostCost => progression?.EnergyBoostCost ?? 0;
         public bool HasUsedEnergyBoost(BuildingId buildingId) => waveManager?.HasUsedServiceBoost(buildingId) ?? false;
         public double EnergyBoostRemaining(BuildingId buildingId) => waveManager?.ServiceBoostRemaining(buildingId) ?? 0d;
@@ -155,6 +166,14 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void Update()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (restarting) return;
+            if (!DebugModalState.BlocksInput && Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
+                return;
+            }
+#endif
             if (!IsConfigured || !advanceSimulation || applicationSuspended)
                 return;
 
@@ -165,8 +184,50 @@ namespace ResortEmpire.Gameplay.Integration
             if (deltaSeconds <= 0f)
                 return;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            AdvanceSimulation((double)deltaSeconds * debugSimulationSpeed);
+#else
             AdvanceSimulation(deltaSeconds);
+#endif
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private void RestartGame()
+        {
+            var scene = gameObject.scene;
+            if (!IsConfigured || progression == null || applicationSuspended || !scene.IsValid()
+                || scene.buildIndex < 0 || !Application.CanStreamedLevelBeLoaded(scene.buildIndex))
+            {
+                Debug.LogError("Cannot reset: gameplay is unavailable or the scene is not in Build Settings.", this);
+                return;
+            }
+
+            if (!(progressionPersistence is JsonFileProgressionPersistence slotPersistence))
+            {
+                Debug.LogError("Cannot reset: the active save slot cannot be verified.", this);
+                return;
+            }
+
+            var activeSlot = SaveSlotStorage.GetActiveSlot(Application.persistentDataPath);
+            var activePath = Path.GetFullPath(SaveSlotStorage.GetSlotPath(Application.persistentDataPath, activeSlot));
+            if (!string.Equals(slotPersistence.FilePath, activePath, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogError("Cannot reset: the loaded save does not match the active slot.", this);
+                return;
+            }
+
+            restarting = true;
+            if (!progression.TryPrepareNewGame())
+            {
+                restarting = false;
+                Debug.LogError(progression.LastCommandError ?? "Cannot save a fresh game.", this);
+                return;
+            }
+            advanceSimulation = false;
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(scene.buildIndex);
+        }
+#endif
 
         /// <summary>Also supports deterministic manual stepping in integration tests.</summary>
         public void AdvanceSimulation(double deltaSeconds)
@@ -176,6 +237,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void OnApplicationPause(bool paused)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (restarting) return;
+#endif
             if (applicationSuspended == paused) return;
             applicationSuspended = paused;
             if (!IsConfigured) return;
@@ -195,6 +259,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void OnApplicationQuit()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (restarting) return;
+#endif
             if (progression?.CanSaveActiveWave == true)
                 progression.TrySaveProgress();
         }
@@ -212,11 +279,17 @@ namespace ResortEmpire.Gameplay.Integration
             try
             {
                 var next = new ResortProgressionRuntime(config, persistence);
+                progressionPersistence = persistence;
+                progressionConfig = config.Copy();
                 progression = next;
                 gameState = next.State;
                 simulationClock = next.Clock;
                 workerManager = next.Workers;
                 waveManager = next.Waves;
+                // A checkpoint can restore an active wave before the scene has
+                // registered any listeners. Wait for the player to resume it.
+                IsAwaitingWaveResume = gameState.CurrentState == GamePhase.WAVE_ACTIVE
+                    && waveManager.TryPauseWave();
                 runtimeInitialized = true;
                 configurationDiagnostic = null;
                 gameState.StateChanged += HandleStateChanged;
@@ -234,6 +307,30 @@ namespace ResortEmpire.Gameplay.Integration
                 SetUnconfigured("Gameplay configuration failed: " + exception.Message);
                 return false;
             }
+        }
+
+        /// <summary>Rebinds the canonical runtime to a selected persistence slot between gameplay sessions.</summary>
+        public bool TryReloadProgression(IProgressionPersistence persistence)
+        {
+            if (persistence == null || progressionConfig == null)
+                return false;
+
+            var previousPhase = CurrentPhase;
+            DisposeRuntimeSubscriptions();
+            workerManager = null;
+            waveManager = null;
+            waveDefinitionProvider = null;
+            gameState = null;
+            simulationClock = null;
+            runtimeInitialized = false;
+            if (!TryConfigureProgression(progressionConfig, persistence))
+                return false;
+
+            if (previousPhase != CurrentPhase)
+                HandleStateChanged(previousPhase, CurrentPhase);
+            Notify(ResourcesChanged, Resources);
+            Notify(BuildingsChanged, Buildings);
+            return true;
         }
 
         // InvalidDataException (malformed or inconsistent save) is not an IOException.
@@ -367,6 +464,52 @@ namespace ResortEmpire.Gameplay.Integration
         public ResortGameplayCommandResult TryUpgradeBuilding(BuildingId buildingId) => ProgressionCommand(() => progression.TryUpgradeBuilding(buildingId));
         public ResortGameplayCommandResult TrySaveProgress() => ProgressionCommand(() => progression.TrySaveProgress());
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public ResortGameplayCommandResult TryDebugAddResources(int coins, int energy) =>
+            ProgressionCommand(() => progression.TryDebugAddResources(coins, energy));
+
+        internal ResortGameplayCommandResult TryDebugSetBuildingLevel(BuildingId? building, int level) =>
+            ProgressionCommand(() => progression.TryDebugSetBuildingLevel(building, level));
+        internal ResortGameplayCommandResult TryDebugUnlockAvailableBuildings() =>
+            ProgressionCommand(progression == null ? null : progression.TryDebugUnlockAvailableBuildings);
+        internal ResortGameplayCommandResult TryDebugResetWorkers() =>
+            ProgressionCommand(progression == null ? null : progression.TryDebugResetWorkers);
+        internal string DebugCheckpointStatus => progression?.DebugCheckpointStatus ?? "Unavailable";
+        internal int? DebugActiveSlot
+        {
+            get
+            {
+                if (!(progressionPersistence is JsonFileProgressionPersistence file)) return null;
+                var root = Application.persistentDataPath;
+                var slot = SaveSlotStorage.GetActiveSlot(root);
+                var path = Path.GetFullPath(SaveSlotStorage.GetSlotPath(root, slot));
+                return string.Equals(file.FilePath, path, StringComparison.Ordinal) ? slot : (int?)null;
+            }
+        }
+
+        internal ResortGameplayCommandResult TryDebugSetSimulationSpeed(int multiplier)
+        {
+            if (multiplier < 1 || multiplier > 3)
+                return ResortGameplayCommandResult.Rejected("Speed must be 1, 2 or 3.");
+            debugSimulationSpeed = multiplier;
+            return ResortGameplayCommandResult.Success();
+        }
+
+        internal ResortGameplayCommandResult TryDebugCompleteWave()
+        {
+            if (progression == null || applicationSuspended || restarting
+                || (CurrentPhase != GamePhase.WAVE_INCOMING && CurrentPhase != GamePhase.WAVE_ACTIVE))
+                return ResortGameplayCommandResult.Rejected("Start or resume a wave first.");
+            // Use the same deterministic arrival, service and completion path as normal play.
+            AdvanceSimulation(10000d);
+            if (CurrentPhase != GamePhase.WAVE_COMPLETE)
+                return ResortGameplayCommandResult.Rejected(waveManager.ConfigurationDiagnostic
+                    ?? "The wave did not finish within the simulation step.");
+            return progression.PersistenceDiagnostic == null ? ResortGameplayCommandResult.Success()
+                : ResortGameplayCommandResult.Unavailable(progression.PersistenceDiagnostic);
+        }
+#endif
+
 #if UNITY_EDITOR
         // Inspector actions exercise the real runtime while the presentation team wires buttons.
         [ContextMenu("Gameplay/Start Next Wave")]
@@ -434,6 +577,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void DisposeRuntimeSubscriptions()
         {
+            IsAwaitingWaveResume = false;
+            pausedByApplication = false;
+            progressionPersistence = null;
             if (progression != null)
             {
                 progression.ResourcesChanged -= HandleResourcesChanged;
@@ -456,6 +602,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
         {
+            if (nextState != GamePhase.WAVE_PAUSED)
+                IsAwaitingWaveResume = false;
+
             if (StateChanged == null) return;
             foreach (Action<GamePhase, GamePhase> handler in StateChanged.GetInvocationList())
                 try { handler(previousState, nextState); }

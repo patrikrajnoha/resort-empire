@@ -13,10 +13,15 @@ namespace ResortEmpire.Gameplay.Integration
     [DisallowMultipleComponent]
     public sealed class TouristVisualSpawner : MonoBehaviour
     {
+        private const int PoolDestination = 3;
+        private const int BungalowsDestination = 4;
+        private const int DestinationCount = 5;
+
         private enum TouristActivity
         {
             HideInside,
-            SitAtDestination
+            SitAtDestination,
+            RelaxInPool
         }
 
         private sealed class TouristRoutineState
@@ -41,6 +46,7 @@ namespace ResortEmpire.Gameplay.Integration
             public bool HideFromStartUntilPortalExit;
             public int BarSeatIndex = -1;
             public bool WaitingForBarSeat;
+            public RectTransform PoolSeat;
             public int StairStartIndex;
             public int StairEndIndex;
 
@@ -141,6 +147,24 @@ namespace ResortEmpire.Gameplay.Integration
 
         [SerializeField]
         private RectTransform restaurantPoint;
+
+        [SerializeField]
+        private RectTransform poolEntrancePoint;
+
+        [SerializeField, Tooltip("Sun lounger markers in Pool level order. Each marker's local Y points toward the headrest and its rect defines the resting pose size.")]
+        private RectTransform[] poolSeatLayouts;
+
+        [SerializeField, Min(0f)]
+        private float poolDwellSeconds = 14f;
+
+        [SerializeField]
+        private RectTransform bungalowsEntrancePoint;
+
+        [SerializeField]
+        private RectTransform poolNavigationObstacle;
+
+        [SerializeField]
+        private RectTransform bungalowsNavigationObstacle;
 
         [SerializeField]
         private RestaurantStairRoutes restaurantStairRoutes;
@@ -628,7 +652,18 @@ namespace ResortEmpire.Gameplay.Integration
                     StaggerDelay = index * 0.4f
                 };
                 var routineSpawnPosition = spawnPosition + GetSpawnSpreadOffset(routine.SpawnSlot);
-                if (!PrepareRoutine(routine, routineSpawnPosition, routine.StaggerDelay))
+                // Keep the original three arrivals and give the extra tourists
+                // direct routes to purchased buildings when those paths exist.
+                var hasRoute = false;
+                if (index == PoolDestination || index == BungalowsDestination)
+                {
+                    var defaultDestination = routine.RoutineIndex;
+                    routine.RoutineIndex = index;
+                    hasRoute = PrepareRoutine(routine, routineSpawnPosition, routine.StaggerDelay);
+                    if (!hasRoute)
+                        routine.RoutineIndex = defaultDestination;
+                }
+                if (!hasRoute && !PrepareRoutine(routine, routineSpawnPosition, routine.StaggerDelay))
                 {
                     SetTouristActive(tourist, false);
                     continue;
@@ -670,7 +705,17 @@ namespace ResortEmpire.Gameplay.Integration
             for (var index = 0; index < navigationObstacles.Count; index++)
                 AddNavigationObstacle(obstacles, navigationObstacles[index]);
             AddNavigationObstacle(obstacles, barNavigationObstacle);
+            AddDestinationObstacle(obstacles, poolNavigationObstacle);
+            AddDestinationObstacle(obstacles, bungalowsNavigationObstacle);
             return obstacles;
+        }
+
+        private void AddDestinationObstacle(
+            List<IslandNavigationMap.NavigationObstacle> obstacles,
+            RectTransform footprint)
+        {
+            if (footprint != null)
+                obstacles.Add(new IslandNavigationMap.NavigationObstacle(GetNavigationBounds(footprint), false));
         }
 
         private IReadOnlyList<Rect> GetNavigationWalkableAreas()
@@ -827,6 +872,13 @@ namespace ResortEmpire.Gameplay.Integration
                 if (routine.Completed)
                     continue;
 
+                if (routine.RoutineIndex >= PoolDestination && !IsDestinationAvailable(routine.RoutineIndex))
+                {
+                    CompleteRoutine(routine);
+                    SetTouristActive(routine.Tourist, false);
+                    continue;
+                }
+
                 if (routine.AtDestination)
                 {
                     if (routine.Activity == TouristActivity.SitAtDestination
@@ -875,10 +927,13 @@ namespace ResortEmpire.Gameplay.Integration
             routine.PortalExitRouteIndex = -1;
             routine.HideFromStartUntilPortalExit = false;
             int destinationIndex = routine.RoutineIndex;
+            var isPurchasedDestination = destinationIndex >= PoolDestination;
             routine.Activity = GetActivity(destinationIndex);
             var hasBarSeat = destinationIndex != 1 || TryReserveBarSeat(routine);
             routine.WaitingForBarSeat = destinationIndex == 1 && !hasBarSeat;
             var entryPoint = GetEntryPoint(destinationIndex);
+            if (isPurchasedDestination && (entryPoint == null || !IsDestinationAvailable(destinationIndex)))
+                return false;
             var barSeat = destinationIndex == 1 && hasBarSeat
                 ? (Vector2?)GetBarSeatPosition(routine.BarSeatIndex)
                 : null;
@@ -897,7 +952,10 @@ namespace ResortEmpire.Gameplay.Integration
             // Every Restaurant guest joins the authored approach behind
             // Reception. This prevents direct arrivals from choosing the
             // lower-beach shortcut around the palm and boulders.
-            var foundRoute = destinationIndex == 2
+            var foundRoute = isPurchasedDestination
+                ? navigationMap.IsWalkable(baseDestination)
+                    && navigationMap.TryFindPath(baseStart, baseDestination, baseRoute)
+                : destinationIndex == 2
                 ? TryBuildRestaurantRouteViaReceptionExit(
                     baseStart,
                     baseDestination,
@@ -913,6 +971,9 @@ namespace ResortEmpire.Gameplay.Integration
                     routine);
             if (!foundRoute)
             {
+                if (isPurchasedDestination)
+                    return false;
+
                 if (!TryBuildPortalRoute(baseStart, baseDestination, baseRoute, routine))
                 {
                     ReleaseBarSeat(routine);
@@ -1228,6 +1289,51 @@ namespace ResortEmpire.Gameplay.Integration
 
                 PlaceRoutineAtBarSeat(routine);
             }
+            else if (routine.Activity == TouristActivity.RelaxInPool)
+            {
+                routine.DwellRemaining = TryPlaceAtPoolSeat(routine) ? poolDwellSeconds : 0f;
+            }
+        }
+
+        private bool TryPlaceAtPoolSeat(TouristRoutineState routine)
+        {
+            var levelIndex = GetBuildingLevel(BuildingId.Pool) - 1;
+            if (poolSeatLayouts == null || levelIndex < 0 || levelIndex >= poolSeatLayouts.Length)
+                return false;
+
+            var layout = poolSeatLayouts[levelIndex];
+            if (layout == null || !layout.gameObject.activeInHierarchy)
+                return false;
+
+            for (var index = 0; index < layout.childCount; index++)
+            {
+                var seat = layout.GetChild(index) as RectTransform;
+                if (seat == null || !seat.gameObject.activeInHierarchy || IsPoolSeatOccupied(seat))
+                    continue;
+
+                routine.PoolSeat = seat;
+                var tourist = (RectTransform)routine.Tourist.transform;
+                tourist.SetParent(seat, false);
+                // The marker is aligned to the lounger. Fit the existing guest
+                // sprite inside its cushion without changing the walking pose.
+                tourist.localRotation = Quaternion.identity;
+                var scale = Mathf.Min(seat.rect.width / tourist.rect.width, seat.rect.height / tourist.rect.height);
+                tourist.localScale = Vector3.one * scale;
+                routine.PathPosition = Vector2.zero;
+                SetTouristPosition(routine);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsPoolSeatOccupied(RectTransform seat)
+        {
+            foreach (var routine in touristRoutines)
+                if (routine.PoolSeat == seat && routine.Tourist != null)
+                    return true;
+
+            return false;
         }
 
         private void HideAtBuildingEntrance(TouristRoutineState routine)
@@ -1259,6 +1365,7 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void AdvanceRoutine(TouristRoutineState routine)
         {
+            var leavingPool = routine.RoutineIndex == PoolDestination;
             var departurePosition = GetDeparturePosition(routine);
             var navigationDeparturePosition = departurePosition;
             var leavingRestaurantStairs = routine.RoutineIndex == 2 && routine.RestaurantStairs.Count > 0;
@@ -1271,20 +1378,28 @@ namespace ResortEmpire.Gameplay.Integration
                 ReleaseBarSeat(routine);
             if (routine.RoutineIndex == 2 && restaurantStairRoutes != null)
                 restaurantStairRoutes.ReleaseDiner(routine.Tourist);
+            routine.PoolSeat = null;
             routine.Tourist.transform.SetParent(touristContainer, false);
-            routine.RoutineIndex = (routine.RoutineIndex + 1) % 3;
-            if (!PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition, leavingRestaurantStairs))
+            do
             {
-                routine.AtDestination = false;
-                routine.Completed = true;
-                routine.DwellRemaining = 0f;
+                routine.RoutineIndex = (routine.RoutineIndex + 1) % DestinationCount;
+                if (PrepareRoutine(routine, departurePosition, 0f, navigationDeparturePosition, leavingRestaurantStairs))
+                    return;
             }
+            while (routine.RoutineIndex >= PoolDestination);
+
+            CompleteRoutine(routine);
+            if (leavingPool)
+                SetTouristActive(routine.Tourist, false);
         }
 
         private Vector2 GetDeparturePosition(TouristRoutineState routine)
         {
             if (routine.RoutineIndex == 0)
                 return GetPointPosition(receptionExitPoint);
+
+            if (routine.RoutineIndex == PoolDestination)
+                return GetPointPosition(poolEntrancePoint);
 
             if (routine.RoutineIndex == 2)
             {
@@ -1346,6 +1461,7 @@ namespace ResortEmpire.Gameplay.Integration
         private void CompleteRoutine(TouristRoutineState routine)
         {
             ReleaseBarSeat(routine);
+            routine.PoolSeat = null;
             routine.AtDestination = false;
             routine.Completed = true;
             routine.DwellRemaining = 0f;
@@ -1353,18 +1469,40 @@ namespace ResortEmpire.Gameplay.Integration
 
         private TouristActivity GetActivity(int destinationIndex)
         {
-            return destinationIndex == 1
-                ? TouristActivity.SitAtDestination
-                : TouristActivity.HideInside;
+            switch (destinationIndex)
+            {
+                case 1: return TouristActivity.SitAtDestination;
+                case PoolDestination: return TouristActivity.RelaxInPool;
+                default: return TouristActivity.HideInside;
+            }
         }
 
         private RectTransform GetEntryPoint(int destinationIndex)
         {
-            return destinationIndex == 0
-                ? GetReceptionEntryPoint()
-                : destinationIndex == 2
-                    ? restaurantEntryPoint
-                    : null;
+            switch (destinationIndex)
+            {
+                case 0: return GetReceptionEntryPoint();
+                case 2: return restaurantEntryPoint;
+                case PoolDestination: return poolEntrancePoint;
+                case BungalowsDestination: return bungalowsEntrancePoint;
+                default: return null;
+            }
+        }
+
+        private bool IsDestinationAvailable(int destinationIndex)
+        {
+            var buildings = gameplayFacade?.Buildings;
+            if (buildings == null)
+                return false;
+
+            var buildingId = destinationIndex == PoolDestination ? BuildingId.Pool : BuildingId.Bungalows;
+            for (var index = 0; index < buildings.Count; index++)
+            {
+                if (buildings[index].BuildingId == buildingId)
+                    return buildings[index].IsOwned;
+            }
+
+            return false;
         }
 
         private RectTransform GetReceptionEntryPoint()
