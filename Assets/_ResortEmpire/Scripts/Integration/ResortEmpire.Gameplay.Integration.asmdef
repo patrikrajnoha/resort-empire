@@ -5,7 +5,8 @@
         "ResortEmpire.Gameplay",
         "ResortEmpire.Gameplay.Waves",
         "ResortEmpire.Gameplay.Staff",
-        "ResortEmpire.Gameplay.Progression"
+        "ResortEmpire.Gameplay.Progression",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

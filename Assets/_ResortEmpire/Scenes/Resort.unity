@@ -1366,6 +1366,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1684704807}
+  - {fileID: 116906005}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -21081,6 +21082,108 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: ResortEmpire.Gameplay.Integration::ResortEmpire.Gameplay.Integration.TouristEntranceSmoke
   puffSprite: {fileID: 21300000, guid: 072d98982edb64e49ab5bb37f61ec0ec, type: 3}
+--- !u!1001 &116906004
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 187095323}
+    m_Modifications:
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8955224567993322446, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+      propertyPath: m_Name
+      value: SaveManagerPopup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+--- !u!224 &116906005 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4387547367006824088, guid: a8ca942e43598ec479944adad5d4d826, type: 3}
+  m_PrefabInstance: {fileID: 116906004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
