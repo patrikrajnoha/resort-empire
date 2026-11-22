@@ -284,11 +284,11 @@ namespace ResortEmpire.Gameplay.Integration
             if (homeIslandView != null)
                 homeIslandView.SetActive(true);
 
-            bool showWavePanel =
+            bool showWavePanel = gameplayBootstrap?.IsAwaitingWaveResume != true && (
                 phase == GamePhase.WAVE_INCOMING ||
                 phase == GamePhase.WAVE_ACTIVE ||
                 phase == GamePhase.WAVE_PAUSED ||
-                phase == GamePhase.WAVE_RESOLVING;
+                phase == GamePhase.WAVE_RESOLVING);
 
             // Reset when entering a new wave.
             if (showWavePanel && !wasWaveVisible)

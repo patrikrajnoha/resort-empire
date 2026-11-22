@@ -48,6 +48,7 @@ namespace ResortEmpire.Gameplay.Integration
         private bool pausedByApplication;
 
         public bool IsConfigured => waveManager != null && workerManager != null;
+        public bool IsAwaitingWaveResume { get; private set; }
         public string ConfigurationDiagnostic => configurationDiagnostic;
         public GamePhase CurrentPhase => gameState == null ? GamePhase.AWAITING_WAVE : gameState.CurrentState;
         public double SimulationTime => simulationClock == null ? 0d : simulationClock.CurrentTime;
@@ -285,6 +286,10 @@ namespace ResortEmpire.Gameplay.Integration
                 simulationClock = next.Clock;
                 workerManager = next.Workers;
                 waveManager = next.Waves;
+                // A checkpoint can restore an active wave before the scene has
+                // registered any listeners. Wait for the player to resume it.
+                IsAwaitingWaveResume = gameState.CurrentState == GamePhase.WAVE_ACTIVE
+                    && waveManager.TryPauseWave();
                 runtimeInitialized = true;
                 configurationDiagnostic = null;
                 gameState.StateChanged += HandleStateChanged;
@@ -310,6 +315,7 @@ namespace ResortEmpire.Gameplay.Integration
             if (persistence == null || progressionConfig == null)
                 return false;
 
+            var previousPhase = CurrentPhase;
             DisposeRuntimeSubscriptions();
             workerManager = null;
             waveManager = null;
@@ -317,7 +323,14 @@ namespace ResortEmpire.Gameplay.Integration
             gameState = null;
             simulationClock = null;
             runtimeInitialized = false;
-            return TryConfigureProgression(progressionConfig, persistence);
+            if (!TryConfigureProgression(progressionConfig, persistence))
+                return false;
+
+            if (previousPhase != CurrentPhase)
+                HandleStateChanged(previousPhase, CurrentPhase);
+            Notify(ResourcesChanged, Resources);
+            Notify(BuildingsChanged, Buildings);
+            return true;
         }
 
         // InvalidDataException (malformed or inconsistent save) is not an IOException.
@@ -564,6 +577,8 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void DisposeRuntimeSubscriptions()
         {
+            IsAwaitingWaveResume = false;
+            pausedByApplication = false;
             progressionPersistence = null;
             if (progression != null)
             {
@@ -587,6 +602,9 @@ namespace ResortEmpire.Gameplay.Integration
 
         private void HandleStateChanged(GamePhase previousState, GamePhase nextState)
         {
+            if (nextState != GamePhase.WAVE_PAUSED)
+                IsAwaitingWaveResume = false;
+
             if (StateChanged == null) return;
             foreach (Action<GamePhase, GamePhase> handler in StateChanged.GetInvocationList())
                 try { handler(previousState, nextState); }
