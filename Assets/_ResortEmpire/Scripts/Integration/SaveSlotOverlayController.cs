@@ -80,7 +80,7 @@ namespace ResortEmpire.Gameplay.Integration
         /// <summary>Entry point for a future Pause Menu; the Save button writes only the active slot.</summary>
         public void OpenPauseSaveSlotSelection()
         {
-            Open("Active save slot: " + SaveSlotStorage.GetActiveSlot(Application.persistentDataPath));
+            Open("Active save slot: " + SaveSlotStorage.GetActiveSlot(ResortSaveLocation.Root));
         }
 
         /// <summary>Default future-menu entry point; opens the popup without changing game state.</summary>
@@ -258,9 +258,9 @@ namespace ResortEmpire.Gameplay.Integration
                 var activeSave = bootstrap == null ? default : bootstrap.TrySaveProgress();
                 if (!activeSave.Succeeded && bootstrap != null)
                     throw new InvalidOperationException(activeSave.Message);
-                if (bootstrap == null || !bootstrap.TryReloadProgression(SaveSlotStorage.CreatePersistence(Application.persistentDataPath, selectedSlot)))
+                if (bootstrap == null || !bootstrap.TryReloadProgression(SaveSlotStorage.CreatePersistence(ResortSaveLocation.Root, selectedSlot)))
                     throw new InvalidOperationException("Gameplay runtime could not be rebound to this save slot.");
-                SaveSlotStorage.SetActiveSlot(Application.persistentDataPath, selectedSlot);
+                SaveSlotStorage.SetActiveSlot(ResortSaveLocation.Root, selectedSlot);
                 Close();
             }
             catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException || exception is InvalidOperationException)
@@ -273,7 +273,7 @@ namespace ResortEmpire.Gameplay.Integration
         {
             if (bootstrap == null) { message.text = "Gameplay runtime is unavailable."; return; }
             var result = bootstrap.TrySaveProgress();
-            message.text = result.Succeeded ? "Saved Slot " + SaveSlotStorage.GetActiveSlot(Application.persistentDataPath) + "." : result.Message;
+            message.text = result.Succeeded ? "Saved Slot " + SaveSlotStorage.GetActiveSlot(ResortSaveLocation.Root) + "." : result.Message;
             Refresh();
         }
 
@@ -291,7 +291,7 @@ namespace ResortEmpire.Gameplay.Integration
         {
             if (pendingAction == PendingAction.Overwrite) { ActivateNewSlot(); return; }
             if (pendingAction != PendingAction.Delete) return;
-            SaveSlotStorage.TryDeleteInactiveSlot(Application.persistentDataPath, selectedSlot);
+            SaveSlotStorage.TryDeleteInactiveSlot(ResortSaveLocation.Root, selectedSlot);
             pendingAction = PendingAction.None;
             message.text = "Slot " + selectedSlot + " deleted.";
             Refresh();
@@ -309,10 +309,10 @@ namespace ResortEmpire.Gameplay.Integration
             try
             {
                 if (pendingAction == PendingAction.Overwrite)
-                    SaveSlotStorage.ClearSlotForConfirmedOverwrite(Application.persistentDataPath, selectedSlot);
+                    SaveSlotStorage.ClearSlotForConfirmedOverwrite(ResortSaveLocation.Root, selectedSlot);
                 else
-                    SaveSlotStorage.SetActiveSlot(Application.persistentDataPath, selectedSlot);
-                if (bootstrap == null || !bootstrap.TryReloadProgression(SaveSlotStorage.CreatePersistence(Application.persistentDataPath, selectedSlot)))
+                    SaveSlotStorage.SetActiveSlot(ResortSaveLocation.Root, selectedSlot);
+                if (bootstrap == null || !bootstrap.TryReloadProgression(SaveSlotStorage.CreatePersistence(ResortSaveLocation.Root, selectedSlot)))
                     throw new InvalidOperationException("Gameplay runtime could not create the new save slot.");
                 Close();
             }
@@ -327,7 +327,7 @@ namespace ResortEmpire.Gameplay.Integration
             var configuration = bootstrap == null ? null : bootstrap.ProgressionConfiguration;
             return configuration == null
                 ? new SaveSlotMetadata(slot, SaveSlotStatus.Corrupted, 0, default, false)
-                : SaveSlotStorage.GetMetadata(Application.persistentDataPath, slot, configuration);
+                : SaveSlotStorage.GetMetadata(ResortSaveLocation.Root, slot, configuration);
         }
 
         private void Refresh()

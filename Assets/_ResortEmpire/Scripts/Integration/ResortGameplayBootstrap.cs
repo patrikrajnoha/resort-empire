@@ -208,8 +208,8 @@ namespace ResortEmpire.Gameplay.Integration
                 return;
             }
 
-            var activeSlot = SaveSlotStorage.GetActiveSlot(Application.persistentDataPath);
-            var activePath = Path.GetFullPath(SaveSlotStorage.GetSlotPath(Application.persistentDataPath, activeSlot));
+            var activeSlot = SaveSlotStorage.GetActiveSlot(ResortSaveLocation.Root);
+            var activePath = Path.GetFullPath(SaveSlotStorage.GetSlotPath(ResortSaveLocation.Root, activeSlot));
             if (!string.Equals(slotPersistence.FilePath, activePath, StringComparison.OrdinalIgnoreCase))
             {
                 Debug.LogError("Cannot reset: the loaded save does not match the active slot.", this);
@@ -480,7 +480,7 @@ namespace ResortEmpire.Gameplay.Integration
             get
             {
                 if (!(progressionPersistence is JsonFileProgressionPersistence file)) return null;
-                var root = Application.persistentDataPath;
+                var root = ResortSaveLocation.Root;
                 var slot = SaveSlotStorage.GetActiveSlot(root);
                 var path = Path.GetFullPath(SaveSlotStorage.GetSlotPath(root, slot));
                 return string.Equals(file.FilePath, path, StringComparison.Ordinal) ? slot : (int?)null;

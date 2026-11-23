@@ -25,7 +25,8 @@ when the phase no longer allows them.
 
 | Screen | Presenter | Behavior |
 | --- | --- | --- |
-| S1 `HomeIslandView` | `HomeIslandPresenter` | Coins, Energy, Resort Value, next-wave forecast, `START WAVE n`. H/R/B markers open S3; the `+` marker follows the eligible plot and opens S9. The VIP button is hidden (MVP only). |
+| Main Menu (`MainMenu.unity`) | `MainMenuController` | CONTINUE and NEW GAME. See [Main Menu](#main-menu). |
+| S1 `HomeIslandView` | `HomeIslandPresenter` | Coins, Energy, Resort Value, next-wave forecast, `START WAVE n`. H/R/B markers open S3; the `+` marker follows the eligible plot and opens S9. The VIP button is hidden (MVP only). MENU (between waves only) returns to the Main Menu. |
 | Island art | `ResortIslandPresenter` | Level 1–3 art per building; construction site once eligible; hidden while locked. |
 | S2 `WaveNeedsPanel` | `WaveNeedsPresenter` | Need + service name, served/total, waiting queue and Worker/seat cause per owned need, stacked 3 → 4 → 5. Tapping a card opens S3 for that service. See [S2 Wave Needs Panel](#s2-wave-needs-panel). |
 | S3 `AssignStaffRestaurant` | `WorkerAllocationPresenter` | One card per owned building. MOVE sends that Worker to the single vacant building and names both the helped and the slowed building. Opened from an S2 need, the serving building's card is outlined. |
@@ -50,6 +51,70 @@ Deliberate deviations from the mockups, for the screen owners to review:
 - **Art import:** `bungalows-level-01.png` and `bungalows-level-03.png` import as tiny slices
   (58×25 and 89×51 px), so level 2 Bungalows art stands in for every level. The importer settings
   were not changed.
+
+## Main Menu
+
+`Assets/_ResortEmpire/Scenes/MainMenu.unity` is first in Build Settings, so the game opens on it; `Resort.unity`
+is second. Pressing Play with `Resort.unity` open in the Editor still skips the menu and loads the active slot,
+as before.
+
+The menu reuses the existing art: the island `ResortBackdrop`, the tropical panel from S5/S9, the orange START
+WAVE button art for CONTINUE, sand and green rounded buttons, and Rubik. It is built by
+**Resort Empire → UI → Build Main Menu Scene** (`Assets/Editor/MainMenuSceneSetup.cs`). That command also adds
+S1's MENU button and puts the menu first in Build Settings. Running it again replaces manual edits to the menu
+scene.
+
+| Action | Behaviour |
+| --- | --- |
+| CONTINUE | Opens the most recently saved valid slot and makes it active. Below it: `Wave 3 · saved 23 Nov, 14:05`. Disabled with `No saved resort yet` when no save exists. |
+| NEW GAME | Starts a fresh resort in the active slot. If that slot holds a save (valid or unreadable), a dialog asks first: `Your resort (Wave 3) will be replaced. This cannot be undone.` CANCEL (or Android back) keeps it. |
+| S1 MENU | Shown only between waves (`AWAITING_WAVE`), when every economy command has already saved its checkpoint, so leaving loses nothing. Hidden during a wave, results and upgrades. |
+
+Errors never leave the player stuck:
+
+- If every save is unreadable, CONTINUE is disabled and the menu says `Your saved game could not be loaded. The
+  file was kept; New Game starts a fresh resort.` The file is only replaced after the New Game confirmation.
+- If the newest save is unreadable but an older slot is valid, CONTINUE opens the older one and says so.
+- If a save breaks after the menu checked it, the gameplay scene loads unconfigured. `GameSessionNavigator`
+  notices and returns to the menu with `Your saved game could not be loaded. The save file was kept unchanged.`
+
+`GameSessionNavigator` performs every scene change and allows one at a time. While a scene loads, both menu
+buttons are disabled and `LOADING YOUR RESORT...` shows, so repeated taps cannot start a second session. A new
+game is written through `ResortProgressionRuntime` itself, so it has the normal schema and a new profile ID. It
+is written over the slot instead of deleting it, so a migrated `resort-progress-v1.json` cannot come back as the
+"new" game. Multiple-slot management stays in the F5 Save Manager; the menu only uses the active slot.
+
+**Touch and layout.** Buttons have a tap area of at least 48 dp (165 reference units, larger than the drawn
+button where needed) on a 720p phone. The canvas scales like the game's (2340×1080, match 0.5), and
+`ScreenSafeAreaFitter` keeps the panel clear of camera cutouts. `MainMenuNavigationTests` checks every button and
+text at 1280×720, 1600×720, 1920×1080, 2340×1080, 2400×1080, 3200×1440, 2048×1536 and 2560×1600. It checks
+that each element is on screen, that text fits and is readable, that buttons are at least 48 dp and don't
+overlap, and that a tap at each button's centre reaches that button.
+
+**Save folder.** All save-slot code now reads `ResortSaveLocation.Root` (still `Application.persistentDataPath`).
+Tests redirect it to a temporary folder, so they never touch a player's saves.
+
+**Tests.** `MainMenuSavesTests` and `GameSessionNavigatorTests` (EditMode) cover the Continue choice, New Game
+replacing only the active slot, unreadable saves, the legacy-save case, the one-transition lock, the failed-load
+return, Build Settings and the scene wiring. `MainMenuNavigationTests` is the project's first Play Mode test
+assembly (`Tests/Gameplay/PlayMode`). It loads the real `MainMenu` and `Resort` scenes against a temporary save
+folder and covers:
+
+- New Game, then MENU, then Continue.
+- Double taps.
+- Confirm and Cancel.
+- An unreadable save.
+- A save that breaks after the menu checked it.
+- MENU being hidden during a wave.
+- Layout on Android screen sizes.
+
+Taps go through the scene's `EventSystem` raycast, so a covered or non-raycastable button fails, unlike
+`Button.onClick.Invoke()`. Run the Play Mode tests from **Window → General → Test Runner → PlayMode**. The
+**Resort Empire → Run Phase 1 Edit Mode Tests** menu item runs EditMode only.
+
+Validated 2026-11-23 in Unity 6000.4.0f1 (Linux, batchmode): EditMode 297/297, Play Mode 8/8. The layout was
+also checked visually in renders at 1280×720, 1600×720, 1920×1080, 2340×1080, 2400×1080, 2048×1536 and
+2560×1600. No Android device was tested, and the menu was not clicked by hand in the Editor.
 
 ## S2 Wave Needs Panel
 

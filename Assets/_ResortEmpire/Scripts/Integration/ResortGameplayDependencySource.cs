@@ -10,6 +10,6 @@ namespace ResortEmpire.Gameplay.Integration
         public ProgressionConfig ProgressionConfig => configuration == null
             ? throw new System.InvalidOperationException("Assign the economy configuration asset.") : configuration.CreateRuntimeConfig();
         public IProgressionPersistence CreatePersistence() =>
-            SaveSlotStorage.CreateActivePersistence(Application.persistentDataPath);
+            SaveSlotStorage.CreateActivePersistence(ResortSaveLocation.Root);
     }
 }
