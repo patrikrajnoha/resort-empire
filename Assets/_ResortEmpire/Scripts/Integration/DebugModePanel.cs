@@ -62,6 +62,12 @@ namespace ResortEmpire.Gameplay.Integration
         }
         internal void Close() => SetOpen(false);
 
+        public void OpenFromSettings()
+        {
+            if (!DebugModalState.SaveSlotsOpen)
+                SetOpen(true);
+        }
+
         private void SetOpen(bool open)
         {
             DebugModalState.SetOpen(open);
