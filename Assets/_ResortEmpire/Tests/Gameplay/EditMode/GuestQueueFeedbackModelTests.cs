@@ -253,7 +253,8 @@ namespace ResortEmpire.Gameplay.Tests
             var slots = new List<Vector2>();
             var placed = GuestQueueLayout.PlaceSlots(StraightRoute, 10, 10f, 30f, 25f, null, reserved, slots);
 
-            Assert.That(placed, Is.LessThan(10), "A short route yields fewer slots, not slots off the path.");
+            Assert.That(placed, Is.InRange(1, 9), "This route has room for several guests but cannot fit all ten.");
+            Assert.That(slots, Has.Count.EqualTo(placed));
             foreach (var slot in slots)
             {
                 Assert.That(Vector2.Distance(slot, reserved[0]), Is.GreaterThanOrEqualTo(24.99f), slot.ToString());

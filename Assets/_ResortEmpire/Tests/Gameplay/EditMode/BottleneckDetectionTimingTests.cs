@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using ResortEmpire.Gameplay.Integration;
 using ResortEmpire.Gameplay.Waves;
+using UnityEditor;
 using UnityEngine;
 
 namespace ResortEmpire.Gameplay.Tests
@@ -14,6 +15,7 @@ namespace ResortEmpire.Gameplay.Tests
     public sealed class BottleneckDetectionTimingTests
     {
         private const double SampleStep = 0.5d;
+        private const int WaveStepLimit = 4000;
         private readonly List<GameObject> roots = new List<GameObject>();
 
         [TearDown]
@@ -95,11 +97,12 @@ namespace ResortEmpire.Gameplay.Tests
 
             var game = StartFirstWave();
             var tracker = new WaveNeedStatusTracker();
-            while (game.SimulationTime < pauseAt)
+            for (var step = 0; step < WaveStepLimit && game.SimulationTime < pauseAt; step++)
             {
                 game.AdvanceSimulation(SampleStep);
                 tracker.Capture(game);
             }
+            Assert.That(game.SimulationTime, Is.GreaterThanOrEqualTo(pauseAt), "The simulation did not reach the pause point.");
             Assert.That(game.TryPauseWave().Succeeded, Is.True);
             var frozenAt = game.SimulationTime;
             var frozen = BeachBar(tracker.Capture(game));
@@ -141,7 +144,7 @@ namespace ResortEmpire.Gameplay.Tests
 
             var beachBar = new List<NeedServiceStatus> { NeedServiceStatus.RECOVERING };
             var minimumAfterMove = BeachBar(moved).Waiting;
-            while (game.CurrentPhase != GamePhase.WAVE_COMPLETE)
+            for (var step = 0; step < WaveStepLimit && game.CurrentPhase != GamePhase.WAVE_COMPLETE; step++)
             {
                 game.AdvanceSimulation(SampleStep);
                 var wave = tracker.Capture(game);
@@ -153,6 +156,7 @@ namespace ResortEmpire.Gameplay.Tests
                     Assert.That(reception.Cause, Is.EqualTo(NeedQueueCause.MissingWorker), "Reception gave its Worker away.");
             }
 
+            AssertWaveCompleted(game);
             Assert.That(beachBar, Is.EqualTo(new[] { NeedServiceStatus.RECOVERING, NeedServiceStatus.OK, NeedServiceStatus.SATISFIED }),
                 "The staffed Beach Bar drains and never warns again.");
             Assert.That(minimumAfterMove, Is.LessThanOrEqualTo(1));
@@ -164,11 +168,12 @@ namespace ResortEmpire.Gameplay.Tests
             var game = StartFirstWave();
             var tracker = new WaveNeedStatusTracker();
             Assert.That(RunUntilBeachBarWarns(game, tracker).WarnedAt.HasValue, Is.True);
-            while (game.CurrentPhase != GamePhase.WAVE_COMPLETE)
+            for (var step = 0; step < WaveStepLimit && game.CurrentPhase != GamePhase.WAVE_COMPLETE; step++)
             {
                 game.AdvanceSimulation(SampleStep);
                 tracker.Capture(game);
             }
+            AssertWaveCompleted(game);
             Assert.That(tracker.Capture(game).Needs.Select(n => n.Status), Is.All.EqualTo(NeedServiceStatus.SATISFIED));
 
             ClaimAndContinue(game);
@@ -190,15 +195,22 @@ namespace ResortEmpire.Gameplay.Tests
             var settings = new WaveNeedStatusSettings();
             var game = CreateGame();
             var tracker = new WaveNeedStatusTracker(settings);
+            var expectedServed = new[] { 36, 51, 54, 63, 84, 96, 108, 135 };
+            var expectedNeeds = new[] { NeedType.Rooms, NeedType.Food, NeedType.Drinks, NeedType.Relax, NeedType.OceanView };
             var warnings = 0;
             for (var waveId = 1; waveId <= 8; waveId++)
             {
                 foreach (var building in game.Buildings.Where(b => b.IsEligible && !b.IsOwned).ToList())
-                    game.TryPurchaseBuilding(building.BuildingId);
+                {
+                    var purchase = game.TryPurchaseBuilding(building.BuildingId);
+                    Assert.That(purchase.Succeeded, Is.True, "Wave " + waveId + ": " + purchase.Message);
+                }
+                var serviceCount = waveId < 4 ? 3 : waveId < 7 ? 4 : 5;
+                Assert.That(game.CurrentWorkerAssignments, Has.Count.EqualTo(serviceCount - 1));
                 Assert.That(game.TryStartWave().Succeeded, Is.True, "wave " + waveId);
 
                 var history = new Dictionary<NeedType, List<(double Time, NeedServiceStatus Status, int Waiting)>>();
-                while (game.CurrentPhase != GamePhase.WAVE_COMPLETE)
+                for (var step = 0; step < WaveStepLimit && game.CurrentPhase != GamePhase.WAVE_COMPLETE; step++)
                 {
                     game.AdvanceSimulation(SampleStep);
                     foreach (var need in tracker.Capture(game).Needs)
@@ -210,6 +222,9 @@ namespace ResortEmpire.Gameplay.Tests
                     }
                 }
 
+                AssertWaveCompleted(game);
+                Assert.That(history.Keys, Is.EquivalentTo(expectedNeeds.Take(serviceCount)), "Wave " + waveId);
+                Assert.That(game.CurrentWaveResult.ServedUnits, Is.EqualTo(expectedServed[waveId - 1]), "Wave " + waveId);
                 foreach (var pair in history)
                 {
                     var changes = pair.Value;
@@ -232,6 +247,8 @@ namespace ResortEmpire.Gameplay.Tests
                 ClaimAndContinue(game);
             }
             Assert.That(warnings, Is.GreaterThan(0), "The unstaffed building is flagged in the scripted waves.");
+            Assert.That(game.CompletedWaves, Is.EqualTo(8));
+            Assert.That(game.NextWaveForecast.HasWave, Is.False);
         }
 
         private ResortGameplayBootstrap CreateGame()
@@ -239,7 +256,9 @@ namespace ResortEmpire.Gameplay.Tests
             var root = new GameObject("BottleneckDetectionTiming");
             roots.Add(root);
             var game = root.AddComponent<ResortGameplayBootstrap>();
-            Assert.That(game.TryConfigureProgression(EconomyTestFixtures.Config(), new TestProgressionPersistence()), Is.True);
+            var asset = AssetDatabase.LoadAssetAtPath<ResortEconomyConfig>("Assets/_ResortEmpire/Data/Progression/DemoEconomy.asset");
+            Assert.That(asset, Is.Not.Null);
+            Assert.That(game.TryConfigureProgression(asset.CreateRuntimeConfig(), new TestProgressionPersistence()), Is.True);
             return game;
         }
 
@@ -260,14 +279,22 @@ namespace ResortEmpire.Gameplay.Tests
             ResortGameplayBootstrap game, WaveNeedStatusTracker tracker)
         {
             double? firstOver = null;
-            while (game.CurrentPhase != GamePhase.WAVE_COMPLETE)
+            for (var step = 0; step < WaveStepLimit && game.CurrentPhase != GamePhase.WAVE_COMPLETE; step++)
             {
                 game.AdvanceSimulation(SampleStep);
                 var drinks = BeachBar(tracker.Capture(game));
                 if (!firstOver.HasValue && drinks.Waiting > 2) firstOver = game.SimulationTime;
                 if (drinks.Status == NeedServiceStatus.BOTTLENECK) return (firstOver, game.SimulationTime);
             }
+            AssertWaveCompleted(game);
             return (firstOver, null);
+        }
+
+        private static void AssertWaveCompleted(ResortGameplayBootstrap game)
+        {
+            var snapshot = game.CurrentWaveSnapshot;
+            Assert.That(game.CurrentPhase, Is.EqualTo(GamePhase.WAVE_COMPLETE),
+                $"Wave {snapshot?.WaveId} at t={game.SimulationTime}, arrived {snapshot?.DemandArrived}, backlog {snapshot?.Backlog}.");
         }
 
         private static NeedStatusSnapshot BeachBar(WaveProgressSnapshot wave)

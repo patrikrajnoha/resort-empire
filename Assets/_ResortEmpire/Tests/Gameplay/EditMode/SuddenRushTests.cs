@@ -39,21 +39,28 @@ namespace ResortEmpire.Gameplay.Tests
         public void RushArrivesOverItsDurationAndPauseDoesNotDuplicateOrLoseDemand()
         {
             var game = PhaseTwoTestData.CreateScenario(serviceDuration: 100);
-            game.Waves.StartWave(RushWave());
+            Assert.That(game.Waves.StartWave(RushWave()), Is.True);
             game.Waves.Advance(4);
             Assert.That(game.Waves.CaptureSnapshot().DemandArrived, Is.Zero);
             game.Waves.Advance(0.5);
-            Assert.That(game.Waves.CaptureSnapshot().DemandArrived, Is.EqualTo(1));
-            game.Waves.TryPauseWave();
+            var before = game.Waves.CaptureActiveWave();
+            Assert.That(before.ScheduledArrivals.Single().Emitted, Is.EqualTo(1));
+            Assert.That(before.Units.Single().Need, Is.EqualTo(NeedType.Drinks));
+            Assert.That(game.Waves.TryPauseWave(), Is.True);
             game.Waves.Advance(100);
             Assert.That(game.Waves.CaptureSnapshot().DemandArrived, Is.EqualTo(1));
-            game.Waves.TryResumeWave();
+            Assert.That(game.Waves.CaptureActiveWave().ScheduledArrivals.Single().Emitted, Is.EqualTo(1));
+            Assert.That(game.Waves.TryResumeWave(), Is.True);
             game.Waves.Advance(1.5);
             Assert.That(game.Waves.CaptureSnapshot().DemandArrived, Is.EqualTo(4));
             Assert.That(game.Waves.CaptureSnapshot().WaitingQueueLength, Is.EqualTo(3));
             Assert.That(game.Waves.CaptureSnapshot().DemandTotal, Is.EqualTo(7));
             game.Waves.Advance(10000);
-            Assert.That(game.Waves.CaptureSnapshot().CompletionRecords.Count, Is.EqualTo(7));
+            var completed = game.Waves.CaptureSnapshot().CompletionRecords;
+            Assert.That(completed, Has.Count.EqualTo(7));
+            Assert.That(completed.Select(record => record.NeedUnitId).Distinct().Count(), Is.EqualTo(7));
+            Assert.That(completed.Where(record => record.NeedType == NeedType.Drinks).Select(record => record.ArrivalTime),
+                Is.EqualTo(new[] { 4.5d, 5d, 5.5d, 6d, 8d }).Within(1e-9));
             Assert.That(game.State.CurrentState, Is.EqualTo(GamePhase.WAVE_COMPLETE));
         }
 
@@ -126,9 +133,13 @@ namespace ResortEmpire.Gameplay.Tests
             using (var game = new ResortProgressionRuntime(config, disk))
             {
                 EconomyTestFixtures.FinishWaves(game, 1);
-                game.TryStartWave();
-                game.Waves.Advance(config.IncomingDuration + config.RushStart + 1);
-                game.Waves.TryDismissSuddenRush("sudden-rush");
+                Assert.That(game.TryStartWave(), Is.True);
+                game.Waves.Advance(config.IncomingDuration + config.RushStart + 4);
+                var original = game.Waves.CaptureActiveWave().ScheduledArrivals.Single();
+                Assert.That(original.TargetNeed, Is.EqualTo(NeedType.Drinks));
+                Assert.That(original.Emitted, Is.EqualTo(2));
+                Assert.That(game.Waves.TryDismissSuddenRush("sudden-rush"), Is.True);
+                Assert.That(game.Waves.CaptureSuddenRush().NotificationDismissed, Is.True);
             }
             using (var restored = new ResortProgressionRuntime(config, disk))
             {

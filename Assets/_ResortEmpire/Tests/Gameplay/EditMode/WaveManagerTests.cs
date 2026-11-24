@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Staff;
@@ -76,13 +77,20 @@ namespace ResortEmpire.Gameplay.Tests
         {
             var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 1d);
             var wave = new WaveDefinition(1, 2d, new[] { new NeedDemandDefinition(NeedType.Rooms, 2) });
-            var completionCount = 0;
-            scenario.Waves.WaveCompleted += _ => completionCount++;
-            scenario.Waves.StartWave(wave);
+            var completions = new List<WaveSnapshot>();
+            scenario.Waves.WaveCompleted += completions.Add;
+            Assert.That(scenario.Waves.StartWave(wave), Is.True);
+            scenario.Waves.Advance(2d);
+            Assert.That(scenario.Waves.ArrivalsClosed, Is.True);
+            Assert.That(scenario.Waves.CaptureSnapshot().Backlog, Is.EqualTo(1));
+            Assert.That(completions, Is.Empty);
             scenario.Waves.Advance(100d);
             scenario.Waves.Advance(100d);
 
-            Assert.That(completionCount, Is.EqualTo(1));
+            Assert.That(completions, Has.Count.EqualTo(1));
+            Assert.That(completions[0].CompletedUnits, Is.EqualTo(2));
+            Assert.That(completions[0].Backlog, Is.Zero);
+            Assert.That(completions[0].Lifecycle, Is.EqualTo(GamePhase.WAVE_COMPLETE));
             Assert.That(scenario.State.CurrentState, Is.EqualTo(GamePhase.WAVE_COMPLETE));
         }
 
@@ -91,10 +99,12 @@ namespace ResortEmpire.Gameplay.Tests
         {
             var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 4d);
             var wave = new WaveDefinition(1, 4d, new[] { new NeedDemandDefinition(NeedType.Rooms, 4) });
-            scenario.Waves.StartWave(wave);
+            Assert.That(scenario.Waves.StartWave(wave), Is.True);
             scenario.Waves.Advance(1.5d);
             var beforePause = scenario.Waves.CaptureSnapshot();
             var timeBeforePause = scenario.Clock.CurrentTime;
+            var occupied = scenario.Waves.CaptureActiveWave().Units.Single(unit => unit.State == NeedUnitState.IN_SERVICE);
+            Assert.That(occupied.Progress, Is.EqualTo(0.125d).Within(1e-9));
 
             Assert.That(scenario.Waves.TryPauseWave(), Is.True);
             scenario.Waves.Advance(100d);
@@ -102,10 +112,15 @@ namespace ResortEmpire.Gameplay.Tests
             Assert.That(scenario.Clock.CurrentTime, Is.EqualTo(timeBeforePause));
             Assert.That(duringPause.DemandArrived, Is.EqualTo(beforePause.DemandArrived));
             Assert.That(duringPause.ActiveServiceCount, Is.EqualTo(beforePause.ActiveServiceCount));
+            var paused = scenario.Waves.CaptureActiveWave().Units.Single(unit => unit.State == NeedUnitState.IN_SERVICE);
+            Assert.That(paused.Id, Is.EqualTo(occupied.Id));
+            Assert.That(paused.Progress, Is.EqualTo(occupied.Progress));
 
             Assert.That(scenario.Waves.TryResumeWave(), Is.True);
             scenario.Waves.Advance(100d);
             Assert.That(scenario.State.CurrentState, Is.EqualTo(GamePhase.WAVE_COMPLETE));
+            var completion = scenario.Waves.CaptureSnapshot().CompletionRecords.Single(record => record.NeedUnitId == occupied.Id);
+            Assert.That(completion.ServiceCompletionTime, Is.EqualTo(5d).Within(1e-9));
         }
 
         [Test]
@@ -209,15 +224,43 @@ namespace ResortEmpire.Gameplay.Tests
         [Test]
         public void ActiveWorkerReassignmentRemainsAvailableThroughQueueDrain()
         {
-            var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 2d);
-            var wave = new WaveDefinition(1, 4d, new[] { new NeedDemandDefinition(NeedType.Drinks, 3) });
-            scenario.Waves.StartWave(wave);
-            scenario.Waves.Advance(1.5d);
-            Assert.That(scenario.Waves.TryReassignWorker(BuildingId.Reception, BuildingId.BeachBar), Is.True);
-            scenario.Waves.Advance(100d);
+            var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 8d);
+            var wave = new WaveDefinition(1, 4d, new[]
+            {
+                new NeedDemandDefinition(NeedType.Rooms, 3),
+                new NeedDemandDefinition(NeedType.Drinks, 3)
+            });
+            Assert.That(scenario.Waves.StartWave(wave), Is.True);
+            scenario.Waves.Advance(4d);
+            var draining = scenario.Waves.CaptureSnapshot();
+            Assert.That(draining.ArrivalsClosed, Is.True);
+            Assert.That(draining.Lifecycle, Is.EqualTo(GamePhase.WAVE_ACTIVE));
+            Assert.That(draining.WaitingQueueLength, Is.EqualTo(4));
+            var before = scenario.Waves.CaptureActiveWave().Units.Where(unit => unit.State == NeedUnitState.IN_SERVICE).ToArray();
+            var rooms = before.Single(unit => unit.Need == NeedType.Rooms);
+            var drinks = before.Single(unit => unit.Need == NeedType.Drinks);
 
-            Assert.That(scenario.Waves.CaptureSnapshot().Lifecycle, Is.EqualTo(GamePhase.WAVE_COMPLETE));
-            Assert.That(scenario.Waves.CaptureSnapshot().CompletedUnits, Is.EqualTo(3));
+            Assert.That(scenario.Waves.TryReassignWorker(BuildingId.Reception, BuildingId.BeachBar), Is.True);
+            Assert.That(scenario.Workers.GetAssignedWorkerCount(BuildingId.Reception), Is.Zero);
+            Assert.That(scenario.Workers.GetAssignedWorkerCount(BuildingId.BeachBar), Is.EqualTo(1));
+            scenario.Waves.Advance(2d);
+            var after = scenario.Waves.CaptureActiveWave().Units;
+            Assert.That(after.Single(unit => unit.Id == rooms.Id).Progress - rooms.Progress, Is.EqualTo(0.125d).Within(1e-9));
+            Assert.That(after.Single(unit => unit.Id == drinks.Id).Progress - drinks.Progress, Is.EqualTo(0.25d).Within(1e-9));
+            Assert.That(scenario.Waves.CaptureSnapshot().DemandArrived, Is.EqualTo(6));
+
+            scenario.Waves.Advance(100d);
+            var complete = scenario.Waves.CaptureSnapshot();
+            Assert.That(complete.Lifecycle, Is.EqualTo(GamePhase.WAVE_COMPLETE));
+            Assert.That(complete.CompletedUnits, Is.EqualTo(6));
+            Assert.That(complete.Backlog, Is.Zero);
+            foreach (var need in new[] { NeedType.Rooms, NeedType.Drinks })
+            {
+                var served = complete.CompletionRecords.Where(record => record.NeedType == need).ToArray();
+                Assert.That(served.Select(record => record.ArrivalTime), Is.EqualTo(new[] { 4d / 3d, 8d / 3d, 4d }).Within(1e-9));
+                Assert.That(served[1].ServiceStartTime, Is.EqualTo(served[0].ServiceCompletionTime).Within(1e-9));
+                Assert.That(served[2].ServiceStartTime, Is.EqualTo(served[1].ServiceCompletionTime).Within(1e-9));
+            }
         }
 
         private static WaveSnapshot RunScenario(IReadOnlyList<double> steps)

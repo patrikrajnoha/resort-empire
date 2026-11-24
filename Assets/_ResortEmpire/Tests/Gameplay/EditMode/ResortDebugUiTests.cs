@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using ResortEmpire.DebugUi;
+using ResortEmpire.Gameplay.Integration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -81,17 +84,9 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
-        public void PreviewManagerDoesNotIssueGameplayCommandsOrMutateGameState()
+        public void ResultPreviewRestoresLiveWaveUiWithoutChangingGameplay()
         {
-            var targets = new[] { new FakeTarget(true, true), new FakeTarget(true, false) };
-            var manager = new ResortDebugUiPreviewManager(targets);
-            var gameplay = new FakeGameplayFacade();
-
-            manager.OpenPreview(1);
-            manager.RestoreNormalUi();
-
-            Assert.That(gameplay.CommandCount, Is.EqualTo(0));
-            Assert.That(gameplay.Phase, Is.EqualTo(ResortEmpire.Gameplay.GamePhase.AWAITING_WAVE));
+            VerifyResultPreview(configureGameplay: true);
         }
 
         [Test]
@@ -108,13 +103,9 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
-        public void UnconfiguredBootstrapIsCompatibleWithVisualPreviewState()
+        public void ResultPreviewOpensAndRestoresUiWithAnUnconfiguredBootstrap()
         {
-            var targets = new[] { new FakeTarget(true, true) };
-            var manager = new ResortDebugUiPreviewManager(targets);
-
-            Assert.That(manager.OpenPreview(0), Is.True);
-            Assert.That(manager.HasActivePreview, Is.True);
+            VerifyResultPreview(configureGameplay: false);
         }
 
         [Test]
@@ -200,6 +191,87 @@ namespace ResortEmpire.Gameplay.Tests
             }
         }
 
+        private static void VerifyResultPreview(bool configureGameplay)
+        {
+            const BindingFlags instanceFields = BindingFlags.Instance | BindingFlags.NonPublic;
+            var controllerType = System.Type.GetType("ResortEmpire.DebugUi.ResortDebugUiController, Assembly-CSharp");
+            Assert.That(controllerType, Is.Not.Null);
+            var activeInstance = controllerType.GetField("activeInstance", BindingFlags.Static | BindingFlags.NonPublic);
+            var previousInstance = activeInstance.GetValue(null);
+            var root = new GameObject("DebugPreviewGameplayTest");
+            var controllerRoot = new GameObject("DebugPreviewControllerTest");
+            try
+            {
+                var gameplay = root.AddComponent<ResortGameplayBootstrap>();
+                var navigation = root.AddComponent<ResortUiStateCoordinator>();
+                var home = new GameObject("HomeIslandView");
+                var needs = new GameObject("WaveNeedsPanel");
+                var results = new GameObject("WaveComplete");
+                foreach (var window in new[] { home, needs, results })
+                    window.transform.SetParent(root.transform, false);
+                needs.SetActive(false);
+                results.SetActive(false);
+
+                var navigationType = typeof(ResortUiStateCoordinator);
+                navigationType.GetField("gameplayBootstrap", instanceFields).SetValue(navigation, gameplay);
+                navigationType.GetField("homeIslandView", instanceFields).SetValue(navigation, home);
+                navigationType.GetField("waveNeedsPanel", instanceFields).SetValue(navigation, needs);
+                navigationType.GetField("waveCompleteWindow", instanceFields).SetValue(navigation, results);
+                if (configureGameplay)
+                    Assert.That(gameplay.TryConfigureProgression(EconomyTestFixtures.Config(coins: 1000),
+                        new TestProgressionPersistence()), Is.True);
+                InvokeControllerMethod(navigation, "BindToGameplay");
+                if (configureGameplay)
+                {
+                    Assert.That(gameplay.TryStartWave().Succeeded, Is.True);
+                    gameplay.AdvanceSimulation(12d);
+                    Assert.That(gameplay.CurrentPhase, Is.EqualTo(GamePhase.WAVE_ACTIVE));
+                    Assert.That(gameplay.CurrentWaveSnapshot.DemandArrived, Is.GreaterThan(0));
+                }
+                Assert.That(needs.activeSelf, Is.EqualTo(configureGameplay));
+
+                activeInstance.SetValue(null, null);
+                var controller = (MonoBehaviour)controllerRoot.AddComponent(controllerType);
+                InvokeControllerMethod(controller, "Awake");
+                Assert.That(controllerType.GetField("gameplayBootstrap", instanceFields).GetValue(controller), Is.SameAs(gameplay));
+                Assert.That(controllerType.GetField("uiCoordinator", instanceFields).GetValue(controller), Is.SameAs(navigation));
+
+                var time = gameplay.SimulationTime;
+                var resources = gameplay.Resources;
+                var assignments = gameplay.CurrentWorkerAssignments.ToArray();
+                var phaseChanges = 0;
+                var walletChanges = 0;
+                gameplay.StateChanged += (_, __) => phaseChanges++;
+                gameplay.ResourcesChanged += _ => walletChanges++;
+
+                Assert.That(controllerType.GetMethod("OpenPreview").Invoke(controller, new object[] { 3 }), Is.True);
+                Assert.That(navigation.IsPreviewOverrideActive, Is.True);
+                Assert.That(results.activeSelf, Is.True);
+                Assert.That(home.activeSelf, Is.False);
+                Assert.That(needs.activeSelf, Is.False);
+                InvokeControllerMethod(controller, "RestoreNormalUi");
+
+                Assert.That(navigation.IsPreviewOverrideActive, Is.False);
+                Assert.That(results.activeSelf, Is.False);
+                Assert.That(home.activeSelf, Is.True);
+                Assert.That(needs.activeSelf, Is.EqualTo(configureGameplay));
+                Assert.That(gameplay.IsConfigured, Is.EqualTo(configureGameplay));
+                Assert.That(gameplay.CurrentPhase, Is.EqualTo(configureGameplay ? GamePhase.WAVE_ACTIVE : GamePhase.AWAITING_WAVE));
+                Assert.That(gameplay.SimulationTime, Is.EqualTo(time));
+                Assert.That(gameplay.Resources, Is.EqualTo(resources));
+                Assert.That(gameplay.CurrentWorkerAssignments, Is.EqualTo(assignments));
+                Assert.That(gameplay.CurrentWaveResult, Is.Null);
+                Assert.That(phaseChanges, Is.Zero);
+                Assert.That(walletChanges, Is.Zero);
+            }
+            finally
+            {
+                Object.DestroyImmediate(controllerRoot);
+                Object.DestroyImmediate(root);
+                activeInstance.SetValue(null, previousInstance);
+            }
+        }
+
         private static int CurrentPreviewIndex(MonoBehaviour controller)
         {
             return (int)controller.GetType().GetProperty("CurrentPreviewIndex").GetValue(controller);
@@ -239,10 +311,5 @@ namespace ResortEmpire.Gameplay.Tests
             public bool IsActive { get; set; }
         }
 
-        private sealed class FakeGameplayFacade
-        {
-            public int CommandCount { get; private set; }
-            public ResortEmpire.Gameplay.GamePhase Phase => ResortEmpire.Gameplay.GamePhase.AWAITING_WAVE;
-        }
     }
 }
