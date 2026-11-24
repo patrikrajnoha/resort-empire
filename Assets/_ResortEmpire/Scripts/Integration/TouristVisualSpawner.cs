@@ -570,65 +570,8 @@ namespace ResortEmpire.Gameplay.Integration
                 return;
             }
 
-            if (navigationMap == null)
-            {
-                try
-                {
-                    var pathLayerImage = walkablePathLayer == null
-                        ? null
-                        : walkablePathLayer.GetComponent<Image>();
-                    var pathLayerTexture = pathLayerImage == null || pathLayerImage.sprite == null
-                        ? null
-                        : pathLayerImage.sprite.texture;
-                    if (pathLayerTexture == null && navigationMapTexture == null)
-                    {
-                        Debug.LogWarning("Tourist visuals cannot spawn because no walkable path layer or navigation map is assigned.", this);
-                        return;
-                    }
-                    if (pathLayerTexture != null)
-                    {
-                        var sampleWidth = navigationMapTexture != null ? navigationMapTexture.width : 181;
-                        var sampleHeight = navigationMapTexture != null ? navigationMapTexture.height : 136;
-                        navigationMap = new IslandNavigationMap(
-                            pathLayerTexture,
-                            GetNavigationBounds(walkablePathLayer),
-                            true,
-                            sampleWidth,
-                            sampleHeight,
-                            GetNavigationObstacles(),
-                            navigationMapTexture,
-                            GetNavigationWalkableAreas());
-                        restaurantRouteMap = new IslandNavigationMap(
-                            pathLayerTexture,
-                            GetNavigationBounds(walkablePathLayer),
-                            true,
-                            sampleWidth,
-                            sampleHeight,
-                            GetNavigationObstacles(false),
-                            navigationMapTexture,
-                            GetNavigationWalkableAreas());
-                    }
-                    else
-                    {
-                        var barObstacles = new List<IslandNavigationMap.NavigationObstacle>(1);
-                        AddNavigationObstacle(barObstacles, barNavigationObstacle);
-                        navigationMap = new IslandNavigationMap(
-                            navigationMapTexture,
-                            islandBase.rect,
-                            false,
-                            navigationMapTexture.width,
-                            navigationMapTexture.height,
-                            barObstacles,
-                            null);
-                        restaurantRouteMap = null;
-                    }
-                }
-                catch (UnityException exception)
-                {
-                    Debug.LogError("The island navigation texture must have Read/Write enabled: " + exception.Message, this);
-                    return;
-                }
-            }
+            if (!EnsureNavigationMap("Tourist visuals cannot spawn"))
+                return;
 
             EnsurePool(touristCount);
             var spawnPosition = GetSpawnPointPosition();
@@ -674,6 +617,139 @@ namespace ResortEmpire.Gameplay.Integration
             ActiveTouristCount = touristRoutines.Count;
             if (touristSprites != null && touristSprites.Length > 0)
                 spriteVariantOffset = (spriteVariantOffset + touristCount) % touristSprites.Length;
+        }
+
+        private bool EnsureNavigationMap(string failurePrefix)
+        {
+            if (navigationMap != null)
+                return true;
+
+            try
+            {
+                var pathLayerImage = walkablePathLayer == null
+                    ? null
+                    : walkablePathLayer.GetComponent<Image>();
+                var pathLayerTexture = pathLayerImage == null || pathLayerImage.sprite == null
+                    ? null
+                    : pathLayerImage.sprite.texture;
+                if (pathLayerTexture == null && navigationMapTexture == null)
+                {
+                    Debug.LogWarning(failurePrefix + " because no walkable path layer or navigation map is assigned.", this);
+                    return false;
+                }
+                if (pathLayerTexture != null)
+                {
+                    var sampleWidth = navigationMapTexture != null ? navigationMapTexture.width : 181;
+                    var sampleHeight = navigationMapTexture != null ? navigationMapTexture.height : 136;
+                    navigationMap = new IslandNavigationMap(
+                        pathLayerTexture,
+                        GetNavigationBounds(walkablePathLayer),
+                        true,
+                        sampleWidth,
+                        sampleHeight,
+                        GetNavigationObstacles(),
+                        navigationMapTexture,
+                        GetNavigationWalkableAreas());
+                    restaurantRouteMap = new IslandNavigationMap(
+                        pathLayerTexture,
+                        GetNavigationBounds(walkablePathLayer),
+                        true,
+                        sampleWidth,
+                        sampleHeight,
+                        GetNavigationObstacles(false),
+                        navigationMapTexture,
+                        GetNavigationWalkableAreas());
+                }
+                else
+                {
+                    var barObstacles = new List<IslandNavigationMap.NavigationObstacle>(1);
+                    AddNavigationObstacle(barObstacles, barNavigationObstacle);
+                    navigationMap = new IslandNavigationMap(
+                        navigationMapTexture,
+                        islandBase.rect,
+                        false,
+                        navigationMapTexture.width,
+                        navigationMapTexture.height,
+                        barObstacles,
+                        null);
+                    restaurantRouteMap = null;
+                }
+            }
+            catch (UnityException exception)
+            {
+                Debug.LogError("The island navigation texture must have Read/Write enabled: " + exception.Message, this);
+                navigationMap = null;
+                restaurantRouteMap = null;
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>Container that owns tourist visuals. Queue visuals share its coordinate space and render layer.</summary>
+        public RectTransform TouristContainer => touristContainer;
+
+        /// <summary>The tourist character used for roaming guests, reused for waiting guests.</summary>
+        public GameObject TouristPrefab => touristPrefab;
+
+        /// <summary>Tourist sprite variants, reused for waiting guests.</summary>
+        public IReadOnlyList<Sprite> TouristSprites => touristSprites;
+
+        /// <summary>
+        /// Presentation-only queue line for <paramref name="buildingId"/> in tourist-container space.
+        /// The first point is where guests enter the building; the rest follows the walkable route
+        /// back toward the pier, so evenly spaced positions along it never leave the island paths.
+        /// This reads navigation data only and does not reserve seats or affect roaming tourists.
+        /// </summary>
+        public bool TryGetQueueRoute(BuildingId buildingId, List<Vector2> route)
+        {
+            if (route == null)
+                throw new ArgumentNullException(nameof(route));
+
+            route.Clear();
+            // Scene lookups scan every RectTransform; Awake has normally resolved them already.
+            if (touristContainer == null || spawnPoint == null || islandBase == null)
+                ResolveSceneReferences();
+            if (touristContainer == null || spawnPoint == null || islandBase == null)
+                return false;
+
+            var anchor = GetQueueAnchor(buildingId);
+            if (anchor == null || !EnsureNavigationMap("Guest queue visuals cannot be placed"))
+                return false;
+
+            var anchorPosition = buildingId == BuildingId.BeachBar
+                ? GetPointPosition(barSeatPoint)
+                : GetPointPosition(anchor);
+            var baseAnchor = islandBase.InverseTransformPoint(touristContainer.TransformPoint(anchorPosition));
+            var baseSpawn = islandBase.InverseTransformPoint(touristContainer.TransformPoint(GetSpawnPointPosition()));
+            var baseRoute = new List<Vector2>();
+            if (!navigationMap.TryFindPathToNearestReachable(baseAnchor, baseSpawn, baseRoute) || baseRoute.Count == 0)
+                return false;
+
+            route.Add(anchorPosition);
+            for (var index = 0; index < baseRoute.Count; index++)
+            {
+                Vector2 point = touristContainer.InverseTransformPoint(islandBase.TransformPoint(baseRoute[index]));
+                if (Vector2.Distance(route[route.Count - 1], point) > 0.5f)
+                    route.Add(point);
+            }
+
+            return route.Count > 1;
+        }
+
+        private RectTransform GetQueueAnchor(BuildingId buildingId)
+        {
+            switch (buildingId)
+            {
+                case BuildingId.Reception:
+                    var entry = GetReceptionEntryPoint();
+                    return entry != null ? entry : receptionPoint;
+                case BuildingId.BeachBar: return barSeatPoint;
+                case BuildingId.Restaurant: return restaurantPoint != null ? restaurantPoint : restaurantEntryPoint;
+                case BuildingId.Pool: return poolEntrancePoint;
+                case BuildingId.Bungalows: return bungalowsEntrancePoint;
+                default: return null;
+            }
         }
 
         private Rect GetNavigationBounds(RectTransform source)
