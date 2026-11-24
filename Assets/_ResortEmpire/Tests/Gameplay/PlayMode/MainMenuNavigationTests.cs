@@ -237,6 +237,67 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [UnityTest]
+        public IEnumerator ResortWaveOneShowsServiceNeedsAndClaimsRewardsOnceThroughTheUi()
+        {
+            Tap(Menu().NewGameButton);
+            yield return WaitForGameplay();
+            var game = Gameplay();
+            Assert.That(game.IsConfigured, Is.True);
+            var initialResources = game.Resources;
+
+            Tap(SceneComponent<Button>("StartWaveButton"));
+            game.AdvanceSimulation(2d);
+            yield return null;
+
+            Assert.That(game.CurrentPhase, Is.EqualTo(GamePhase.WAVE_ACTIVE));
+            var needs = SceneComponent<RectTransform>("WaveNeedsPanel");
+            Assert.That(needs.gameObject.activeInHierarchy, Is.True);
+            Assert.That(needs.GetComponentsInChildren<TextMeshProUGUI>().Select(label => label.text),
+                Does.Contain("SERVED 0/36"));
+            var rooms = needs.GetComponentsInChildren<Button>().Single(button => button.name == "RoomsCard");
+            Assert.That(rooms.GetComponentsInChildren<TextMeshProUGUI>().Select(label => label.text),
+                Does.Contain("0/12"));
+
+            // Run the same scene simulation to completion without a real-time wait for service.
+            game.AdvanceSimulation(10000d);
+            yield return null;
+            Assert.That(game.CurrentPhase, Is.EqualTo(GamePhase.WAVE_COMPLETE));
+            Assert.That(needs.gameObject.activeInHierarchy, Is.False);
+            var result = game.CurrentWaveResult;
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.WaveId, Is.EqualTo(1));
+            Assert.That(result.ServedUnits, Is.EqualTo(36));
+            Assert.That(result.Claimed, Is.False);
+            Assert.That(game.Resources, Is.EqualTo(initialResources));
+            var results = SceneComponent<RectTransform>("WaveComplete");
+            var claim = results.GetComponentsInChildren<Button>().Single(button => button.name == "ClaimRewardsButton");
+            Assert.That(results.GetComponentsInChildren<TextMeshProUGUI>().Select(label => label.text),
+                Does.Contain("36/36"));
+            var claimPosition = Centre(claim);
+            var walletUpdates = new List<ResourceSnapshot>();
+            game.ResourcesChanged += walletUpdates.Add;
+
+            Tap(claim);
+            Click(claimPosition);
+            yield return null;
+
+            Assert.That(game.CurrentPhase, Is.EqualTo(GamePhase.UPGRADE));
+            Assert.That(SceneComponent<RectTransform>("UpgradeSuggestionPanel").gameObject.activeInHierarchy, Is.True);
+            Assert.That(claim.gameObject.activeInHierarchy, Is.False);
+            Assert.That(game.CompletedWaves, Is.EqualTo(1));
+            var expected = new ResourceSnapshot(initialResources.Coins + result.Rewards.Coins,
+                initialResources.Energy + result.Rewards.Energy, initialResources.ResortValue + result.Rewards.ResortValue);
+            Assert.That(walletUpdates, Is.EqualTo(new[] { expected }));
+            Assert.That(game.Resources, Is.EqualTo(expected));
+            Assert.That(SceneComponent<TextMeshProUGUI>("CoinsText").text, Is.EqualTo(expected.Coins.ToString()));
+            Assert.That(SceneComponent<TextMeshProUGUI>("EnergyText").text, Is.EqualTo(expected.Energy.ToString()));
+            Assert.That(SceneComponent<TextMeshProUGUI>("ResortValueText").text, Is.EqualTo("Resort Value: " + expected.ResortValue));
+            var save = SaveSlotStorage.CreateActivePersistence(root).Load();
+            Assert.That(save.ClaimedRewardIds, Is.EqualTo(new[] { result.RewardId }));
+            Assert.That(new ResourceSnapshot(save.Coins, save.Energy, save.ResortValue), Is.EqualTo(expected));
+        }
+
+        [UnityTest]
         public IEnumerator LayoutIsReadableAndTappableOnAndroidLandscapeScreens()
         {
             IgnoreKnownErrors();
@@ -329,6 +390,13 @@ namespace ResortEmpire.Gameplay.Tests
             var game = UnityEngine.Object.FindAnyObjectByType<ResortGameplayBootstrap>();
             Assert.That(game, Is.Not.Null, "The gameplay scene is not loaded.");
             return game;
+        }
+
+        private static T SceneComponent<T>(string objectName) where T : Component
+        {
+            return SceneManager.GetActiveScene().GetRootGameObjects()
+                .SelectMany(sceneRoot => sceneRoot.GetComponentsInChildren<T>())
+                .Single(component => component.gameObject.activeInHierarchy && component.name == objectName);
         }
 
         private static Button MenuButton()

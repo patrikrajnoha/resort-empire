@@ -418,11 +418,22 @@ namespace ResortEmpire.Gameplay.Tests
         public void DemandConservationAndCompletionRecordsRemainConsistent()
         {
             var scenario = PhaseTwoTestData.CreateScenario(capacity: 1, serviceDuration: 2d);
-            scenario.Waves.StartWave(PhaseTwoTestData.ThreeNeedWave(arrivalDuration: 2d, unitsPerNeed: 4));
+            Assert.That(scenario.Waves.StartWave(PhaseTwoTestData.ThreeNeedWave(arrivalDuration: 2d, unitsPerNeed: 4)), Is.True);
             scenario.Waves.Advance(1d);
-            AssertDemandConservation(scenario.Waves.CaptureSnapshot(), completedWave: false);
+            var active = scenario.Waves.CaptureSnapshot();
+            Assert.That(active.Lifecycle, Is.EqualTo(GamePhase.WAVE_ACTIVE));
+            Assert.That(active.Needs, Has.Count.EqualTo(3));
+            Assert.That(active.DemandArrived, Is.EqualTo(6));
+            Assert.That(active.ActiveServiceCount, Is.EqualTo(3));
+            Assert.That(active.WaitingQueueLength, Is.EqualTo(3));
+            AssertDemandConservation(active, completedWave: false);
             scenario.Waves.Advance(100d);
             var finalSnapshot = scenario.Waves.CaptureSnapshot();
+            Assert.That(finalSnapshot.Lifecycle, Is.EqualTo(GamePhase.WAVE_COMPLETE));
+            Assert.That(finalSnapshot.Needs, Has.Count.EqualTo(3));
+            Assert.That(finalSnapshot.DemandTotal, Is.EqualTo(12));
+            Assert.That(finalSnapshot.CompletedUnits, Is.EqualTo(12));
+            Assert.That(finalSnapshot.CompletionRecords, Has.Count.EqualTo(12));
             AssertDemandConservation(finalSnapshot, completedWave: true);
 
             var ids = new HashSet<long>();

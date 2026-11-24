@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using ResortEmpire.Gameplay;
 using ResortEmpire.Gameplay.Waves;
@@ -25,13 +27,18 @@ namespace ResortEmpire.Gameplay.Tests
         public void EqualArrivalTimesRemainStable()
         {
             var queue = new BuildingQueueRuntime(BuildingId.Reception);
-            queue.Enqueue(new NeedRuntime(1, 1, NeedType.Rooms, 1d));
-            queue.Enqueue(new NeedRuntime(2, 1, NeedType.Rooms, 1d));
+            Assert.That(queue.Enqueue(new NeedRuntime(10, 1, NeedType.Rooms, 1d)), Is.True);
+            Assert.That(queue.Enqueue(new NeedRuntime(2, 1, NeedType.Rooms, 1d)), Is.True);
+            Assert.That(queue.Enqueue(new NeedRuntime(1, 1, NeedType.Rooms, 0d)), Is.True);
 
-            queue.TryDequeue(out var first);
-            queue.TryDequeue(out var second);
+            Assert.That(queue.TryDequeue(out var first), Is.True);
             Assert.That(first.NeedUnitId, Is.EqualTo(1));
-            Assert.That(second.NeedUnitId, Is.EqualTo(2));
+            Assert.That(queue.TryDequeue(out var second), Is.True);
+            Assert.That(second.NeedUnitId, Is.EqualTo(10));
+            Assert.That(queue.TryDequeue(out var third), Is.True);
+            Assert.That(third.NeedUnitId, Is.EqualTo(2));
+            Assert.That(queue.TryDequeue(out var none), Is.False);
+            Assert.That(none, Is.Null);
         }
 
         [Test]
@@ -65,7 +72,19 @@ namespace ResortEmpire.Gameplay.Tests
 
             Assert.That(queue.Count, Is.Zero);
             Assert.That(queue.WaitingUnitIds, Is.Empty);
-            Assert.That(queue.TryDequeue(out _), Is.False);
+            Assert.That(queue.TryDequeue(out var empty), Is.False);
+            Assert.That(empty, Is.Null);
+
+            Assert.That(queue.Enqueue(new NeedRuntime(7, 1, NeedType.Rooms, 0d)), Is.True);
+            var occupied = queue.WaitingUnitIds;
+            Assert.That(occupied, Is.EqualTo(new long[] { 7 }));
+            if (occupied is IList<long> list)
+                Assert.That(() => list[0] = 99, Throws.TypeOf<NotSupportedException>());
+            Assert.That(queue.TryDequeue(out var unit), Is.True);
+            Assert.That(unit.NeedUnitId, Is.EqualTo(7));
+            Assert.That(queue.Count, Is.Zero);
+            Assert.That(queue.Contains(7), Is.False);
+            Assert.That(occupied, Is.EqualTo(new long[] { 7 }));
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -255,6 +256,9 @@ namespace ResortEmpire.Gameplay.Tests
                 Assert.That(game.TryPurchaseBuilding(BuildingId.Pool), Is.False);
                 Assert.That(game.Resources.Coins, Is.EqualTo(399));
                 Assert.That(game.Workers.WorkerCount, Is.EqualTo(2));
+                Assert.That(game.Buildings.States[(int)BuildingId.Pool].IsOwned, Is.False);
+                Assert.That(disk.Data.Buildings[(int)BuildingId.Pool].Level, Is.Zero);
+                Assert.That(game.GetNextWave().Demand.Any(need => need.NeedType == NeedType.Relax), Is.False);
             }
             disk.Data.Coins = 400;
             using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), disk))
@@ -262,6 +266,9 @@ namespace ResortEmpire.Gameplay.Tests
                 Assert.That(game.TryPurchaseBuilding(BuildingId.Pool), Is.True);
                 Assert.That(game.Resources.Coins, Is.Zero);
                 Assert.That(game.Workers.WorkerCount, Is.EqualTo(3));
+                Assert.That(game.Buildings.States[(int)BuildingId.Pool].IsOwned, Is.True);
+                Assert.That(disk.Data.Buildings[(int)BuildingId.Pool].Level, Is.EqualTo(1));
+                Assert.That(game.GetNextWave().Demand.Any(need => need.NeedType == NeedType.Relax), Is.True);
             }
         }
 
@@ -385,10 +392,21 @@ namespace ResortEmpire.Gameplay.Tests
                 game.BuildingsChanged += _ => changes++;
                 disk.FailWrites = true;
                 Assert.That(game.TryUpgradeBuilding(BuildingId.Reception), Is.False);
+                Assert.That(game.LastFailureWasPersistence, Is.True);
                 Assert.That(game.Resources.Coins, Is.EqualTo(200));
                 Assert.That(game.Buildings.States[0].Level, Is.EqualTo(1));
+                Assert.That(game.Buildings.States[0].Capacity, Is.EqualTo(3));
                 Assert.That(disk.Data.Coins, Is.EqualTo(200));
+                Assert.That(disk.Data.Buildings[0].Level, Is.EqualTo(1));
                 Assert.That(changes, Is.Zero);
+
+                disk.FailWrites = false;
+                Assert.That(game.TryUpgradeBuilding(BuildingId.Reception), Is.True);
+                Assert.That(game.Resources.Coins, Is.Zero);
+                Assert.That(game.Buildings.States[0].Capacity, Is.EqualTo(5));
+                Assert.That(disk.Data.Coins, Is.Zero);
+                Assert.That(disk.Data.Buildings[0].Level, Is.EqualTo(2));
+                Assert.That(changes, Is.EqualTo(2), "One wallet event and one building event after the successful retry.");
             }
         }
 
@@ -500,15 +518,33 @@ namespace ResortEmpire.Gameplay.Tests
         [Test]
         public void ReentrantClaimAndThrowingUiListenerCannotDuplicateOrUndoCommit()
         {
-            using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), new TestProgressionPersistence()))
+            var disk = new TestProgressionPersistence();
+            using (var game = new ResortProgressionRuntime(EconomyTestFixtures.Config(), disk))
             {
                 EconomyTestFixtures.Complete(game);
                 var reward = game.CurrentWaveResult;
-                game.ResourcesChanged += _ => Assert.That(game.TryClaimWaveReward(reward.RewardId), Is.False);
+                var nestedCalls = 0;
+                bool? nestedResult = null;
+                var walletEvents = new List<ResourceSnapshot>();
+                game.ResourcesChanged += _ =>
+                {
+                    if (++nestedCalls == 1)
+                        nestedResult = game.TryClaimWaveReward(reward.RewardId);
+                };
                 game.ResourcesChanged += _ => throw new InvalidOperationException("UI error");
+                game.ResourcesChanged += walletEvents.Add;
+
                 Assert.That(game.TryClaimWaveReward(reward.RewardId), Is.True);
-                Assert.That(game.Resources.Coins, Is.EqualTo(reward.Rewards.Coins));
+                var expected = new ResourceSnapshot(reward.Rewards.Coins, reward.Rewards.Energy, reward.Rewards.ResortValue);
+                Assert.That(nestedCalls, Is.EqualTo(1));
+                Assert.That(nestedResult, Is.False);
+                Assert.That(walletEvents, Is.EqualTo(new[] { expected }));
+                Assert.That(game.NotificationDiagnostic, Is.EqualTo("UI error"));
+                Assert.That(game.Resources, Is.EqualTo(expected));
                 Assert.That(game.CurrentWaveResult.Claimed, Is.True);
+                Assert.That(disk.Data.ClaimedRewardIds, Is.EqualTo(new[] { reward.RewardId }));
+                Assert.That(disk.Data.Result.Claimed, Is.True);
+                Assert.That(new ResourceSnapshot(disk.Data.Coins, disk.Data.Energy, disk.Data.ResortValue), Is.EqualTo(expected));
             }
         }
     }
