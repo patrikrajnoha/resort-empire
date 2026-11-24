@@ -91,6 +91,51 @@ namespace ResortEmpire.Gameplay.Tests
         }
 
         [Test]
+        public void GameplayBootstrapWaitsForExplicitResumeOfSavedWave()
+        {
+            var config = EconomyTestFixtures.Config();
+            config.InitialEnergy = 6;
+            var disk = new TestProgressionPersistence();
+            using (var game = new ResortProgressionRuntime(config, disk))
+            {
+                Assert.That(game.TryStartWave(), Is.True);
+                game.Waves.Advance(12.5d);
+                Assert.That(game.TryUseEnergyBoost(BuildingId.Reception), Is.True);
+            }
+
+            var root = new UnityEngine.GameObject("CheckpointResumeTest");
+            try
+            {
+                var bootstrap = root.AddComponent<ResortGameplayBootstrap>();
+                Assert.That(bootstrap.TryConfigureProgression(config, disk), Is.True);
+                Assert.That(bootstrap.IsAwaitingWaveResume, Is.True);
+                Assert.That(bootstrap.CurrentPhase, Is.EqualTo(GamePhase.WAVE_PAUSED));
+                var savedTime = bootstrap.SimulationTime;
+                bootstrap.AdvanceSimulation(2d);
+                Assert.That(bootstrap.SimulationTime, Is.EqualTo(savedTime));
+                Assert.That(bootstrap.TrySaveProgress().Succeeded, Is.True);
+                Assert.That(disk.Data.ActiveWave.WaveId, Is.EqualTo(1));
+
+                Assert.That(bootstrap.TryResumeWave().Succeeded, Is.True);
+                Assert.That(bootstrap.IsAwaitingWaveResume, Is.False);
+                Assert.That(bootstrap.CurrentPhase, Is.EqualTo(GamePhase.WAVE_ACTIVE));
+                bootstrap.AdvanceSimulation(2d);
+                Assert.That(bootstrap.SimulationTime, Is.EqualTo(savedTime + 2d));
+                Assert.That(bootstrap.TryPauseWave().Succeeded, Is.True);
+                Assert.That(bootstrap.IsAwaitingWaveResume, Is.False);
+
+                Assert.That(bootstrap.TryReloadProgression(new TestProgressionPersistence()), Is.True);
+                Assert.That(bootstrap.CurrentPhase, Is.EqualTo(GamePhase.AWAITING_WAVE));
+                Assert.That(bootstrap.IsAwaitingWaveResume, Is.False);
+                Assert.That(bootstrap.NextWaveForecast.HasWave, Is.True);
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(root);
+            }
+        }
+
+        [Test]
         public void JsonReloadRestoresRemainingTimeSeatsRushAndSpentAllowance()
         {
             var path = Path.Combine(Path.GetTempPath(), "resort-boost-" + Guid.NewGuid().ToString("N") + ".json");

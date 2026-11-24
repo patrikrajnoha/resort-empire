@@ -23,17 +23,15 @@ namespace ResortEmpire.UI
         {
             public NeedType Need;
             public RectTransform Root;
-            [Tooltip("Need name label; the service name is appended in a smaller grey run.")]
             public TextMeshProUGUI Name;
+            public TextMeshProUGUI Service;
+            public TextMeshProUGUI Status;
             public TextMeshProUGUI Count;
             public Image ProgressFill;
-            [Tooltip("Always-visible row: status word, waiting queue and the Worker or seat limit.")]
+            [Tooltip("Waiting queue and the Worker or seat limit.")]
             [FormerlySerializedAs("Warning")]
             public TextMeshProUGUI Detail;
-            public GameObject AlertIcon;
-            public Image Icon;
-            [Tooltip("Glyph icons take the status color; full-color building art keeps its own.")]
-            public bool TintIcon = true;
+            public Image StatusIndicator;
             public Button Button;
             public UnityEngine.UI.Button SpeedUpButton;
             public TextMeshProUGUI SpeedUpLabel;
@@ -45,24 +43,35 @@ namespace ResortEmpire.UI
 
         [SerializeField] private ResortGameplayBootstrap gameplay;
         [SerializeField] private ResortUiStateCoordinator navigation;
-        [SerializeField] private RectTransform panel;
-        [SerializeField] private UnityEngine.UI.ScrollRect needsScroll;
+        [SerializeField] private ScrollRect needsScroll;
         [SerializeField] private TextMeshProUGUI heading;
+        [SerializeField] private TextMeshProUGUI waveStatus;
         [SerializeField] private TextMeshProUGUI guests;
+        [SerializeField] private Image guestProgressFill;
         [SerializeField] private RectTransform guestQuote;
         [SerializeField] private TextMeshProUGUI guestQuoteText;
         [SerializeField] private NeedCard[] cards;
-        [SerializeField] private float firstCardTop = 150f;
-        [SerializeField] private float cardSpacing = 24f;
-        [SerializeField] private float cardHeight = 176f;
         [SerializeField] private float refreshInterval = 0.1f;
-        [SerializeField] private Color okColor = new Color(0.06f, 0.72f, 0.51f);
-        [SerializeField] private Color recoveringColor = new Color(1f, 0.6f, 0f);
-        [SerializeField] private Color bottleneckColor = new Color(0.96f, 0.25f, 0.27f);
-        [SerializeField] private Color serviceNameColor = new Color(0.45f, 0.5f, 0.58f);
+
+        [Header("Progress colors")]
+        [SerializeField] private Color completeColor = new Color32(17, 116, 89, 255);
+        [SerializeField] private Color waitingColor = new Color32(151, 79, 16, 255);
+        [SerializeField] private Color bottleneckColor = new Color32(165, 48, 56, 255);
+        [SerializeField] private Color activeColor = new Color32(19, 101, 132, 255);
 
         [Header("Bottleneck detection")]
         [SerializeField] private WaveNeedStatusSettings statusSettings = new WaveNeedStatusSettings();
+
+        [Header("Bottleneck alert")]
+        private ResponsiveEdgePanel tabletMotion;
+        [SerializeField, Min(0.1f)] private float wobbleDuration = 0.55f;
+        [SerializeField, Range(0f, 5f)] private float wobbleAngle = 2f;
+        [SerializeField, Min(0f)] private float alertCooldown = 5f;
+        [SerializeField] private bool vibrateOnBottleneck = true;
+
+        private readonly HashSet<NeedType> bottleneckNeeds = new HashSet<NeedType>();
+        private int alertWaveId = -1;
+        private float nextAlertTime;
 
         [Header("Feedback toast")]
         [Tooltip("Short contextual messages. Never blocks taps; holds while S3 covers the panel.")]
@@ -107,6 +116,7 @@ namespace ResortEmpire.UI
 
         private void OnEnable()
         {
+            if (tabletMotion == null) tabletMotion = GetComponent<ResponsiveEdgePanel>();
             scrollToTop = true;
             HideFeedback();
             if (gameplay == null) gameplay = FindAnyObjectByType<ResortGameplayBootstrap>();
@@ -160,69 +170,93 @@ namespace ResortEmpire.UI
         private void Refresh()
         {
             nextRefresh = Time.unscaledTime + refreshInterval;
-            // Before the first wave (for example an F1 preview) the static layout stays untouched.
             var wave = Tracker.Capture(gameplay);
             if (wave == null)
             {
+                bottleneckNeeds.Clear();
+                alertWaveId = -1;
                 ResetScrollIfRequested();
                 return;
             }
 
-            SetText(heading, HeadingFor(gameplay.CurrentPhase, wave));
-            SetText(guests, "GUESTS: " + wave.Served + "/" + wave.Total);
+            SetText(heading, "WAVE " + wave.WaveId);
+            SetText(waveStatus, StatusFor(gameplay.CurrentPhase, wave.ArrivalsClosed));
+            SetText(guests, "SERVED " + wave.Served + "/" + wave.Total);
+            SetProgress(guestProgressFill, wave.Served, wave.Total);
 
             NeedStatusSnapshot? worst = null;
-            var top = RefreshRushNotification();
+            RefreshRushNotification();
             foreach (var card in cards)
             {
                 var status = Find(wave, card.Need);
                 card.Root.gameObject.SetActive(status.HasValue);
                 if (!status.HasValue) continue;
-                var need = status.Value;
-                var color = ColorFor(need.Status);
-                SetText(card.Name, ResortUiText.NeedName(need.NeedType) + "<size=72%><color=#"
-                    + ColorUtility.ToHtmlStringRGB(serviceNameColor) + ">  " + ResortUiText.BuildingName(need.BuildingId) + "</color></size>");
-                SetText(card.Count, need.Served + "/" + need.Total);
-                if (card.Count != null) card.Count.color = color;
-                if (card.Icon != null && card.TintIcon) card.Icon.color = color;
-                if (card.ProgressFill != null)
-                {
-                    card.ProgressFill.fillAmount = need.Total > 0 ? (float)need.Served / need.Total : 0f;
-                    card.ProgressFill.color = color;
-                }
-                if (card.Detail != null)
-                {
-                    if (!card.Detail.gameObject.activeSelf) card.Detail.gameObject.SetActive(true);
-                    card.Detail.text = DetailFor(need);
-                }
-                if (card.AlertIcon != null) card.AlertIcon.SetActive(need.Status == NeedServiceStatus.BOTTLENECK);
-                RefreshBoost(card, need);
 
-                if (!Mathf.Approximately(card.Root.rect.height, cardHeight))
-                    card.Root.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardHeight);
-                if (needsScroll == null)
-                {
-                    card.Root.anchoredPosition = new Vector2(card.Root.anchoredPosition.x, -(top + cardHeight * 0.5f));
-                    top += cardHeight + cardSpacing;
-                }
+                var need = status.Value;
+                var color = ColorFor(need);
+                SetText(card.Name, ResortUiText.NeedName(need.NeedType));
+                SetText(card.Service, ResortUiText.BuildingName(need.BuildingId));
+                SetText(card.Count, need.Served + "/" + need.Total);
+                SetText(card.Status, CardStatusFor(need));
+                SetText(card.Detail, DetailFor(need));
+                if (card.Status != null) card.Status.color = color;
+                if (card.StatusIndicator != null) card.StatusIndicator.color = color;
+                if (card.Count != null) card.Count.color = color;
+                if (card.ProgressFill != null) card.ProgressFill.color = color;
+                SetProgress(card.ProgressFill, need.Served, need.Total);
+                RefreshBoost(card, need);
                 if (IsWorse(need, worst)) worst = need;
             }
 
-            if (guestQuote != null)
-            {
-                var fits = needsScroll != null || panel == null || top + guestQuote.rect.height <= panel.rect.height;
-                guestQuote.gameObject.SetActive(fits);
-                if (needsScroll == null)
-                    guestQuote.anchoredPosition = new Vector2(guestQuote.anchoredPosition.x, -(top + guestQuote.rect.height * 0.5f));
-                SetText(guestQuoteText, QuoteFor(worst));
-            }
+            RefreshBottleneckAlert(wave);
+            SetText(guestQuoteText, QuoteFor(worst));
             ShowFeedback(wave.Feedback);
             ResetScrollIfRequested();
         }
 
+        private void RefreshBottleneckAlert(WaveProgressSnapshot wave)
+        {
+            if (alertWaveId != wave.WaveId)
+            {
+                alertWaveId = wave.WaveId;
+                bottleneckNeeds.Clear();
+                nextAlertTime = 0f;
+            }
+            if (gameplay.CurrentPhase != GamePhase.WAVE_ACTIVE)
+            {
+                return;
+            }
+
+            var enteredBottleneck = false;
+            foreach (var need in wave.Needs)
+            {
+                if (need.Status == NeedServiceStatus.BOTTLENECK)
+                    enteredBottleneck |= bottleneckNeeds.Add(need.NeedType);
+                else
+                    bottleneckNeeds.Remove(need.NeedType);
+            }
+            if (!enteredBottleneck || Time.unscaledTime < nextAlertTime) return;
+            nextAlertTime = Time.unscaledTime + alertCooldown;
+            tabletMotion?.PlayBottleneckWobble(wobbleDuration, wobbleAngle);
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+            if (vibrateOnBottleneck) Handheld.Vibrate();
+#endif
+        }
+
+        private static void SetProgress(Image fill, int served, int total)
+        {
+            if (fill == null) return;
+
+            var amount = total > 0 ? Mathf.Clamp01((float)served / total) : 0f;
+            var rect = fill.rectTransform;
+            if (rect.anchorMax.x != amount)
+                rect.anchorMax = new Vector2(amount, 1f);
+            fill.enabled = amount > 0f;
+        }
+
         private void ResetScrollIfRequested()
         {
-            if (!scrollToTop || needsScroll == null) return;
+            if (!scrollToTop || needsScroll == null || needsScroll.content == null) return;
             scrollToTop = false;
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(needsScroll.content);
             needsScroll.StopMovement();
@@ -233,10 +267,10 @@ namespace ResortEmpire.UI
         {
             if (card.SpeedUpButton == null || card.BoostTimer == null) return;
             var remaining = gameplay.EnergyBoostRemaining(need.BuildingId);
-            var canOffer = gameplay.EnergyBoostCost > 0 && gameplay.CurrentPhase == GamePhase.WAVE_ACTIVE
+            var canOffer = remaining <= 0d && gameplay.EnergyBoostCost > 0 && gameplay.CurrentPhase == GamePhase.WAVE_ACTIVE
                 && need.Served < need.Total && !gameplay.HasUsedEnergyBoost(need.BuildingId);
-            card.BoostTimer.gameObject.SetActive(remaining > 0d);
-            if (remaining > 0d) SetText(card.BoostTimer, "Boost active · " + Math.Ceiling(remaining) + "s");
+            card.BoostTimer.transform.parent.gameObject.SetActive(remaining > 0d);
+            if (remaining > 0d) SetText(card.BoostTimer, "Boost active\n" + Math.Ceiling(remaining) + "s left");
             card.SpeedUpButton.gameObject.SetActive(canOffer);
             if (!canOffer) return;
 
@@ -244,14 +278,18 @@ namespace ResortEmpire.UI
             var availability = gameplay.GetEnergyBoostAvailability(need.BuildingId);
             card.SpeedUpButton.interactable = availability.Succeeded;
             SetText(card.SpeedUpLabel, availability.Succeeded
-                ? card.BoostFailure ?? ("Speed Up · " + cost + " Energy")
-                : "Need " + cost + " Energy");
+                ? card.BoostFailure ?? ("Speed Up\n" + cost + " Energy")
+                : "Need\n" + cost + " Energy");
         }
 
         private void UseEnergyForCard(NeedCard card)
         {
-            var result = gameplay.TryUseEnergyBoost(BuildingNeedMapping.GetBuildingId(card.Need));
-            card.BoostFailure = result.Status == ResortGameplayCommandStatus.Unavailable ? "Save failed · Retry" : null;
+            if (gameplay == null) return;
+            var building = BuildingNeedMapping.GetBuildingId(card.Need);
+            if (!gameplay.GetEnergyBoostAvailability(building).Succeeded) return;
+
+            var result = gameplay.TryUseEnergyBoost(building);
+            card.BoostFailure = result.Status == ResortGameplayCommandStatus.Unavailable ? "Save failed\nRetry" : null;
             Refresh();
         }
 
@@ -262,53 +300,47 @@ namespace ResortEmpire.UI
             return null;
         }
 
-        private static string HeadingFor(GamePhase phase, WaveProgressSnapshot wave)
+        private static string StatusFor(GamePhase phase, bool arrivalsClosed)
         {
-            if (phase == GamePhase.WAVE_INCOMING) return "GUESTS ARRIVING";
-            if (phase == GamePhase.WAVE_PAUSED) return "WAVE PAUSED";
-            return wave.ArrivalsClosed ? "SERVING LAST GUESTS" : "WAVE " + wave.WaveId + " IN PROGRESS";
-        }
-
-        private Color ColorFor(NeedServiceStatus status)
-        {
-            if (status == NeedServiceStatus.BOTTLENECK) return bottleneckColor;
-            return status == NeedServiceStatus.RECOVERING ? recoveringColor : okColor;
-        }
-
-        // The status word always leads, so the state never depends on colour alone. The cause then
-        // separates a missing Worker (move one now) from full seats (upgrade between waves).
-        private string DetailFor(NeedStatusSnapshot need)
-        {
-            var waiting = need.Waiting + " waiting";
-            switch (need.Status)
+            switch (phase)
             {
-                case NeedServiceStatus.SATISFIED:
-                    return Colored("SATISFIED", okColor) + " · all " + need.Total + " served";
-                case NeedServiceStatus.BOTTLENECK:
-                    return Colored("BOTTLENECK", bottleneckColor) + " · " + waiting + " · "
-                        + Colored(CauseFor(need), bottleneckColor);
-                // The queue can still tick up by a guest while recovering, so state the staffing, not a trend.
-                case NeedServiceStatus.RECOVERING:
-                    return Colored("RECOVERING", recoveringColor) + " · " + waiting + " · " + StaffingFor(need);
-                default:
-                    return Colored("OK", okColor) + " · " + waiting + " · " + StaffingFor(need);
+                case GamePhase.WAVE_INCOMING: return "ARRIVING";
+                case GamePhase.WAVE_PAUSED: return "PAUSED";
+                case GamePhase.WAVE_COMPLETE: return "COMPLETE";
+                default: return arrivalsClosed ? "FINAL SERVICE" : "IN PROGRESS";
             }
         }
 
-        private static string CauseFor(NeedStatusSnapshot need)
+        private Color ColorFor(NeedStatusSnapshot need)
         {
-            return need.Cause == NeedQueueCause.ServiceCapacity
-                ? "SEATS FULL " + need.InService + "/" + need.Capacity
-                : "NO WORKER";
+            if (need.Total <= 0) return activeColor;
+            if (need.Status == NeedServiceStatus.BOTTLENECK) return bottleneckColor;
+            if (need.Status == NeedServiceStatus.SATISFIED) return completeColor;
+            return need.Status == NeedServiceStatus.RECOVERING || need.Waiting > 0 ? waitingColor : activeColor;
         }
 
-        private string StaffingFor(NeedStatusSnapshot need)
+        private static string CardStatusFor(NeedStatusSnapshot need)
         {
-            return need.IsStaffed ? "Worker on duty" : Colored("No Worker", recoveringColor);
+            if (need.Total <= 0) return "NO DEMAND";
+            switch (need.Status)
+            {
+                case NeedServiceStatus.SATISFIED: return "COMPLETE";
+                case NeedServiceStatus.BOTTLENECK: return "BOTTLENECK";
+                case NeedServiceStatus.RECOVERING: return "RECOVERING";
+                default: return need.Waiting > 0 ? "WAITING" : "ON TRACK";
+            }
         }
 
-        private static string Colored(string text, Color color) =>
-            "<color=#" + ColorUtility.ToHtmlStringRGB(color) + ">" + text + "</color>";
+        private static string DetailFor(NeedStatusSnapshot need)
+        {
+            if (need.Total <= 0) return "No service required";
+            if (need.Status == NeedServiceStatus.SATISFIED) return "All served";
+
+            var staffing = need.IsStaffed ? "Worker on duty" : "No worker";
+            if (need.Status == NeedServiceStatus.BOTTLENECK && need.Cause == NeedQueueCause.ServiceCapacity)
+                staffing = "Seats full " + need.InService + "/" + need.Capacity;
+            return need.Waiting + " waiting · " + staffing;
+        }
 
         private static bool IsWorse(NeedStatusSnapshot candidate, NeedStatusSnapshot? current)
         {
@@ -326,6 +358,8 @@ namespace ResortEmpire.UI
                 return "\"" + ResortUiText.NeedName(worst.Value.NeedType) + " takes a bit too long.\"";
             if (worst.HasValue && worst.Value.Status == NeedServiceStatus.RECOVERING)
                 return "\"" + ResortUiText.NeedName(worst.Value.NeedType) + " is getting better!\"";
+            if (worst.HasValue && worst.Value.Waiting > 0)
+                return "\"Still waiting for " + ResortUiText.NeedName(worst.Value.NeedType).ToLowerInvariant() + ".\"";
             return "\"Everything is running smoothly!\"";
         }
 
@@ -344,6 +378,7 @@ namespace ResortEmpire.UI
             feedbackRemaining = feedbackDuration;
             feedbackShown = 0f;
             if (!feedbackToast.gameObject.activeSelf) feedbackToast.gameObject.SetActive(true);
+            if (guestQuote != null) guestQuote.gameObject.SetActive(false);
         }
 
         private void UpdateFeedback()
@@ -367,6 +402,7 @@ namespace ResortEmpire.UI
         private void HideFeedback()
         {
             feedbackRemaining = 0f;
+            if (guestQuote != null) guestQuote.gameObject.SetActive(true);
             if (feedbackToast == null) return;
             feedbackToast.alpha = 0f;
             feedbackToast.blocksRaycasts = false;
@@ -406,9 +442,9 @@ namespace ResortEmpire.UI
             if (navigation != null) navigation.OpenWorkerAllocationForNeed(card.Need);
         }
 
-        private float RefreshRushNotification()
+        private void RefreshRushNotification()
         {
-            if (rushNotification == null) return firstCardTop;
+            if (rushNotification == null) return;
             var rush = gameplay == null ? default : gameplay.CurrentSuddenRush;
             if (rush.IsVisible && !rushNotification.gameObject.activeSelf)
                 scrollToTop = true;
@@ -416,12 +452,10 @@ namespace ResortEmpire.UI
             if (!rush.IsVisible)
             {
                 rushActionMessage = null;
-                return firstCardTop;
+                return;
             }
 
-            if (needsScroll == null)
-                rushNotification.anchoredPosition = new Vector2(0f, -firstCardTop);
-            SetText(rushTitle, "SUDDEN RUSH: " + ResortUiText.BuildingName(rush.BuildingId).ToUpperInvariant());
+            SetText(rushTitle, "SUDDEN RUSH · " + ResortUiText.BuildingName(rush.BuildingId).ToUpperInvariant());
             SetText(rushDescription, "+" + rush.DemandUnits + " "
                 + ResortUiText.NeedName(BuildingNeedMapping.GetNeedType(rush.BuildingId))
                 + " demand over " + rush.Duration.ToString("0.#") + "s. Guests are waiting!");
@@ -432,12 +466,11 @@ namespace ResortEmpire.UI
                 energyBoostButton.gameObject.SetActive(!used);
                 energyBoostButton.interactable = availability.Succeeded;
                 SetText(energyBoostButton.GetComponentInChildren<TextMeshProUGUI>(true),
-                    "Use Energy to serve faster\n" + gameplay.EnergyBoostCost + " Energy");
+                    "Boost · " + gameplay.EnergyBoostCost + " Energy");
             }
             if (moveWorkerButton != null) moveWorkerButton.interactable = navigation != null;
             SetText(rushFeedback, rushActionMessage ?? (availability.Succeeded
                 ? "The wave keeps running. Energy is optional." : availability.Message));
-            return firstCardTop + rushNotification.rect.height + cardSpacing;
         }
 
         private void MoveWorkerToRush()
@@ -467,7 +500,7 @@ namespace ResortEmpire.UI
 
         private static void SetText(TextMeshProUGUI label, string value)
         {
-            if (label != null) label.text = value;
+            if (label != null && label.text != value) label.text = value;
         }
     }
 }

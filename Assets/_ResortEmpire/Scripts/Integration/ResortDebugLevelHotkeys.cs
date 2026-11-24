@@ -1,5 +1,9 @@
 using System;
 using UnityEngine;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+using TMPro;
+using UnityEngine.EventSystems;
+#endif
 
 namespace ResortEmpire.Gameplay.Integration
 {
@@ -36,30 +40,23 @@ namespace ResortEmpire.Gameplay.Integration
     [DisallowMultipleComponent]
     public sealed class ResortDebugLevelHotkeys : MonoBehaviour
     {
-        private void Awake()
-        {
-            ResortDebugLevelOverride.Clear();
-        }
-
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F1))
-                SetLevel(1);
-            else if (Input.GetKeyDown(KeyCode.F2))
-                SetLevel(2);
-            else if (Input.GetKeyDown(KeyCode.F3))
-                SetLevel(3);
-        }
+            if (DebugModalState.BlocksInput) return;
+            var level = Input.GetKeyDown(KeyCode.F1) ? 1
+                : Input.GetKeyDown(KeyCode.F2) ? 2
+                : Input.GetKeyDown(KeyCode.F3) ? 3 : 0;
+            if (level == 0) return;
 
-        private void OnDestroy()
-        {
-            ResortDebugLevelOverride.Clear();
-        }
+            var selected = EventSystem.current?.currentSelectedGameObject;
+            if (selected != null && (selected.GetComponentInParent<TMP_InputField>()?.isFocused == true
+                || selected.GetComponentInParent<UnityEngine.UI.InputField>()?.isFocused == true)) return;
+            if (FindAnyObjectByType<ResortUiStateCoordinator>()?.IsDebugHotkeyBlocked == true) return;
 
-        private static void SetLevel(int level)
-        {
-            ResortDebugLevelOverride.SetLevel(level);
-            Debug.Log("Debug building level preview: Level " + level + ".");
+            var game = FindAnyObjectByType<ResortGameplayBootstrap>();
+            Debug.Log(new DebugCommandManager(game).Execute($"set_buildings_level {level}"), this);
         }
+#endif
     }
 }

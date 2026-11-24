@@ -27,7 +27,8 @@ namespace ResortEmpire.Gameplay.Tests
                 {
                     var card = cards.GetArrayElementAtIndex(i);
                     Assert.That(card.FindPropertyRelative("Need").intValue, Is.EqualTo(i), "Cards keep NeedType order.");
-                    foreach (var field in new[] { "Root", "Name", "Count", "Detail", "Button", "AlertIcon" })
+                    foreach (var field in new[] { "Root", "Name", "Service", "Count", "Detail", "Status", "StatusIndicator",
+                                 "ProgressFill", "Button", "SpeedUpButton", "SpeedUpLabel", "BoostTimer" })
                         Assert.That(card.FindPropertyRelative(field).objectReferenceValue, Is.Not.Null, "Card " + i + " " + field);
 
                     // Tapping a card must open S3 for its own need: the Button lives on that card, with no stale scene listeners.
@@ -36,11 +37,17 @@ namespace ResortEmpire.Gameplay.Tests
                     Assert.That(cardRoot.name, Is.EqualTo(((NeedType)i) + "Card"));
                     Assert.That(button.gameObject, Is.SameAs(cardRoot.gameObject));
                     Assert.That(button.onClick.GetPersistentEventCount(), Is.Zero, cardRoot.name);
+                    var source = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cardRoot.gameObject);
+                    Assert.That(AssetDatabase.GetAssetPath(source), Does.EndWith("/WaveNeedCard.prefab"));
                 }
 
                 // Build IV: no live numeric Wave Satisfaction during a wave.
                 foreach (var name in new[] { "RatingStars", "RatingValue", "SatisfactionBar", "SatisfactionThresholds" })
-                    Assert.That(s2.Find("Panel/" + name).gameObject.activeSelf, Is.False, name);
+                    Assert.That(s2.GetComponentsInChildren<RectTransform>(true).Any(rect => rect.name == name), Is.False, name);
+
+                foreach (var field in new[] { "gameplay", "navigation", "heading", "waveStatus", "guests", "guestProgressFill",
+                             "needsScroll", "rushNotification", "moveWorkerButton", "energyBoostButton", "ignoreRushButton" })
+                    Assert.That(presenter.FindProperty(field).objectReferenceValue, Is.Not.Null, field);
 
                 var toast = (CanvasGroup)presenter.FindProperty("feedbackToast").objectReferenceValue;
                 Assert.That(toast, Is.Not.Null);
@@ -53,6 +60,32 @@ namespace ResortEmpire.Gameplay.Tests
                 Assert.That(panel.sizeDelta.x / 2340f, Is.LessThan(0.4f), "Most of the island stays visible.");
             }
             finally { EditorSceneManager.ClosePreviewScene(scene); }
+        }
+
+        [TestCase(0, 24, 0f)]
+        [TestCase(12, 24, 0.5f)]
+        [TestCase(24, 24, 1f)]
+        [TestCase(8, 8, 1f)]
+        [TestCase(4, 8, 0.5f)]
+        [TestCase(2, 6, 1f / 3f)]
+        [TestCase(5, 0, 0f)]
+        [TestCase(-1, 8, 0f)]
+        [TestCase(12, 8, 1f)]
+        public void NeedProgressFillClampsToItsTrack(int served, int total, float expected)
+        {
+            var component = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_ResortEmpire/Prefabs/UI/WaveNeedsPanel.prefab")
+                .GetComponent("WaveNeedsPresenter");
+            var setProgress = component.GetType().GetMethod("SetProgress", BindingFlags.NonPublic | BindingFlags.Static);
+            Assert.That(setProgress, Is.Not.Null);
+            var go = new GameObject("Progress Test", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            try
+            {
+                var fill = go.GetComponent<UnityEngine.UI.Image>();
+                setProgress.Invoke(null, new object[] { fill, served, total });
+                Assert.That(fill.rectTransform.anchorMax.x, Is.EqualTo(expected).Within(0.0001f));
+                Assert.That(fill.enabled, Is.EqualTo(expected > 0f));
+            }
+            finally { Object.DestroyImmediate(go); }
         }
     }
 

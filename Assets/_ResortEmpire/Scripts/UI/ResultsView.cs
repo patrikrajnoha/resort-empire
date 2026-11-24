@@ -16,6 +16,8 @@ namespace ResortEmpire.UI {
         public void SetResults(string served, string satisfaction, string feedback, int stars, bool perfectStay) {
             Served.text=served; Satisfaction.text=satisfaction; Feedback.text=feedback;
             Stars.SetRating(stars); PerfectStayBadge.SetActive(perfectStay); ResetClaim();
+            var celebration = GetComponent<WaveCompleteCelebration>();
+            if (celebration != null) celebration.Play();
         }
         public void RequestClaim() { if(claimPending)return; claimPending=true; ClaimButton.interactable=false; ClaimRequested.Invoke(); }
         public void ResetClaim() { claimPending=false; ClaimButton.interactable=true; }

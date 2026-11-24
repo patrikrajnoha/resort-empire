@@ -53,6 +53,7 @@ namespace ResortEmpire.UI
 
         private void OnEnable()
         {
+            FindAnyObjectByType<HomeIslandPresenter>()?.RefreshWaveStartAvailability();
             if (gameplay == null) gameplay = FindAnyObjectByType<ResortGameplayBootstrap>();
             if (unlockButton != null) unlockButton.onClick.AddListener(Unlock);
             if (laterButton != null) laterButton.onClick.AddListener(Close);
@@ -64,6 +65,7 @@ namespace ResortEmpire.UI
 
         private void OnDisable()
         {
+            FindAnyObjectByType<HomeIslandPresenter>()?.RefreshWaveStartAvailability();
             if (unlockButton != null) unlockButton.onClick.RemoveListener(Unlock);
             if (laterButton != null) laterButton.onClick.RemoveListener(Close);
             if (gameplay == null) return;

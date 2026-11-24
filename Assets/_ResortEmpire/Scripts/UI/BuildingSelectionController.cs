@@ -63,6 +63,13 @@ namespace ResortEmpire.UI
 
         private void Update()
         {
+            if (ResortEmpire.Gameplay.Integration.DebugModalState.BlocksInput)
+            {
+                pointerWasPressed = false;
+                pointerGestureBlockedByUi = true;
+                SetHighlighted(null);
+                return;
+            }
             if (!TryReadPointer(out var position, out var pressed)) return;
 
             if (!AllowsBuildingSelection(gameplay == null ? GamePhase.WAVE_ACTIVE : gameplay.CurrentPhase))

@@ -10,6 +10,7 @@ namespace ResortEmpire.Gameplay.Integration
     public sealed class JsonFileProgressionPersistence : IProgressionPersistence
     {
         private readonly string path;
+        public string FilePath => path;
         public JsonFileProgressionPersistence(string path)
         {
             if (string.IsNullOrWhiteSpace(path)) throw new ArgumentException("A save path is required.", nameof(path));

@@ -71,6 +71,7 @@ namespace ResortEmpire.DebugUi
         private void Update()
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (DebugModalState.BlocksInput) { f4WasPressed = false; return; }
             if (!IsDevelopmentUiAvailable || activeInstance != this)
                 return;
 

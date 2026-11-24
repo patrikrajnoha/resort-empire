@@ -1,0 +1,12 @@
+Generated using the built-in image_gen tool with transparent_background=true.
+Six isolated 512x512 icon cells were cropped from the retained original atlas.
+The modal shares the tropical-panel sprite from UpgradeAvailable for consistent framing.
+Existing building illustrations remain connected to the AreaUnlockPresenter's area data.
+
+Prompt:
+Use case: stylized-concept. ONE production sprite atlas for a tropical resort tycoon mobile game, actual transparent background. 1536x1024 exact three columns two rows, 512 square cells, one centered isolated icon per cell, ample padding, no overlap. Top row: 1 open golden padlock decorated with two tiny sea turquoise palm leaves (new area unlock emblem); 2 friendly resort worker cream sunhat with teal band and small golden badge (worker icon); 3 inviting turquoise pool water with a cream ladder and tiny sun sparkle (relax need icon). Bottom row: 4 neat small stack of honey gold coins with embossed star; 5 bold turquoise check mark on a small round creamy ivory and gold medallion; 6 a golden compass with turquoise center and a tiny palm leaf (explore emblem). Friendly polished softly beveled game illustration, cream ivory, honey gold, warm brown fine outlines, sea turquoise, restrained soft highlights, clean readable silhouettes at 40px. Matches tropical island buildings and cream modal panels with gold frames. No text, letters, numbers, no drop shadows outside the objects, no background, no checkerboard. Canvas UI Image icons, not a screen mockup.
+
+Consumer: Assets/_ResortEmpire/Prefabs/UI/AreaUnlockPanel.prefab and the Resort scene copy.
+Reapply prefab styling: Resort Empire > UI > Apply Area Unlock Style.
+AreaUnlockPresenter refreshes Start Wave availability on open and close.
+HomeIslandPresenter also rejects Start Wave clicks while this modal is active.

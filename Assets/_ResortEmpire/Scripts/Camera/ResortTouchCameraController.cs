@@ -55,6 +55,8 @@ namespace ResortEmpire
         [Header("Editor fallback")]
         [SerializeField] private bool enableMouseFallback = true;
         [SerializeField, Min(0.001f)] private float mouseScrollSensitivity = 1.25f;
+        [SerializeField] private bool enableKeyboardFallback = true;
+        [SerializeField, Min(1.001f)] private float keyboardZoomStep = 1.15f;
 
         [Header("Wave presentation")]
         [SerializeField] private ResortGameplayBootstrap gameplayBootstrap;
@@ -74,6 +76,8 @@ namespace ResortEmpire
         private float targetZoomValue;
         private float zoomValueVelocity;
         private bool gestureBlocked;
+        private bool zoomInHeld;
+        private bool zoomOutHeld;
         private bool panInputThisFrame;
         private int previousTouchCount;
         private bool singleTouchDragging;
@@ -116,7 +120,7 @@ namespace ResortEmpire
                 : Mathf.Clamp(GetPerspectiveDistance(), minPerspectiveDistance, maxPerspectiveDistance);
 
             RefreshWorldBounds();
-            if (targetCamera.orthographic)
+            if (targetCamera.orthographic && IsViewportReady())
             {
                 // Landscape editor/Game views can be narrower than the phone
                 // stream. Fit the complete background to the current aspect
@@ -129,8 +133,15 @@ namespace ResortEmpire
                     targetCameraPosition.z);
                 lastCameraAspect = targetCamera.aspect;
             }
+            else if (targetCamera.orthographic)
+            {
+                // The Device Simulator may not have a valid viewport during
+                // Awake. Let Update perform the first fit once it is ready.
+                lastCameraAspect = -1f;
+            }
 
-            targetCameraPosition = ClampCameraPosition(targetCameraPosition, targetZoomValue);
+            if (IsViewportReady())
+                targetCameraPosition = ClampCameraPosition(targetCameraPosition, targetZoomValue);
             targetCamera.transform.position = targetCameraPosition;
             if (targetCamera.orthographic)
                 targetCamera.orthographicSize = targetZoomValue;
@@ -254,8 +265,18 @@ namespace ResortEmpire
 
         private void Update()
         {
+            if (ResortEmpire.Gameplay.Integration.DebugModalState.BlocksInput) return;
             if (targetCamera == null || boundsSource == null)
                 return;
+
+            // Device Simulator can briefly report a zero/invalid viewport while
+            // its simulated device is being initialized or resized. Do not feed
+            // that aspect ratio into the camera bounds math: it would poison the
+            // target position/zoom with NaN and disable all later gestures.
+            if (!IsViewportReady())
+                return;
+
+            RestoreFiniteCameraState();
 
             panInputThisFrame = false;
 
@@ -274,6 +295,8 @@ namespace ResortEmpire
             bool touchWasHandled = UpdateTouchInput();
             if (!touchWasHandled && enableMouseFallback)
                 UpdateMouseInput();
+            if (enableKeyboardFallback)
+                UpdateKeyboardInput();
 
             ApplyPanInertia();
             if (!panInputThisFrame)
@@ -393,10 +416,12 @@ namespace ResortEmpire
 
         private void UpdateOrthographicZoomLimit()
         {
-            if (!targetCamera.orthographic || !hasWorldBounds)
+            if (!targetCamera.orthographic || !hasWorldBounds || !IsViewportReady())
                 return;
 
             float fitZoom = GetMinimumOrthographicSizeToFitBounds();
+            if (!IsFinite(fitZoom))
+                return;
 
             // A larger orthographic size zooms farther out. Never allow the
             // camera to zoom beyond the size where the complete background
@@ -590,6 +615,21 @@ namespace ResortEmpire
             }
 
             float scroll = mouse.scroll.ReadValue().y;
+            if (Mathf.Abs(scroll) <= 0.001f)
+            {
+                // Device Simulator and older Unity editor input backends can expose
+                // the wheel/trackpad delta only through the legacy input API.
+                try { scroll = Input.mouseScrollDelta.y; }
+                catch (System.InvalidOperationException) { /* The legacy input backend may be disabled. */ }
+                catch (UnityException) { /* The legacy input backend may be disabled. */ }
+
+                if (Mathf.Abs(scroll) <= 0.001f)
+                {
+                    try { scroll = Input.GetAxisRaw("Mouse ScrollWheel"); }
+                    catch (System.InvalidOperationException) { /* The legacy input backend may be disabled. */ }
+                    catch (UnityException) { /* The legacy input backend may be disabled. */ }
+                }
+            }
             if (Mathf.Abs(scroll) > 0.001f && !IsPointerBlocked(position, -1))
             {
                 float scrollSteps = Mathf.Abs(scroll) > 10f ? scroll / 120f : scroll;
@@ -598,9 +638,39 @@ namespace ResortEmpire
             }
         }
 
+        private void UpdateKeyboardInput()
+        {
+            var keyboard = Keyboard.current;
+            if (keyboard == null)
+            {
+                zoomInHeld = false;
+                zoomOutHeld = false;
+                return;
+            }
+
+            Vector2 screenCenter = new Vector2(
+                targetCamera.pixelRect.x + targetCamera.pixelRect.width * 0.5f,
+                targetCamera.pixelRect.y + targetCamera.pixelRect.height * 0.5f);
+            float step = Mathf.Max(keyboardZoomStep, 1.001f);
+            bool zoomInPressed = keyboard.numpadPlusKey.isPressed || keyboard.equalsKey.isPressed;
+            bool zoomOutPressed = keyboard.numpadMinusKey.isPressed || keyboard.minusKey.isPressed;
+
+            // The editor can report a held key without reporting a press in the current frame.
+            if (keyboard.numpadPlusKey.wasPressedThisFrame || keyboard.equalsKey.wasPressedThisFrame
+                || (zoomInPressed && !zoomInHeld))
+                ZoomAroundScreenPoint(step, screenCenter);
+            if (keyboard.numpadMinusKey.wasPressedThisFrame || keyboard.minusKey.wasPressedThisFrame
+                || (zoomOutPressed && !zoomOutHeld))
+                ZoomAroundScreenPoint(1f / step, screenCenter);
+
+            zoomInHeld = zoomInPressed;
+            zoomOutHeld = zoomOutPressed;
+        }
+
         public void PanByScreenDelta(Vector2 screenDelta)
         {
-            if (targetCamera == null || screenDelta.sqrMagnitude <= 0.000001f)
+            if (targetCamera == null || !IsViewportReady() || !IsFinite(screenDelta)
+                || screenDelta.sqrMagnitude <= 0.000001f)
                 return;
 
             Vector2 screenCenter = new Vector2(
@@ -653,7 +723,8 @@ namespace ResortEmpire
 
         public void ZoomAroundScreenPoint(float ratio, Vector2 screenPoint)
         {
-            if (ratio <= 0f || float.IsNaN(ratio) || float.IsInfinity(ratio))
+            if (targetCamera == null || !IsViewportReady() || ratio <= 0f || !IsFinite(ratio)
+                || !IsFinite(screenPoint))
                 return;
 
             if (targetCamera.orthographic)
@@ -993,6 +1064,61 @@ namespace ResortEmpire
             edgeReturnVelocity = Vector3.zero;
         }
 
+        private bool IsViewportReady()
+        {
+            if (targetCamera == null)
+                return false;
+
+            Rect pixelRect = targetCamera.pixelRect;
+            return pixelRect.width > 0f
+                && pixelRect.height > 0f
+                && IsFinite(targetCamera.aspect)
+                && targetCamera.aspect > 0f;
+        }
+
+        private void RestoreFiniteCameraState()
+        {
+            if (!IsFinite(configuredMaxOrthographicSize) || configuredMaxOrthographicSize <= 0f)
+                configuredMaxOrthographicSize = Mathf.Max(maxOrthographicSize, minOrthographicSize);
+
+            if (!IsFinite(maxOrthographicSize) || maxOrthographicSize < minOrthographicSize)
+                maxOrthographicSize = Mathf.Max(configuredMaxOrthographicSize, minOrthographicSize);
+
+            if (!IsFinite(targetCameraPosition))
+                targetCameraPosition = targetCamera.transform.position;
+
+            if (!IsFinite(targetZoomValue) || targetZoomValue <= 0f)
+            {
+                targetZoomValue = targetCamera.orthographic
+                    ? Mathf.Clamp(targetCamera.orthographicSize, minOrthographicSize, maxOrthographicSize)
+                    : Mathf.Clamp(GetPerspectiveDistance(), minPerspectiveDistance, maxPerspectiveDistance);
+            }
+
+            if (!IsFinite(cameraPositionVelocity))
+                cameraPositionVelocity = Vector3.zero;
+            if (!IsFinite(edgeReturnVelocity))
+                edgeReturnVelocity = Vector3.zero;
+            if (!IsFinite(panVelocity))
+                panVelocity = Vector3.zero;
+            if (!IsFinite(zoomValueVelocity))
+                zoomValueVelocity = 0f;
+        }
+
+        private static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        private static bool IsFinite(Vector2 value)
+        {
+            return IsFinite(value.x) && IsFinite(value.y);
+        }
+
+        private static bool IsFinite(Vector3 value)
+        {
+            return IsFinite(value.x) && IsFinite(value.y) && IsFinite(value.z);
+        }
+
         private bool IsPointerBlocked(Vector2 screenPosition, int pointerId)
         {
             var eventSystem = EventSystem.current;
@@ -1004,6 +1130,7 @@ namespace ResortEmpire
                 position = screenPosition,
                 pointerId = pointerId
             };
+
             raycastResults.Clear();
             eventSystem.RaycastAll(pointerData, raycastResults);
 
@@ -1013,6 +1140,11 @@ namespace ResortEmpire
                     continue;
 
                 Transform raycastTransform = raycast.gameObject.transform;
+                bool ownsUiGesture = raycastTransform.GetComponentInParent<ScrollRect>() != null
+                    || ExecuteEvents.GetEventHandler<IDragHandler>(raycast.gameObject) != null;
+                if (ownsUiGesture)
+                    return true;
+
                 bool isWorldCanvasGraphic = worldCanvasTransform != null
                     && (raycastTransform == worldCanvasTransform || raycastTransform.IsChildOf(worldCanvasTransform));
 

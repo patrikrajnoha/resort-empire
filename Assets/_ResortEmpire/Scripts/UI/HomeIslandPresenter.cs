@@ -95,10 +95,14 @@ namespace ResortEmpire.UI
 
             var phase = gameplay.CurrentPhase;
             var forecast = gameplay.NextWaveForecast;
-            SetText(statusText, StatusFor(phase, forecast));
+            var awaitingResume = gameplay.IsAwaitingWaveResume;
+            SetText(statusText, awaitingResume ? "WAVE SAVED" : StatusFor(phase, forecast));
             if (startWaveButton != null)
-                startWaveButton.gameObject.SetActive(gameplay.IsConfigured && phase == GamePhase.AWAITING_WAVE && forecast.HasWave);
-            if (forecast.HasWave) SetText(startWaveText, "START WAVE " + forecast.WaveId);
+                startWaveButton.gameObject.SetActive(gameplay.IsConfigured &&
+                    (awaitingResume || phase == GamePhase.AWAITING_WAVE && forecast.HasWave));
+            RefreshWaveStartAvailability();
+            if (awaitingResume) SetText(startWaveText, "RESUME WAVE");
+            else if (forecast.HasWave) SetText(startWaveText, "START WAVE " + forecast.WaveId);
 
             if (poolWorkerMarker != null)
                 poolWorkerMarker.gameObject.SetActive(IsOwned(BuildingId.Pool));
@@ -146,10 +150,19 @@ namespace ResortEmpire.UI
 
         private void StartWave()
         {
-            var command = gameplay.TryStartWave();
+            // Also guard programmatic onClick invocations while the modal owns input.
+            if (navigation != null && navigation.IsAreaUnlockOpen) return;
+            var command = gameplay.IsAwaitingWaveResume ? gameplay.TryResumeWave() : gameplay.TryStartWave();
             if (command.Succeeded) return;
             Debug.LogWarning(command.Message);
             CommandFailed.Invoke(command.Message);
+        }
+
+        public void RefreshWaveStartAvailability()
+        {
+            if (navigation == null) navigation = FindAnyObjectByType<ResortUiStateCoordinator>();
+            if (startWaveButton != null)
+                startWaveButton.interactable = navigation == null || !navigation.IsAreaUnlockOpen;
         }
 
         private void OpenWorkerAllocation()

@@ -1,0 +1,37 @@
+RESORT EMPIRE ART
+
+UI/<Window>/
+Artwork used by one UI window: AreaUnlock, BuildingInfo, HomeIsland,
+UpgradeAvailable, VipPreview, VipRequestBoard, WaveNeeds, WorkerAllocation.
+
+Shared/UI/
+Artwork used by multiple UI windows, including the shared WaveComplete and
+VipComplete result template. Subfolders distinguish buttons, icons, skins,
+surfaces, illustrations, ratings, and other UI roles.
+
+Shared/Fonts/
+Rubik source fonts and TextMeshPro assets used across the UI.
+
+Shared/WorldAndUI/
+Building illustrations, island/backdrop sprites and other graphics used both
+in the world and in UI. These have a single source asset, not duplicate copies.
+
+World/
+Graphics, materials, shaders, video and navigation masks used outside UI.
+
+Unused/
+Existing files without a consumer found in current scenes, standalone
+prefabs, configurations or explicit code/test paths. Earlier variants,
+generation prompts, original source atlases and authoring JSON are retained.
+This is an archive, not a request to delete these files.
+Recovery scene backups are excluded from usage classification.
+
+AssetOrganization.csv
+Full index of all the organized art files: GUID, original path, current path,
+consumer windows and classification. Moved files retain their original asset GUIDs. The index includes
+artwork and import changes used by the refreshed interface.
+
+Editor UI setup tools resolve generated icon sets using ResortArtCatalog
+GUID aliases so a shared icon does not need to live inside one window folder.
+Project-owned graphics are organized here; third-party TextMeshPro package
+resources keep their standard Assets/TextMesh Pro location.

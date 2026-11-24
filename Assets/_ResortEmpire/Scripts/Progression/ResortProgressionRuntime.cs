@@ -66,6 +66,17 @@ namespace ResortEmpire.Gameplay.Progression
         public event Action<IReadOnlyList<BuildingStateSnapshot>> BuildingsChanged;
         public event Action<WaveResult> WaveResultReady;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public bool TryDebugAddResources(int coins, int energy) => Execute(() =>
+        {
+            if (coins < 0 || energy < 0 || (coins == 0 && energy == 0)) return Reject("Amount must be positive.");
+            if (!ResourceManager.TryCalculate(Resources, coins, energy, 0, out var next)) return Reject("Resource limit exceeded.");
+            resources.Apply(next);
+            Publish(ResourcesChanged, next);
+            return true;
+        });
+#endif
+
         public WaveDefinition GetNextWave()
         {
             if (checkpoint.ClaimedWaves >= config.BaseDemand.Length) return null;
@@ -192,14 +203,19 @@ namespace ResortEmpire.Gameplay.Progression
             var cost = config.PurchaseCosts[(int)id];
             if (!resources.CanAffordCoins(cost)) return Reject("Not enough Coins.");
             next.Coins -= cost;
+            AddPurchasedBuilding(next, building);
+            return Commit(next);
+        });
+
+        private static void AddPurchasedBuilding(ProgressionSaveData next, BuildingSaveData building)
+        {
             building.Level = 1;
             var workers = new List<WorkerSaveData>(next.Workers);
             var nextId = 1;
             foreach (var worker in workers) nextId = Math.Max(nextId, worker.WorkerId + 1);
-            workers.Add(new WorkerSaveData { WorkerId = nextId, BuildingId = id });
+            workers.Add(new WorkerSaveData { WorkerId = nextId, BuildingId = building.BuildingId });
             next.Workers = workers.ToArray();
-            return Commit(next);
-        });
+        }
 
         public bool TryUpgradeBuilding(BuildingId id) => Execute(() =>
         {
@@ -273,7 +289,7 @@ namespace ResortEmpire.Gameplay.Progression
             return next;
         }
 
-        private bool Commit(ProgressionSaveData next)
+        private bool Commit(ProgressionSaveData next, bool persist = true)
         {
             ValidateSave(next, config);
             // Validate the exact post-commit Worker state before touching disk or the live provider.
@@ -281,12 +297,12 @@ namespace ResortEmpire.Gameplay.Progression
             var nextWorkers = new WorkerManager(nextBuildings, new GameState(next.Phase), Array.ConvertAll(next.Workers, w => w.BuildingId));
             var assignments = ReadWorkers(next);
             nextWorkers.RestoreAssignments(assignments);
-            if (!WriteCheckpoint(next)) return false;
+            if (persist && !WriteCheckpoint(next)) return false;
             var previousResources = Resources;
             var previousWorkers = Workers.Assignments;
             checkpoint = next;
             pendingCompletion = null;
-            PersistenceDiagnostic = null;
+            if (persist) PersistenceDiagnostic = null;
             resources.Apply(new ResourceSnapshot(next.Coins, next.Energy, next.ResortValue));
             Buildings.Apply(next);
             rewards.Apply(next.Result);
@@ -303,6 +319,64 @@ namespace ResortEmpire.Gameplay.Progression
                         Publish(WorkerAssignmentChanged, new WorkerAssignmentChange(worker.WorkerId, previousWorkers[i].BuildingId, worker.BuildingId));
             return true;
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        public bool TryDebugSetBuildingLevel(BuildingId? id, int level) => Execute(() =>
+        {
+            if (level < 1 || level > 3 || level > config.Capacities.Length)
+                return Reject("Building level must be 1, 2 or 3.");
+            if (State.CurrentState != GamePhase.AWAITING_WAVE && State.CurrentState != GamePhase.UPGRADE)
+                return Reject("Building levels can only change between waves.");
+            var next = CaptureCheckpoint();
+            if (id.HasValue && (!ValidId(id.Value) || next.Buildings[(int)id.Value].Level == 0))
+                return Reject("Choose a valid owned building.");
+            foreach (var building in next.Buildings)
+                if (building.Level > 0 && (!id.HasValue || building.BuildingId == id.Value))
+                    building.Level = level;
+            return Commit(next, persist: false);
+        });
+
+        public bool TryDebugUnlockAvailableBuildings() => Execute(() =>
+        {
+            if (State.CurrentState != GamePhase.AWAITING_WAVE)
+                return Reject("Unlocks are available while awaiting a wave.");
+            var next = CaptureCheckpoint();
+            var unlocked = false;
+            foreach (var building in next.Buildings)
+            {
+                if (building.Level != 0 || next.ClaimedWaves < config.UnlockWaves[(int)building.BuildingId])
+                    continue;
+                AddPurchasedBuilding(next, building);
+                unlocked = true;
+            }
+            return unlocked ? Commit(next, persist: false) : Reject("No eligible unowned buildings. Complete the required waves first.");
+        });
+
+        public bool TryDebugResetWorkers() => Execute(() =>
+        {
+            if (State.CurrentState != GamePhase.AWAITING_WAVE && State.CurrentState != GamePhase.UPGRADE)
+                return Reject("Reset worker assignments between waves.");
+            var next = CaptureCheckpoint();
+            var destinations = new List<BuildingId>(config.InitialWorkers);
+            foreach (var building in next.Buildings)
+                if (building.Level > 0 && config.UnlockWaves[(int)building.BuildingId] > 0
+                    && !destinations.Contains(building.BuildingId))
+                    destinations.Add(building.BuildingId);
+            if (destinations.Count != next.Workers.Length)
+                return Reject("Default assignments do not match the owned buildings.");
+            Array.Sort(next.Workers, (left, right) => left.WorkerId.CompareTo(right.WorkerId));
+            for (var i = 0; i < destinations.Count; i++)
+                next.Workers[i].BuildingId = destinations[i];
+            return Commit(next, persist: false);
+        });
+
+        public string DebugCheckpointStatus => PersistenceDiagnostic
+            ?? (checkpoint.ActiveWave != null ? "Active wave saved"
+                : checkpoint.Result != null ? "Wave result saved" : "Between-wave checkpoint");
+
+        /// <summary>Durably prepares a fresh profile for an immediate scene reload.</summary>
+        public bool TryPrepareNewGame() => Execute(() => WriteCheckpoint(CreateNewGame(config)));
+#endif
 
         private bool WriteCheckpoint(ProgressionSaveData next)
         {
